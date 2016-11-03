@@ -1,0 +1,32 @@
+== Configuration du plugin
+
+Après téléchargement du plugin, il vous suffit juste d'activer celui-ci, il n'y a aucune configuration à ce niveau.
+
+== Configuration des équipements
+
+La configuration des équipements networks est accessible à partir du menu plugin : 
+
+[TIP]
+Comme à beaucoup d'endroits sur Jeedom, placer la souris tout à gauche permet de faire apparaître un menu d'accès rapide (vous pouvez, à partir de votre profil, le laisser toujours visible).
+
+Vous retrouvez ici toute la configuration de votre équipement : 
+
+* *Nom de l'équipement Networks* : nom de votre équipement Networks,
+* *Objet parent* : indique l'objet parent auquel appartient l'équipement,
+* *Catégorie* : les catégories de l'équipement (il peut appartenir à plusieurs catégories),
+* *Activer* : permet de rendre votre équipement actif,
+* *Visible* : rend votre équipement visible sur le dashboard,
+* *Adresse IP* : adresse IP sur laquelle faire le ping,
+
+
+
+En-dessous vous retrouvez la liste des commandes : 
+
+* *Nom* : le nom affiché sur le dashboard,
+* *Afficher* : permet d'afficher la donnée sur le dashboard,
+* *Tester* : permet de tester la commande.
+
+== Widgets
+
+Voila un exemple de widget (sans le wake-on-lan) en desktop :
+

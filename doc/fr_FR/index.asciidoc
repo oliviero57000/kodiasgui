@@ -1,0 +1,5 @@
+= Networks
+
+Ce plugin permet de se connecter a KODI.
+
+include::configuration.asciidoc[]

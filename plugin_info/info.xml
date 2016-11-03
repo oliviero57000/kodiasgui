@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<info>
+    <id>kodiasgui</id>
+    <name>kodiasgui</name>
+    <description>Plugin d'interface Utilisateur avec Kodi</description>
+    <icon>kodiasgui_icon</icon>
+    <licence>AGPL</licence>
+    <author>Remy Mesnard</author>
+    <installation>Aucune</installation>
+    <require>1.192</require>
+    <category>multimedia</category>
+</info>
