@@ -122,10 +122,10 @@ $eqLogics = eqLogic::byType('kodiasgui');
 										<select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
 											<option value="">{{Aucun}}</option>
 											<?php
-foreach (object::all() as $object) {
-	echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
-}
-?>
+											foreach (object::all() as $object) {
+												echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
+											}
+											?>
 										</select>
 									</div>
 								</div>
@@ -133,12 +133,12 @@ foreach (object::all() as $object) {
 									<label class="col-sm-3 control-label">{{Catégorie}}</label>
 									<div class="col-sm-8">
 										<?php
-foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
-	echo '<label class="checkbox-inline">';
-	echo '<input type="checkbox" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />' . $value['name'];
-	echo '</label>';
-}
-?>
+										foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
+											echo '<label class="checkbox-inline">';
+											echo '<input type="checkbox" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />' . $value['name'];
+											echo '</label>';
+										}
+										?>
 									</div>
 								</div>
 								<div class="form-group">
@@ -269,6 +269,59 @@ foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
 					</table>					
 					
 					</div>
+					
+					<div role="tabpanel" class="tab-pane" id="cmdTherms" >
+					<br>
+
+					<table id="table_therminfo" class="table table-bordered table-condensed">
+					<thead>
+						<tr>
+							<th>{{Information}}</th>
+							<th>{{Info STATUS}}</th>
+						</tr>
+					</thead>					
+					<tbody>
+
+					
+					<tr style="background-color : lightgrey;" >
+						<td colspan="2" >{{Températures}}</td>
+					</tr>	
+					
+					<tr>
+						<td>{{Température pièce}}</td>
+						<td>
+						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_tempint" placeholder="{{Capteur Tempèrature Intérieur}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
+						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_tempint" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
+						</td>
+					</tr>
+
+					<tr>
+						<td>{{Température exterieure}}</td>
+						<td>
+						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_tempext" placeholder="{{Capteur Tempèrature Extérieure}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
+						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_tempext" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
+						</td>
+					</tr>
+
+					
+					<tr style="background-color : lightgrey;" >
+						<td colspan="2" >{{Chauffage / Clim no 1}}</td>
+					</tr>	
+					
+					<tr>
+						<td>{{Consigne}}</td>
+						<td>
+						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_tempint" placeholder="{{Capteur Tempèrature Intérieur}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
+						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_tempint" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
+						</td>
+					</tr>
+				
+					
+					</tbody>
+					</table>					
+					
+					</div>					
+					
 				</div>
 
 

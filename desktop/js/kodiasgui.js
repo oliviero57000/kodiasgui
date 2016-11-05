@@ -37,23 +37,17 @@
  $('#table_cmdlight tbody').delegate('tr .remove', 'click', function (event) {
     $(this).closest('tr').remove();
 });
-/*
+
 $("#table_lightinfo").delegate(".listEquipementInfo", 'click', function () {
 	 var el = $(this);
 	 
     jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function (result) {
-		var calcul = el.closest('tr').find('.eqinfos[cfg-name='+el.attr('fct')+']');
+		var calcul = el.closest('tr').find('.eqcfg[cfg-name='+el.attr('fct')+']');
 		calcul.atCaret('insert', result.human);
     });
-
-	jeedom.eqLogic.getSelectModal({eqLogic: {type: 'virtual'}}, function (result) {
-		var calcul = el.closest('tr').find('.eqinfos[cfg-name='+el.attr('fct')+']');
-		calcul.atCaret('insert', result.human);
-    });
-	
-		
 }); 
-*/
+
+
 
  $("#bt_addlight").on('click', function (event) {
     	
@@ -99,7 +93,7 @@ function addLight( _ligth ) {
    $('#table_cmdlight tbody').find('.eqcfg[cfg-name=cfg_light'+_ligth.index+'_off]').val(_ligth.cmdOFF);
    $('#table_cmdlight tbody').find('.eqcfg[cfg-name=cfg_light'+_ligth.index+'_status]').val(_ligth.cmdSTATUS);
 }
- 
+
 // Acces 
  
  $("#table_cmdacces").delegate(".listEquipementAction", 'click', function () {
@@ -166,18 +160,6 @@ function addAcces( _acces ) {
    $('#table_cmdacces tbody').find('.eqcfg[cfg-name=cfg_acces'+_acces.index+'_status]').val(_acces.cmdSTATUS);
 }
 
-// Thermo
-
-
-$("#table_therminfo").delegate(".listEquipementInfo", 'click', function () {
-	 var el = $(this);
-    jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function (result) {
-		var calcul = el.closest('tr').find('.eqinfos[cfg-name='+el.attr('fct')+']');
-		calcul.atCaret('insert', result.human);
-    });
-}); 
-
-
 // Infos
 
 $("#table_cmdinfo").delegate(".listEquipementInfo", 'click', function () {
@@ -194,11 +176,11 @@ function updateInfos(_infos) {
 	$('#table_cmdinfo tbody').find('.eqinfos[cfg-name=eqinfos_msgURGENT]').val(_infos.msgURGENT);
 	$('#table_cmdinfo tbody').find('.eqinfos[cfg-name=eqinfos_msg]').val(_infos.msg);
 
-	$('#table_lightinfo tbody').find('.eqinfos[cfg-name=eqinfos_lumen]').val(_eqLogic.configuration.ginfos.lumen);
-	
+	$('#table_lightinfo tbody').find('.eqinfos[cfg-name=eqinfos_lumen]').val(_infos.lumen);
+	/*
 	$('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_tempint]').val(_infos.tempint);
 	$('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_tempext]').val(_infos.tempext);
-
+	*/
  }
 
 
@@ -226,16 +208,6 @@ function updateInfos(_infos) {
 			
 			updateInfos(_eqLogic.configuration.ginfos);
 		}
-		/*
-		else{
-			
-			$('#table_lightinfo tbody').find('.eqinfos[cfg-name=eqinfos_lumen]').val(_eqLogic.configuration.ginfos.lumen);
-			
-			
-			updateInfos({msgURGENT: '', lumen : 0, tempint : 0, tempext : 0, waterHOT_flow : 0 , waterHOT_count : 0 , waterCOLD_flow : 0 , waterCOLD_count : 0 });
-		}
-		*/
-
     }
 
 	
@@ -285,7 +257,7 @@ function updateInfos(_infos) {
 	_eqLogic.configuration.ginfos.msg = $('#table_cmdinfo tbody').find('.eqinfos[cfg-name=eqinfos_msg]').value();
 
 	_eqLogic.configuration.ginfos.lumen = $('#table_lightinfo tbody').find('.eqinfos[cfg-name=eqinfos_lumen]').value();
-
+/*
 	_eqLogic.configuration.ginfos.tempint = $('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_tempint]').value();
 	_eqLogic.configuration.ginfos.tempext = $('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_tempext]').value();
 
@@ -293,9 +265,11 @@ function updateInfos(_infos) {
 	_eqLogic.configuration.ginfos.waterHOT_count = $('#table_cmdinfo tbody').find('.eqinfos[cfg-name=eqinfos_waterHOT_count]').value();
 	_eqLogic.configuration.ginfos.waterCOLD_flow = $('#table_cmdinfo tbody').find('.eqinfos[cfg-name=eqinfos_waterCOLD_flow]').value();
 	_eqLogic.configuration.ginfos.waterCOLD_count = $('#table_cmdinfo tbody').find('.eqinfos[cfg-name=eqinfos_waterCOLD_count]').value();
-	
+*/	
     return _eqLogic;
 }
+
+
 
 function addCmdToTable(_cmd) {
    
