@@ -96,9 +96,9 @@ $eqLogics = eqLogic::byType('kodiasgui');
 			<li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-tachometer"></i> {{Configuration}}</a></li>
 			<li role="presentation"><a href="#cmdInfos" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Infos}}</a></li>
 			<li role="presentation"><a href="#cmdLigths" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Lumières}}</a></li>
-			<li role="presentation"><a href="#cmdAcces" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Accès}}</a></li>
+			<li role="presentation"><a href="#cmdAcces" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Sécurité}}</a></li>
 			<li role="presentation"><a href="#cmdTherms" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Chauffages}}</a></li>
-			<li role="presentation"><a href="#cmdEquip" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Machines}}</a></li>
+			<li role="presentation"><a href="#cmdWaters" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Eau}}</a></li>
 		</ul>
 	
 		<div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">
@@ -251,6 +251,26 @@ $eqLogics = eqLogic::byType('kodiasgui');
 					<div role="tabpanel" class="tab-pane" id="cmdAcces" >
 					<br>
 
+					<table id="table_accesinfo" class="table table-bordered table-condensed">
+					<thead>
+						<tr>
+							<th>{{Information}}</th>
+							<th>{{Info STATUS}}</th>
+						</tr>
+					</thead>					
+					<tbody>
+
+					<tr>
+						<td>Detection présence</td>
+						<td>
+						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_present" placeholder="{{Capteur Présence}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
+						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_present" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
+						</td>
+					</tr>
+
+					</tbody>
+					</table>						
+					
 					<a class="btn btn-primary btn-sm  pull-left" id="bt_addacces"><i class="fa fa-plus-circle"></i> {{Ajouter un accès}}</a><br/><br/>
 					<table id="table_cmdacces" class="table table-bordered table-condensed">
 					<thead>
@@ -302,25 +322,74 @@ $eqLogics = eqLogic::byType('kodiasgui');
 						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_tempext" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
 						</td>
 					</tr>
+				
+					</tbody>
+					</table>					
 
+					<a class="btn btn-primary btn-sm  pull-left" id="bt_addtherm"><i class="fa fa-plus-circle"></i> {{Ajouter un chauffage ou une climatisation}}</a><br/><br/>
+					<table id="table_cmdtherm" class="table table-bordered table-condensed">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>{{Nom}}</th>
+							<th>{{Consigne}}</th>
+							<th>{{Info STATUS}}</th>
+							<th>{{Commande ON}}</th>
+							<th>{{Commande OFF}}</th>
+							<th>{{Commande AUTO}}</th>
+							<th></th>
+						</tr>
+					</thead>					
+					<tbody>
+
+					</tbody>
+					</table>	
 					
-					<tr style="background-color : lightgrey;" >
-						<td colspan="2" >{{Chauffage / Clim no 1}}</td>
-					</tr>	
+					</div>					
+
+					<div role="tabpanel" class="tab-pane" id="cmdWaters" >
+					<br>
+
+					<table id="table_waterinfo" class="table table-bordered table-condensed">
+					<thead>
+						<tr>
+							<th>{{Information}}</th>
+							<th>{{Info STATUS}}</th>
+						</tr>
+					</thead>					
+					<tbody>
 					
 					<tr>
-						<td>{{Consigne}}</td>
+						<td>{{Capteur Inondation pièce}}</td>
 						<td>
-						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_tempint" placeholder="{{Capteur Tempèrature Intérieur}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
-						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_tempint" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
+						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_flood" placeholder="{{Capteur Inondation pièce}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
+						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_flood" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
 						</td>
 					</tr>
 				
-					
 					</tbody>
 					</table>					
+
+					<a class="btn btn-primary btn-sm  pull-left" id="bt_addWater"><i class="fa fa-plus-circle"></i> {{Ajouter une alimentation}}</a><br/><br/>
+					<table id="table_cmdwater" class="table table-bordered table-condensed">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>{{Nom}}</th>
+							<th>{{Info STATUS}}</th>
+							<th>{{Commande OUVRIR}}</th>
+							<th>{{Commande FERMER}}</th>
+							<th>{{Info DEBIT}}</th>
+							<th>{{Info CONSO}}</th>
+							<th></th>
+						</tr>
+					</thead>					
+					<tbody>
+
+					</tbody>
+					</table>	
 					
-					</div>					
+					</div>	
 					
 				</div>
 
