@@ -66,7 +66,7 @@ $("#table_lightinfo").delegate(".listEquipementInfo", 'click', function () {
 	if ( el != null )
 	  ligthidx = parseInt(el)+1;
 
-	addLight({index: ligthidx, name : 'Lumière', cmdON : 0 , cmdOFF : 0 , cmdSTATUS : 0});
+	addLight({index: ligthidx, name : 'Lumière', cmdON : 0 , cmdOFF : 0 , infoSTATUS : 0});
 });	
 
 
@@ -100,7 +100,7 @@ function addLight( _ligth ) {
    $('#table_cmdlight tbody').find('.eqcfg[cfg-name=cfg_light'+_ligth.index+'_name]').val(_ligth.name);
    $('#table_cmdlight tbody').find('.eqcfg[cfg-name=cfg_light'+_ligth.index+'_on]').val(_ligth.cmdON);
    $('#table_cmdlight tbody').find('.eqcfg[cfg-name=cfg_light'+_ligth.index+'_off]').val(_ligth.cmdOFF);
-   $('#table_cmdlight tbody').find('.eqcfg[cfg-name=cfg_light'+_ligth.index+'_status]').val(_ligth.cmdSTATUS);
+   $('#table_cmdlight tbody').find('.eqcfg[cfg-name=cfg_light'+_ligth.index+'_status]').val(_ligth.infoSTATUS);
 }
 
 // Acces 
@@ -142,7 +142,7 @@ $("#table_accesinfo").delegate(".listEquipementInfo", 'click', function () {
 	if ( el != null )
 	  accesidx = parseInt(el)+1;
 
-	addAcces({index: accesidx, name : 'Porte', cmdOPEN : 0 , cmdCLOSE : 0 , cmdSTATUS : 0});
+	addAcces({index: accesidx, name : 'Porte', cmdOPEN : 0 , cmdCLOSE : 0 , infoSTATUS : 0});
 });	
  
 function addAcces( _acces ) {
@@ -175,7 +175,7 @@ function addAcces( _acces ) {
    $('#table_cmdacces tbody').find('.eqcfg[cfg-name=cfg_acces'+_acces.index+'_name]').val(_acces.name);
    $('#table_cmdacces tbody').find('.eqcfg[cfg-name=cfg_acces'+_acces.index+'_open]').val(_acces.cmdOPEN);
    $('#table_cmdacces tbody').find('.eqcfg[cfg-name=cfg_acces'+_acces.index+'_close]').val(_acces.cmdCLOSE);
-   $('#table_cmdacces tbody').find('.eqcfg[cfg-name=cfg_acces'+_acces.index+'_status]').val(_acces.cmdSTATUS);
+   $('#table_cmdacces tbody').find('.eqcfg[cfg-name=cfg_acces'+_acces.index+'_status]').val(_acces.infoSTATUS);
 }
 
  
@@ -218,7 +218,7 @@ function addAcces( _acces ) {
 	if ( el != null )
 	  wateridx = parseInt(el)+1;
 
-	addWater({index: wateridx , name : 'Eau', cmdOPEN : 0 , cmdCLOSE : 0 , cmdDEBIT : 0, cmdCONSO : 0, cmdSTATUS : 0 });
+	addWater({index: wateridx , name : 'Eau', cmdOPEN : 0 , cmdCLOSE : 0 , infoDEBIT : 0, infoCONSO : 0, infoSTATUS : 0 });
 });	
  
 function addWater( _water ) {
@@ -259,9 +259,9 @@ function addWater( _water ) {
    $('#table_cmdwater tbody').find('.eqcfg[cfg-name=cfg_water'+_water.index+'_name]').val(_water.name);
    $('#table_cmdwater tbody').find('.eqcfg[cfg-name=cfg_water'+_water.index+'_open]').val(_water.cmdOPEN);
    $('#table_cmdwater tbody').find('.eqcfg[cfg-name=cfg_water'+_water.index+'_close]').val(_water.cmdCLOSE);
-   $('#table_cmdwater tbody').find('.eqcfg[cfg-name=cfg_water'+_water.index+'_conso]').val(_water.cmdCONSO);
-   $('#table_cmdwater tbody').find('.eqcfg[cfg-name=cfg_water'+_water.index+'_debit]').val(_water.cmdDEBIT);
-   $('#table_cmdwater tbody').find('.eqcfg[cfg-name=cfg_water'+_water.index+'_status]').val(_water.cmdSTATUS);
+   $('#table_cmdwater tbody').find('.eqcfg[cfg-name=cfg_water'+_water.index+'_conso]').val(_water.infoCONSO);
+   $('#table_cmdwater tbody').find('.eqcfg[cfg-name=cfg_water'+_water.index+'_debit]').val(_water.infoDEBIT);
+   $('#table_cmdwater tbody').find('.eqcfg[cfg-name=cfg_water'+_water.index+'_status]').val(_water.infoSTATUS);
 }
 
 // Thermos
@@ -303,7 +303,7 @@ function addWater( _water ) {
 	if ( el != null )
 	  thermoidx = parseInt(el)+1;
 
-	addThermo({index: thermoidx, name : 'Chauffage', cmdON : 0 , cmdOFF : 0 , cmdSTATUS : 0 , cmdCONSIGNE : 0 , cmdAUTO : 0 });
+	addThermo({index: thermoidx, name : 'Chauffage', cmdON : 0 , cmdOFF : 0 , infoSTATUS : 0 , infoCONSIGNE : 0 , cmdAUTO : 0 });
 });	
  
 function addThermo( _thermo ) {
@@ -345,8 +345,8 @@ function addThermo( _thermo ) {
    $('#table_cmdtherm tbody').find('.eqcfg[cfg-name=cfg_thermo'+_thermo.index+'_on]').val(_thermo.cmdON);
    $('#table_cmdtherm tbody').find('.eqcfg[cfg-name=cfg_thermo'+_thermo.index+'_off]').val(_thermo.cmdOFF);
    $('#table_cmdtherm tbody').find('.eqcfg[cfg-name=cfg_thermo'+_thermo.index+'_auto]').val(_thermo.cmdAUTO);
-   $('#table_cmdtherm tbody').find('.eqcfg[cfg-name=cfg_thermo'+_thermo.index+'_consigne]').val(_thermo.cmdCONSIGNE);
-   $('#table_cmdtherm tbody').find('.eqcfg[cfg-name=cfg_thermo'+_thermo.index+'_status]').val(_thermo.cmdSTATUS);
+   $('#table_cmdtherm tbody').find('.eqcfg[cfg-name=cfg_thermo'+_thermo.index+'_consigne]').val(_thermo.infoCONSIGNE);
+   $('#table_cmdtherm tbody').find('.eqcfg[cfg-name=cfg_thermo'+_thermo.index+'_status]').val(_thermo.infoSTATUS);
 }
 
 
@@ -354,17 +354,17 @@ function addThermo( _thermo ) {
  
 function updateInfos(_infos) {
 	 
-	$('#table_cmdinfo tbody').find('.eqinfos[cfg-name=eqinfos_msgURGENT]').val(_infos.msgURGENT);
-	$('#table_cmdinfo tbody').find('.eqinfos[cfg-name=eqinfos_msg]').val(_infos.msg);
+	$('#table_cmdinfo tbody').find('.eqinfos[cfg-name=eqinfos_infoMSGURGENT]').val(_infos.infoMSGURGENT);
+	$('#table_cmdinfo tbody').find('.eqinfos[cfg-name=eqinfos_infoMSG]').val(_infos.infoMSG);
 
-	$('#table_lightinfo tbody').find('.eqinfos[cfg-name=eqinfos_lumen]').val(_infos.lumen);
+	$('#table_lightinfo tbody').find('.eqinfos[cfg-name=eqinfos_infoLUMEN]').val(_infos.infoLUMEN);
 	
-	$('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_tempint]').val(_infos.tempint);
-	$('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_tempext]').val(_infos.tempext);
+	$('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_infotempint]').val(_infos.infotempint);
+	$('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_infotempext]').val(_infos.infotempext);
 	
-	$('#table_accesinfo tbody').find('.eqinfos[cfg-name=eqinfos_present]').val(_infos.present);
+	$('#table_accesinfo tbody').find('.eqinfos[cfg-name=eqinfos_infopresent]').val(_infos.infopresent);
 	
-	$('#table_waterinfo tbody').find('.eqinfos[cfg-name=eqinfos_flood]').val(_infos.flood);
+	$('#table_waterinfo tbody').find('.eqinfos[cfg-name=eqinfos_infoflood]').val(_infos.infoflood);
 	
  }
 
@@ -417,81 +417,81 @@ function updateInfos(_infos) {
     }
     _eqLogic.configuration.lights = [];
     $('#table_cmdlight tbody .trlight').each(function () {
-		var light = { index : 0 , name : '', cmdON : 0 , cmdOFF : 0 , cmdSTATUS : 0 };
+		var light = { index : 0 , name : '', cmdON : 0 , cmdOFF : 0 , infoSTATUS : 0 };
 
         light.index = $(this).attr('data-cfg_id');
 		light.name = $(this).find('.eqcfg[cfg-name=cfg_light'+light.index+'_name]').value();
         light.cmdON = $(this).find('.eqcfg[cfg-name=cfg_light'+light.index+'_on]').value();
         light.cmdOFF = $(this).find('.eqcfg[cfg-name=cfg_light'+light.index+'_off]').value();
-        light.cmdSTATUS = $(this).find('.eqcfg[cfg-name=cfg_light'+light.index+'_status]').value();
+        light.infoSTATUS = $(this).find('.eqcfg[cfg-name=cfg_light'+light.index+'_status]').value();
         _eqLogic.configuration.lights.push(light);
     });
 
     _eqLogic.configuration.access = [];
     $('#table_cmdacces tbody .tracces').each(function () {
-		var acces = { index : 0 , name : '', cmdOPEN : 0 , cmdCLOSE : 0 , cmdSTATUS : 0 };
+		var acces = { index : 0 , name : '', cmdOPEN : 0 , cmdCLOSE : 0 , infoSTATUS : 0 };
 
         acces.index = $(this).attr('data-cfg_id');
 		acces.name = $(this).find('.eqcfg[cfg-name=cfg_acces'+acces.index+'_name]').value();
         acces.cmdOPEN = $(this).find('.eqcfg[cfg-name=cfg_acces'+acces.index+'_open]').value();
         acces.cmdCLOSE = $(this).find('.eqcfg[cfg-name=cfg_acces'+acces.index+'_close]').value();
-        acces.cmdSTATUS = $(this).find('.eqcfg[cfg-name=cfg_acces'+acces.index+'_status]').value();
+        acces.infoSTATUS = $(this).find('.eqcfg[cfg-name=cfg_acces'+acces.index+'_status]').value();
         _eqLogic.configuration.access.push(acces);
     });
 
     _eqLogic.configuration.thermos = [];
     $('#table_cmdtherm tbody .trtherm').each(function () {
-		var thermo = { index : 0 , name : '', cmdON : 0 , cmdOFF : 0 , cmdCONSIGNE : 0, cmdAUTO : 0, cmdSTATUS : 0 };
+		var thermo = { index : 0 , name : '', cmdON : 0 , cmdOFF : 0 , infoCONSIGNE : 0, cmdAUTO : 0, infoSTATUS : 0 };
 
         thermo.index = $(this).attr('data-cfg_id');
 		thermo.name = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_name]').value();
         thermo.cmdON = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_on]').value();
         thermo.cmdOFF = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_off]').value();
-        thermo.cmdCONSIGNE = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_consigne]').value();
+        thermo.infoCONSIGNE = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_consigne]').value();
         thermo.cmdAUTO = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_auto]').value();
-        thermo.cmdSTATUS = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_status]').value();
+        thermo.infoSTATUS = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_status]').value();
         _eqLogic.configuration.thermos.push(thermo);
     });
 
     _eqLogic.configuration.waters = [];
     $('#table_cmdwater tbody .trwater').each(function () {
-		var water = { index : 0 , name : '', cmdOPEN : 0 , cmdCLOSE : 0 , cmdDEBIT : 0, cmdCONSO : 0, cmdSTATUS : 0 };
+		var water = { index : 0 , name : '', cmdOPEN : 0 , cmdCLOSE : 0 , infoDEBIT : 0, infoCONSO : 0, infoSTATUS : 0 };
 
         water.index = $(this).attr('data-cfg_id');
 		water.name = $(this).find('.eqcfg[cfg-name=cfg_water'+water.index+'_name]').value();
         water.cmdOPEN = $(this).find('.eqcfg[cfg-name=cfg_water'+water.index+'_open]').value();
         water.cmdCLOSE = $(this).find('.eqcfg[cfg-name=cfg_water'+water.index+'_close]').value();
-        water.cmdDEBIT = $(this).find('.eqcfg[cfg-name=cfg_water'+water.index+'_debit]').value();
-        water.cmdCONSO = $(this).find('.eqcfg[cfg-name=cfg_water'+water.index+'_conso]').value();
-        water.cmdSTATUS = $(this).find('.eqcfg[cfg-name=cfg_water'+water.index+'_status]').value();
+        water.infoDEBIT = $(this).find('.eqcfg[cfg-name=cfg_water'+water.index+'_debit]').value();
+        water.infoCONSO = $(this).find('.eqcfg[cfg-name=cfg_water'+water.index+'_conso]').value();
+        water.infoSTATUS = $(this).find('.eqcfg[cfg-name=cfg_water'+water.index+'_status]').value();
         _eqLogic.configuration.waters.push(water);
     });
 	
 	_eqLogic.configuration.ginfos = {
-		msgURGENT: '', 
-		msg: '', 
+		infoMSGURGENT: '', 
+		infoMSG: '', 
 		
-		lumen : 0, 
+		infoLUMEN : 0, 
 		
-		tempint : 0, 
-		tempext : 0, 
+		infotempint : 0, 
+		infotempext : 0, 
 		
-		present : 0,
+		infopresent : 0,
 		
-		flood : 0 
+		infoflood : 0 
 	};
 
-	_eqLogic.configuration.ginfos.msgURGENT = $('#table_cmdinfo tbody').find('.eqinfos[cfg-name=eqinfos_msgURGENT]').value();
-	_eqLogic.configuration.ginfos.msg = $('#table_cmdinfo tbody').find('.eqinfos[cfg-name=eqinfos_msg]').value();
+	_eqLogic.configuration.ginfos.infoMSGURGENT = $('#table_cmdinfo tbody').find('.eqinfos[cfg-name=eqinfos_infoMSGURGENT]').value();
+	_eqLogic.configuration.ginfos.infoMSG = $('#table_cmdinfo tbody').find('.eqinfos[cfg-name=eqinfos_infoMSG]').value();
 
-	_eqLogic.configuration.ginfos.lumen = $('#table_lightinfo tbody').find('.eqinfos[cfg-name=eqinfos_lumen]').value();
+	_eqLogic.configuration.ginfos.infoLUMEN = $('#table_lightinfo tbody').find('.eqinfos[cfg-name=eqinfos_infoLUMEN]').value();
 
-	_eqLogic.configuration.ginfos.tempint = $('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_tempint]').value();
-	_eqLogic.configuration.ginfos.tempext = $('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_tempext]').value();
+	_eqLogic.configuration.ginfos.infotempint = $('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_infotempint]').value();
+	_eqLogic.configuration.ginfos.infotempext = $('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_infotempext]').value();
 
-	_eqLogic.configuration.ginfos.present = $('#table_accesinfo tbody').find('.eqinfos[cfg-name=eqinfos_present]').value();
+	_eqLogic.configuration.ginfos.infopresent = $('#table_accesinfo tbody').find('.eqinfos[cfg-name=eqinfos_infopresent]').value();
 	
-	_eqLogic.configuration.ginfos.flood = $('#table_waterinfo tbody').find('.eqinfos[cfg-name=eqinfos_flood]').value();
+	_eqLogic.configuration.ginfos.infoflood = $('#table_waterinfo tbody').find('.eqinfos[cfg-name=eqinfos_infoflood]').value();
 
     return _eqLogic;
 }

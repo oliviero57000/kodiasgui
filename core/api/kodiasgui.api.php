@@ -96,5 +96,57 @@ if ( init('func') == 'getcmds' )
 }	
 
 
+if ( init('func') == 'getui' )
+{
+	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getui&uid=58248a5a41c45
+
+	$ginfos = $eqLogic->getConfiguration('ginfos');
+
+	foreach($ginfos as $key => $value)
+	{
+		
+		if ( strncmp($key,"info",4)==0 )
+		{
+			echo ("debug ".$key);
+			$cmdid="";
+			sscanf($value,"#%d#",$cmdid);
+			//echo $key.' = '.$value.' : '.$cmdid.'<br>';
+			if ($cmdid!="")
+			{
+				$cmd = cmd::byId($cmdid);
+				$resultcmd = $cmd->execute();
+				if ($resultcmd == "")
+					$ginfos[$key] = '0' ;
+				else
+					$ginfos[$key] = $resultcmd ;
+			}
+		}
+	}
+
+	// echo ' {"ginfos":';
+	echo ( json_encode ($ginfos) );
+
+	/*
+	echo ' ,"lights":';
+	$lights = $eqLogic->getConfiguration('lights');
+	echo ( json_encode ($lights ));
+	
+	echo ' ,"access":';
+	$access = $eqLogic->getConfiguration('access');
+	echo ( json_encode ($access ));
+
+	echo ' ,"thermos":';
+	$thermos = $eqLogic->getConfiguration('thermos');
+	echo ( json_encode ($thermos ));
+
+	echo ' ,"waters":';
+	$waters = $eqLogic->getConfiguration('waters');
+	echo ( json_encode ($waters ));
+	
+	echo ' }';
+	*/
+}	
+
+
 return;
 ?>

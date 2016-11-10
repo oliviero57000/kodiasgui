@@ -52,7 +52,7 @@ class kodiasgui extends eqLogic {
 		$cmd->save();
 	}	
 
-	
+
 	/*     * **********************Getteur Setteur*************************** */
 }
 

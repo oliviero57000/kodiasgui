@@ -187,16 +187,16 @@ $eqLogics = eqLogic::byType('kodiasgui');
 					<tr>
 						<td>Message general Urgent</td>
 						<td>
-						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_msgURGENT" placeholder="{{Message General URGENT}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
-						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_msgURGENT" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
+						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_infoMSGURGENT" placeholder="{{Message General URGENT}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
+						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_infoMSGURGENT" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
 						</td>
 					</tr>
 					
 					<tr>
 						<td>Message general</td>
 						<td>
-						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_msg" placeholder="{{Message General}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
-						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_msg" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
+						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_infoMSG" placeholder="{{Message General}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
+						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_infoMSG" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
 						</td>
 					</tr>
 			
@@ -221,8 +221,8 @@ $eqLogics = eqLogic::byType('kodiasgui');
 					<tr>
 						<td>Luminositée</td>
 						<td>
-						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_lumen" placeholder="{{Capteur Lumen}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
-						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_lumen" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
+						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_infoLUMEN" placeholder="{{Capteur Lumen}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
+						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_infoLUMEN" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
 						</td>
 					</tr>
 
@@ -263,8 +263,8 @@ $eqLogics = eqLogic::byType('kodiasgui');
 					<tr>
 						<td>Detection présence</td>
 						<td>
-						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_present" placeholder="{{Capteur Présence}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
-						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_present" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
+						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_infopresent" placeholder="{{Capteur Présence}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
+						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_infopresent" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
 						</td>
 					</tr>
 
@@ -310,16 +310,16 @@ $eqLogics = eqLogic::byType('kodiasgui');
 					<tr>
 						<td>{{Température pièce}}</td>
 						<td>
-						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_tempint" placeholder="{{Capteur Tempèrature Intérieur}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
-						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_tempint" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
+						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_infotempint" placeholder="{{Capteur Tempèrature Intérieur}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
+						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_infotempint" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
 						</td>
 					</tr>
 
 					<tr>
 						<td>{{Température exterieure}}</td>
 						<td>
-						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_tempext" placeholder="{{Capteur Tempèrature Extérieure}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
-						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_tempext" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
+						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_infotempext" placeholder="{{Capteur Tempèrature Extérieure}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
+						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_infotempext" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
 						</td>
 					</tr>
 				
@@ -362,8 +362,8 @@ $eqLogics = eqLogic::byType('kodiasgui');
 					<tr>
 						<td>{{Capteur Inondation pièce}}</td>
 						<td>
-						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_flood" placeholder="{{Capteur Inondation pièce}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
-						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_flood" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
+						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_infoflood" placeholder="{{Capteur Inondation pièce}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
+						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_infoflood" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
 						</td>
 					</tr>
 				
