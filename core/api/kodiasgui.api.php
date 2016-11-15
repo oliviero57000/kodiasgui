@@ -104,13 +104,11 @@ if ( init('func') == 'getui' )
 
 	foreach($ginfos as $key => $value)
 	{
-		
 		if ( strncmp($key,"info",4)==0 )
 		{
-			echo ("debug ".$key);
 			$cmdid="";
 			sscanf($value,"#%d#",$cmdid);
-			//echo $key.' = '.$value.' : '.$cmdid.'<br>';
+
 			if ($cmdid!="")
 			{
 				$cmd = cmd::byId($cmdid);
@@ -123,14 +121,41 @@ if ( init('func') == 'getui' )
 		}
 	}
 
-	// echo ' {"ginfos":';
+	echo ' {"ginfos":';
 	echo ( json_encode ($ginfos) );
-
-	/*
-	echo ' ,"lights":';
-	$lights = $eqLogic->getConfiguration('lights');
-	echo ( json_encode ($lights ));
 	
+	echo ' ,"lights": {';
+	$lights = $eqLogic->getConfiguration('lights');
+	$notfirst = false;
+	foreach($lights as $index => $light)
+	{
+		foreach($light as $key => $value)
+		{
+			if ( strncmp($key,"info",4)==0 )
+			{
+				$cmdid="";
+				sscanf($value,"#%d#",$cmdid);
+
+				if ($cmdid!="")
+				{
+					$cmd = cmd::byId($cmdid);
+					$resultcmd = $cmd->execute();
+					if ($resultcmd == "")
+						$light[$key]  = "0" ;
+					else
+						$light[$key] = (string)$resultcmd ;
+				}
+			}
+		}
+		if ( $notfirst )
+			echo (' , ');
+		echo ( json_encode ($light ));
+		$notfirst = true;
+	}	
+	
+	
+	
+	/*
 	echo ' ,"access":';
 	$access = $eqLogic->getConfiguration('access');
 	echo ( json_encode ($access ));
@@ -142,9 +167,10 @@ if ( init('func') == 'getui' )
 	echo ' ,"waters":';
 	$waters = $eqLogic->getConfiguration('waters');
 	echo ( json_encode ($waters ));
-	
-	echo ' }';
 	*/
+	
+	echo ' } }';
+
 }	
 
 
