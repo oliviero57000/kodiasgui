@@ -3,21 +3,7 @@
 
 require_once dirname(__FILE__) . "/../../../../core/php/core.inc.php";
 
-
-/*
-echo 'eqlogic';
-
-$eqLogics = eqLogic::byType('virtual');
-
-foreach ($eqLogics as $eqLogic) {
-	echo '<br>' . $eqLogic->getId() . ' - ' . $eqLogic->getHumanName(true). ' - '. $eqLogic->getName();
-	$eqlDisplay = $eqLogic->getDisplay();
-	foreach ($eqlDisplay as $eDisplay) {
-		echo '<br>  - ' . $eDisplay;
-	}	
 	
-}
-*/
 	//  192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=hello&UID=58089181cdc2b
 	
 $accessgranted = false;	
@@ -100,6 +86,8 @@ if ( init('func') == 'getui' )
 {
 	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getui&uid=58248a5a41c45
 
+	echo ' {"name" : "'.$eqLogic->getName().'"';
+	
 	$ginfos = $eqLogic->getConfiguration('ginfos');
 
 	foreach($ginfos as $key => $value)
@@ -116,15 +104,20 @@ if ( init('func') == 'getui' )
 				if ($resultcmd == "")
 					$ginfos[$key] = '0' ;
 				else
-					$ginfos[$key] = $resultcmd ;
+					$ginfos[$key] = (string)$resultcmd ;
 			}
+		}
+		else
+		{
+			
+			
 		}
 	}
 
-	echo ' {"ginfos":';
+	echo ' , "ginfos":';
 	echo ( json_encode ($ginfos) );
 	
-	echo ' ,"lights": {';
+	echo ' ,"lights": [';
 	$lights = $eqLogic->getConfiguration('lights');
 	$notfirst = false;
 	foreach($lights as $index => $light)
@@ -153,23 +146,95 @@ if ( init('func') == 'getui' )
 		$notfirst = true;
 	}	
 	
-	
-	
-	/*
-	echo ' ,"access":';
+	echo ' ] ,"access": [';
 	$access = $eqLogic->getConfiguration('access');
-	echo ( json_encode ($access ));
+	$notfirst = false;
+	foreach($access as $index => $acces)
+	{
+		foreach($acces as $key => $value)
+		{
+			if ( strncmp($key,"info",4)==0 )
+			{
+				$cmdid="";
+				sscanf($value,"#%d#",$cmdid);
 
-	echo ' ,"thermos":';
+				if ($cmdid!="")
+				{
+					$cmd = cmd::byId($cmdid);
+					$resultcmd = $cmd->execute();
+					if ($resultcmd == "")
+						$acces[$key]  = "0" ;
+					else
+						$acces[$key] = (string)$resultcmd ;
+				}
+			}
+		}
+		if ( $notfirst )
+			echo (' , ');
+		echo ( json_encode ($acces ));
+		$notfirst = true;
+	}		
+
+	echo ' ] ,"thermos": [';
 	$thermos = $eqLogic->getConfiguration('thermos');
-	echo ( json_encode ($thermos ));
+	$notfirst = false;
+	foreach($thermos as $index => $thermo)
+	{
+		foreach($thermo as $key => $value)
+		{
+			if ( strncmp($key,"info",4)==0 )
+			{
+				$cmdid="";
+				sscanf($value,"#%d#",$cmdid);
 
-	echo ' ,"waters":';
-	$waters = $eqLogic->getConfiguration('waters');
-	echo ( json_encode ($waters ));
-	*/
+				if ($cmdid!="")
+				{
+					$cmd = cmd::byId($cmdid);
+					$resultcmd = $cmd->execute();
+					if ($resultcmd == "")
+						$thermo[$key]  = "0" ;
+					else
+						$thermo[$key] = (string)$resultcmd ;
+				}
+			}
+		}
+		if ( $notfirst )
+			echo (' , ');
+		echo ( json_encode ($thermo ));
+		$notfirst = true;
+	}	
 	
-	echo ' } }';
+	echo ' ] ,"waters": [';
+	$waters = $eqLogic->getConfiguration('waters');
+	$notfirst = false;
+	foreach($waters as $index => $water)
+	{
+		foreach($water as $key => $value)
+		{
+			if ( strncmp($key,"info",4)==0 )
+			{
+				$cmdid="";
+				sscanf($value,"#%d#",$cmdid);
+
+				if ($cmdid!="")
+				{
+					$cmd = cmd::byId($cmdid);
+					$resultcmd = $cmd->execute();
+					if ($resultcmd == "")
+						$water[$key]  = "0" ;
+					else
+						$water[$key] = (string)$resultcmd ;
+				}
+			}
+		}
+		if ( $notfirst )
+			echo (' , ');
+		echo ( json_encode ($water ));
+		$notfirst = true;
+	}		
+	
+
+	echo ' ] }';
 
 }	
 

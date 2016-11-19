@@ -356,11 +356,14 @@ function updateInfos(_infos) {
 	 
 	$('#table_cmdinfo tbody').find('.eqinfos[cfg-name=eqinfos_infoMSGURGENT]').val(_infos.infoMSGURGENT);
 	$('#table_cmdinfo tbody').find('.eqinfos[cfg-name=eqinfos_infoMSG]').val(_infos.infoMSG);
+	$('#table_cmdinfo tbody').find('.eqinfos[cfg-name=eqinfos_infoFIRE]').val(_infos.infoFIRE);
 
 	$('#table_lightinfo tbody').find('.eqinfos[cfg-name=eqinfos_infoLUMEN]').val(_infos.infoLUMEN);
 	
 	$('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_infotempint]').val(_infos.infotempint);
 	$('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_infotempext]').val(_infos.infotempext);
+	$('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_infohumint]').val(_infos.infohumint);
+	$('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_infohumext]').val(_infos.infohumext);
 	
 	$('#table_accesinfo tbody').find('.eqinfos[cfg-name=eqinfos_infopresent]').val(_infos.infopresent);
 	
@@ -470,11 +473,14 @@ function updateInfos(_infos) {
 	_eqLogic.configuration.ginfos = {
 		infoMSGURGENT: '', 
 		infoMSG: '', 
+		infoFIRE : 0, 
 		
 		infoLUMEN : 0, 
 		
 		infotempint : 0, 
 		infotempext : 0, 
+		infohumint : 0, 
+		infohumext : 0, 
 		
 		infopresent : 0,
 		
@@ -483,11 +489,15 @@ function updateInfos(_infos) {
 
 	_eqLogic.configuration.ginfos.infoMSGURGENT = $('#table_cmdinfo tbody').find('.eqinfos[cfg-name=eqinfos_infoMSGURGENT]').value();
 	_eqLogic.configuration.ginfos.infoMSG = $('#table_cmdinfo tbody').find('.eqinfos[cfg-name=eqinfos_infoMSG]').value();
+	_eqLogic.configuration.ginfos.infoFIRE = $('#table_cmdinfo tbody').find('.eqinfos[cfg-name=eqinfos_infoFIRE]').value();
 
+	
 	_eqLogic.configuration.ginfos.infoLUMEN = $('#table_lightinfo tbody').find('.eqinfos[cfg-name=eqinfos_infoLUMEN]').value();
 
 	_eqLogic.configuration.ginfos.infotempint = $('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_infotempint]').value();
 	_eqLogic.configuration.ginfos.infotempext = $('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_infotempext]').value();
+	_eqLogic.configuration.ginfos.infohumint = $('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_infohumint]').value();
+	_eqLogic.configuration.ginfos.infohumext = $('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_infohumext]').value();
 
 	_eqLogic.configuration.ginfos.infopresent = $('#table_accesinfo tbody').find('.eqinfos[cfg-name=eqinfos_infopresent]').value();
 	

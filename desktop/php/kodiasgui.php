@@ -199,7 +199,18 @@ $eqLogics = eqLogic::byType('kodiasgui');
 						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_infoMSG" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
 						</td>
 					</tr>
-			
+
+					<tr style="background-color : lightgrey;" >
+						<td colspan="2" >Alarmes</td>
+					</tr>					
+					
+					<tr>
+						<td>Alarme Incendie</td>
+						<td>
+						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_infoFIRE" placeholder="{{Message General URGENT}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
+						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_infoFIRE" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
+						</td>
+					</tr>					
 					
 					</tbody>
 					</table>
@@ -301,7 +312,6 @@ $eqLogics = eqLogic::byType('kodiasgui');
 						</tr>
 					</thead>					
 					<tbody>
-
 					
 					<tr style="background-color : lightgrey;" >
 						<td colspan="2" >{{Températures}}</td>
@@ -322,7 +332,27 @@ $eqLogics = eqLogic::byType('kodiasgui');
 						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_infotempext" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
 						</td>
 					</tr>
-				
+
+					<tr style="background-color : lightgrey;" >
+						<td colspan="2" >{{Humidités}}</td>
+					</tr>	
+					
+					<tr>
+						<td>{{Humidité pièce}}</td>
+						<td>
+						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_infohumint" placeholder="{{Capteur Tempèrature Intérieur}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
+						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_infohumint" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
+						</td>
+					</tr>
+
+					<tr>
+						<td>{{Humidité exterieure}}</td>
+						<td>
+						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_infohumext" placeholder="{{Capteur Tempèrature Extérieure}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
+						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_infohumext" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
+						</td>
+					</tr>
+					
 					</tbody>
 					</table>					
 
