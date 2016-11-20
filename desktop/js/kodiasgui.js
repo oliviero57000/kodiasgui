@@ -79,6 +79,16 @@ function addLight( _ligth ) {
 	tr += '<td>';
 	tr += '<input type="text" class="eqcfg form-control" cfg-name="cfg_light'+_ligth.index+'_name" />';
 	tr += '</td>';
+	tr += '<td><select class="eqcfg form-control" cfg-name="cfg_light'+_ligth.index+'_type">';
+	if ( _ligth.type == 'Uni' )
+		tr += '<option selected>{{Uni}}</option>';
+	else
+		tr += '<option >{{Uni}}</option>';
+	if ( _ligth.type == 'RGB' )
+		tr += '<option selected>{{RGB}}</option>';
+	else
+		tr += '<option>{{RGB}}</option>';
+	tr += '</select>';	
 	tr += '<td>';
 	tr += '<input class="eqcfg form-control input-sm" cfg-name="cfg_light'+_ligth.index+'_on" placeholder="{{Commande ON}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />';
 	tr += '<a class="btn btn-default btn-sm cursor listEquipementAction" fct="cfg_light'+_ligth.index+'_on" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>';
@@ -142,7 +152,7 @@ $("#table_accesinfo").delegate(".listEquipementInfo", 'click', function () {
 	if ( el != null )
 	  accesidx = parseInt(el)+1;
 
-	addAcces({index: accesidx, name : 'Porte', cmdOPEN : 0 , cmdCLOSE : 0 , infoSTATUS : 0});
+	addAcces({index: accesidx, name : 'Porte', type : 'Porte', cmdOPEN : 0 , cmdCLOSE : 0 , infoSTATUS : 0});
 });	
  
 function addAcces( _acces ) {
@@ -153,6 +163,25 @@ function addAcces( _acces ) {
 	 tr += '</td>';
 	tr += '<td>';
 	tr += '<input type="text" class="eqcfg form-control" cfg-name="cfg_acces'+_acces.index+'_name" />';
+	tr += '</td>';	 
+	tr += '<td><select class="eqcfg form-control" cfg-name="cfg_acces'+_acces.index+'_type">';
+	if ( _acces.type == 'Porte' )
+		tr += '<option selected>{{Porte}}</option>';
+	else
+		tr += '<option >{{Porte}}</option>';
+	if ( _acces.type == 'Store' )
+		tr += '<option selected>{{Store}}</option>';
+	else
+		tr += '<option>{{Store}}</option>';
+	if ( _acces.type == 'Velux' )
+		tr += '<option selected>{{Velux}}</option>';
+	else
+		tr += '<option>{{Velux}}</option>';
+	if ( _acces.type == 'Portail' )
+		tr += '<option selected">{{Portail}}</option>';
+	else
+		tr += '<option">{{Portail}}</option>';
+	tr += '</select>';
 	tr += '</td>';
 	tr += '<td>';
 	tr += '<input class="eqcfg form-control input-sm" cfg-name="cfg_acces'+_acces.index+'_open" placeholder="{{Commande OUVRIR}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />';
@@ -230,6 +259,16 @@ function addWater( _water ) {
 	tr += '<td>';
 	tr += '<input type="text" class="eqcfg form-control" cfg-name="cfg_water'+_water.index+'_name" />';
 	tr += '</td>';
+	tr += '<td><select class="eqcfg form-control" cfg-name="cfg_water'+_water.index+'_type">';
+	if ( _water.type == 'Froide' )
+		tr += '<option selected>{{Froide}}</option>';
+	else
+		tr += '<option >{{Froide}}</option>';
+	if ( _water.type == 'Chaude' )
+		tr += '<option selected>{{Chaude}}</option>';
+	else
+		tr += '<option>{{Chaude}}</option>';
+	tr += '</select>';	
 	tr += '<td>';
 	tr += '<input class="eqcfg form-control input-sm" cfg-name="cfg_water'+_water.index+'_status" placeholder="{{Info STATUS}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />';
 	tr += '<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="cfg_water'+_water.index+'_status" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>';
@@ -390,6 +429,7 @@ function updateInfos(_infos) {
         if (isset(_eqLogic.configuration.access)) {
             for (var i in _eqLogic.configuration.access) {
                 addAcces(_eqLogic.configuration.access[i]);
+				
             }
         }
 		
@@ -424,6 +464,7 @@ function updateInfos(_infos) {
 
         light.index = $(this).attr('data-cfg_id');
 		light.name = $(this).find('.eqcfg[cfg-name=cfg_light'+light.index+'_name]').value();
+		light.type = $(this).find('.eqcfg[cfg-name=cfg_light'+light.index+'_type]').value();
         light.cmdON = $(this).find('.eqcfg[cfg-name=cfg_light'+light.index+'_on]').value();
         light.cmdOFF = $(this).find('.eqcfg[cfg-name=cfg_light'+light.index+'_off]').value();
         light.infoSTATUS = $(this).find('.eqcfg[cfg-name=cfg_light'+light.index+'_status]').value();
@@ -432,10 +473,10 @@ function updateInfos(_infos) {
 
     _eqLogic.configuration.access = [];
     $('#table_cmdacces tbody .tracces').each(function () {
-		var acces = { index : 0 , name : '', cmdOPEN : 0 , cmdCLOSE : 0 , infoSTATUS : 0 };
-
+		var acces = { index : 0 , name : '', type : '', cmdOPEN : 0 , cmdCLOSE : 0 , infoSTATUS : 0 };
         acces.index = $(this).attr('data-cfg_id');
 		acces.name = $(this).find('.eqcfg[cfg-name=cfg_acces'+acces.index+'_name]').value();
+		acces.type = $(this).find('.eqcfg[cfg-name=cfg_acces'+acces.index+'_type]').value();
         acces.cmdOPEN = $(this).find('.eqcfg[cfg-name=cfg_acces'+acces.index+'_open]').value();
         acces.cmdCLOSE = $(this).find('.eqcfg[cfg-name=cfg_acces'+acces.index+'_close]').value();
         acces.infoSTATUS = $(this).find('.eqcfg[cfg-name=cfg_acces'+acces.index+'_status]').value();
@@ -462,6 +503,7 @@ function updateInfos(_infos) {
 
         water.index = $(this).attr('data-cfg_id');
 		water.name = $(this).find('.eqcfg[cfg-name=cfg_water'+water.index+'_name]').value();
+		water.type = $(this).find('.eqcfg[cfg-name=cfg_water'+water.index+'_type]').value();
         water.cmdOPEN = $(this).find('.eqcfg[cfg-name=cfg_water'+water.index+'_open]').value();
         water.cmdCLOSE = $(this).find('.eqcfg[cfg-name=cfg_water'+water.index+'_close]').value();
         water.infoDEBIT = $(this).find('.eqcfg[cfg-name=cfg_water'+water.index+'_debit]').value();

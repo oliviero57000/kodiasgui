@@ -246,6 +246,7 @@ $eqLogics = eqLogic::byType('kodiasgui');
 						<tr>
 							<th>#</th>
 							<th>{{Nom}}</th>
+							<th>{{Type}}</th>
 							<th>{{Commande ALLUMER}}</th>
 							<th>{{Commande ETEINDRE}}</th>
 							<th>{{Info STATUS}}</th>
@@ -288,6 +289,7 @@ $eqLogics = eqLogic::byType('kodiasgui');
 						<tr>
 							<th>#</th>
 							<th>{{Nom}}</th>
+							<th>{{Type}}</th>
 							<th>{{Commande OUVRIR}}</th>
 							<th>{{Commande FERMER}}</th>
 							<th>{{Info STATUS}}</th>
@@ -406,6 +408,7 @@ $eqLogics = eqLogic::byType('kodiasgui');
 						<tr>
 							<th>#</th>
 							<th>{{Nom}}</th>
+							<th>{{Type}}</th>
 							<th>{{Info STATUS}}</th>
 							<th>{{Commande OUVRIR}}</th>
 							<th>{{Commande FERMER}}</th>
