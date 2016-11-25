@@ -273,18 +273,24 @@ if ( init('group') == 'light' )
 		$lightID = intval (init('obj')) - 1;
 		
 		$mylight = $lights[$lightID];
-		$cmdid="";
+		$cmdetatid="";
 		
 		$etat = $mylight['infoSTATUS'];
-		sscanf($etat,"#%d#",$cmdid);
-		if ($cmdid!="")
+		sscanf($etat,"#%d#",$cmdetatid);
+		if ($cmdetatid!="")
 		{
-			$cmd = cmd::byId($cmdid);
-			$resultcmd = $cmd->execute();
+			$cmdetat = cmd::byId($cmdetatid);
+			$resultcmd = $cmdetat->execute();
 			if ($resultcmd == "")
+			{
 				$etat  = "0" ;
+				$mylight['infoSTATUS'] = "1";
+			}
 			else
-				$etat = (string)$resultcmd ;
+			{
+				$etat = "1";
+				$mylight['infoSTATUS'] = "0";
+			}
 		}
 		$cmdid="";
 		if ($etat =="1")
@@ -296,8 +302,8 @@ if ( init('group') == 'light' )
 			$cmd = cmd::byId($cmdid);
 			$resultcmd = $cmd->execute();
 		}
-		//$tcmd = chkey('infostatus',$lights['infostatus']);
-		// if ( $ret != "" )
+		 
+		echo ( json_encode ($mylight ));
 	}
 }
 
