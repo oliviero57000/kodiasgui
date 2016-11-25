@@ -99,6 +99,7 @@ $eqLogics = eqLogic::byType('kodiasgui');
 			<li role="presentation"><a href="#cmdAcces" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Sécurité}}</a></li>
 			<li role="presentation"><a href="#cmdTherms" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Chauffages}}</a></li>
 			<li role="presentation"><a href="#cmdWaters" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Eau}}</a></li>
+			<li role="presentation"><a href="#cmdEquips" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Equipements}}</a></li>
 		</ul>
 	
 		<div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">
@@ -414,6 +415,30 @@ $eqLogics = eqLogic::byType('kodiasgui');
 							<th>{{Commande FERMER}}</th>
 							<th>{{Info DEBIT}}</th>
 							<th>{{Info CONSO}}</th>
+							<th></th>
+						</tr>
+					</thead>					
+					<tbody>
+
+					</tbody>
+					</table>	
+					
+					</div>	
+
+					<div role="tabpanel" class="tab-pane" id="cmdEquips" >
+					<br>
+
+					<a class="btn btn-primary btn-sm  pull-left" id="bt_addEquip"><i class="fa fa-plus-circle"></i> {{Ajouter un objet connecté}}</a><br/><br/>
+					<table id="table_cmdequip" class="table table-bordered table-condensed">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>{{Nom}}</th>
+							<th>{{Type}}</th>
+							<th>{{Name 1}}</th>
+							<th>{{Info 1}}</th>
+							<th>{{Name 2}}</th>
+							<th>{{Info 2}}</th>
 							<th></th>
 						</tr>
 					</thead>					

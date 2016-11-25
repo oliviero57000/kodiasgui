@@ -1,11 +1,9 @@
 <?php
 
-
 require_once dirname(__FILE__) . "/../../../../core/php/core.inc.php";
+	
+//  192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=hello&UID=58089181cdc2b
 
-	
-	//  192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=hello&UID=58089181cdc2b
-	
 $accessgranted = false;	
 	
 $eqLogics = eqLogic::byType('kodiasgui');
@@ -39,7 +37,7 @@ else
 	echo 'who are you '. $uniqueID.' ?';
 	die();	
 }
-
+log::add('kodiasgui', 'info', 'api call ');
 
 /*
 if (init('apikey') != config::byKey('api') || config::byKey('api') == '') {
@@ -107,11 +105,6 @@ if ( init('func') == 'getui' )
 					$ginfos[$key] = (string)$resultcmd ;
 			}
 		}
-		else
-		{
-			
-			
-		}
 	}
 
 	echo ' , "ginfos":';
@@ -120,8 +113,11 @@ if ( init('func') == 'getui' )
 	echo ' ,"lights": [';
 	$lights = $eqLogic->getConfiguration('lights');
 	$notfirst = false;
+	$order =1;
 	foreach($lights as $index => $light)
 	{
+		$light['order'] = (string)$order;
+		$order++;
 		foreach($light as $key => $value)
 		{
 			if ( strncmp($key,"info",4)==0 )
@@ -233,11 +229,78 @@ if ( init('func') == 'getui' )
 		$notfirst = true;
 	}		
 	
+	echo ' ] ,"equips": [';
+	$equips = $eqLogic->getConfiguration('equips');
+	$notfirst = false;
+	foreach($equips as $index => $equip)
+	{
+		foreach($equip as $key => $value)
+		{
+			if ( strncmp($key,"info",4)==0 )
+			{
+				$cmdid="";
+				sscanf($value,"#%d#",$cmdid);
 
+				if ($cmdid!="")
+				{
+					$cmd = cmd::byId($cmdid);
+					$resultcmd = $cmd->execute();
+					if ($resultcmd == "")
+						$equip[$key]  = "0" ;
+					else
+						$equip[$key] = (string)$resultcmd ;
+				}
+			}
+
+		}
+		if ( $notfirst )
+			echo (' , ');
+		echo ( json_encode ($equip ));
+		$notfirst = true;
+	}	
 	echo ' ] }';
 
 }	
 
+if ( init('group') == 'light' )
+{
+	// log::add('kodiasgui', 'info', 'light command received.');
+	
+	if ( init('func') == 'switch' )
+	{
+		$lights = $eqLogic->getConfiguration('lights');
+		
+		$lightID = intval (init('obj')) - 1;
+		
+		$mylight = $lights[$lightID];
+		$cmdid="";
+		
+		$etat = $mylight['infoSTATUS'];
+		sscanf($etat,"#%d#",$cmdid);
+		if ($cmdid!="")
+		{
+			$cmd = cmd::byId($cmdid);
+			$resultcmd = $cmd->execute();
+			if ($resultcmd == "")
+				$etat  = "0" ;
+			else
+				$etat = (string)$resultcmd ;
+		}
+		$cmdid="";
+		if ($etat =="1")
+			sscanf($mylight['cmdOFF'],"#%d#",$cmdid);
+		else
+			sscanf($mylight['cmdON'],"#%d#",$cmdid);
+		if ($cmdid!="")
+		{
+			$cmd = cmd::byId($cmdid);
+			$resultcmd = $cmd->execute();
+		}
+		//$tcmd = chkey('infostatus',$lights['infostatus']);
+		// if ( $ret != "" )
+	}
+}
 
-return;
+
+
 ?>

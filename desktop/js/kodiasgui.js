@@ -66,7 +66,7 @@ $("#table_lightinfo").delegate(".listEquipementInfo", 'click', function () {
 	if ( el != null )
 	  ligthidx = parseInt(el)+1;
 
-	addLight({index: ligthidx, name : 'Lumière', cmdON : 0 , cmdOFF : 0 , infoSTATUS : 0});
+	addLight({index: ligthidx, name : 'Lumière', type : '', cmdON : 0 , cmdOFF : 0 , infoSTATUS : 0});
 });	
 
 
@@ -247,7 +247,7 @@ function addAcces( _acces ) {
 	if ( el != null )
 	  wateridx = parseInt(el)+1;
 
-	addWater({index: wateridx , name : 'Eau', cmdOPEN : 0 , cmdCLOSE : 0 , infoDEBIT : 0, infoCONSO : 0, infoSTATUS : 0 });
+	addWater({index: wateridx , name : 'Eau', type : '', cmdOPEN : 0 , cmdCLOSE : 0 , infoDEBIT : 0, infoCONSO : 0, infoSTATUS : 0 });
 });	
  
 function addWater( _water ) {
@@ -388,6 +388,98 @@ function addThermo( _thermo ) {
    $('#table_cmdtherm tbody').find('.eqcfg[cfg-name=cfg_thermo'+_thermo.index+'_status]').val(_thermo.infoSTATUS);
 }
 
+// Equips
+ 
+ $("#table_cmdequip").delegate(".listEquipementAction", 'click', function () {
+    var el = $(this);
+    jeedom.cmd.getSelectModal({cmd: {type: 'action', subType: 'other'}}, function (result) {
+        var calcul = el.closest('tr').find('.eqcfg[cfg-name=' + el.attr('fct') + ']');
+        calcul.atCaret('insert', result.human);
+    });
+});
+ 
+ $("#table_cmdequip").delegate(".listEquipementInfo", 'click', function () {
+	 var el = $(this);
+    jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function (result) {
+		var calcul = el.closest('tr').find('.eqcfg[cfg-name='+el.attr('fct')+']');
+		calcul.atCaret('insert', result.human);
+    });
+}); 
+
+ $('#table_cmdequip tbody').delegate('tr .remove', 'click', function (event) {
+    $(this).closest('tr').remove();
+});
+
+ $("#bt_addEquip").on('click', function (event) {
+    	
+	var el = $('#table_cmdequip tbody tr:last').attr('data-cfg_id');
+	var equipidx =1;
+	
+	if ( el != null )
+	  equipidx = parseInt(el)+1;
+
+	addEquip({index: equipidx , order : equipidx , name : 'Equipement', type : '', param1 : '',info1 : '', param2 : '',info2 : '' });
+});	
+ 
+function addEquip( _equip ) {
+	
+	var tr = '<tr class="trequip" data-cfg_id="' + _equip.index + '" >';
+	tr += '<td>';
+	tr += _equip.index;
+	tr += '</td>';
+	tr += '<td>';
+	tr += '<input type="text" class="eqcfg form-control" cfg-name="cfg_equip'+_equip.index+'_name" />';
+	tr += '</td>';
+	tr += '<td><select class="eqcfg form-control" cfg-name="cfg_equip'+_equip.index+'_type">';
+	if ( _equip.type == 'Refrigerateur' )
+		tr += '<option selected>{{Refrigerateur}}</option>';
+	else
+		tr += '<option >{{Refrigerateur}}</option>';
+	if ( _equip.type == 'TV' )
+		tr += '<option selected>{{TV}}</option>';
+	else
+		tr += '<option>{{TV}}</option>';
+	if ( _equip.type == 'Lave linge' )
+		tr += '<option selected>{{Lave linge}}</option>';
+	else
+		tr += '<option>{{Lave linge}}</option>';
+	if ( _equip.type == 'Seche linge' )
+		tr += '<option selected>{{Seche linge}}</option>';
+	else
+		tr += '<option>{{Seche linge}}</option>';
+	if ( _equip.type == 'Lave vaisselle' )
+		tr += '<option selected>{{Lave vaisselle}}</option>';
+	else
+		tr += '<option>{{Lave vaisselle}}</option>';
+	
+	tr += '</select>';	
+	tr += '<td>';
+	tr += '<input type="text" class="eqcfg form-control" cfg-name="cfg_equip'+_equip.index+'_param1" />';
+	tr += '</td>';	
+	tr += '<td>';
+	tr += '<input class="eqcfg form-control input-sm" cfg-name="cfg_equip'+_equip.index+'_info1" placeholder="{{Info 1}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />';
+	tr += '<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="cfg_equip'+_equip.index+'_info1" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>';
+	tr += '</td>';
+	tr += '<td>';
+	tr += '<input type="text" class="eqcfg form-control" cfg-name="cfg_equip'+_equip.index+'_param2" />';
+	tr += '</td>';	
+	tr += '<td>';
+	tr += '<input class="eqcfg form-control input-sm" cfg-name="cfg_equip'+_equip.index+'_info2" placeholder="{{Info 2}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />';
+	tr += '<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="cfg_equip'+_equip.index+'_info2" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>';
+	tr += '</td>';
+	tr += '<td>';	
+	tr += '<a class="btn btn-default btn-sm cursor remove" style="margin-left : 5px;"><i class="fa fa-minus-circle "></i> {{Supprimer}}</a>';	
+	tr += '</td></tr>';	
+   
+   $('#table_cmdequip tbody').append(tr);
+  
+   $('#table_cmdequip tbody').find('.eqcfg[cfg-name=cfg_equip'+_equip.index+'_name]').val(_equip.name);
+   $('#table_cmdequip tbody').find('.eqcfg[cfg-name=cfg_equip'+_equip.index+'_param1]').val(_equip.param1);
+   $('#table_cmdequip tbody').find('.eqcfg[cfg-name=cfg_equip'+_equip.index+'_info1]').val(_equip.info1);
+   $('#table_cmdequip tbody').find('.eqcfg[cfg-name=cfg_equip'+_equip.index+'_param2]').val(_equip.param2);
+   $('#table_cmdequip tbody').find('.eqcfg[cfg-name=cfg_equip'+_equip.index+'_info2]').val(_equip.info2);
+}
+
 
 // Global
  
@@ -417,6 +509,7 @@ function updateInfos(_infos) {
     $('#table_cmdacces tbody').empty();
 	$('#table_cmdtherm tbody').empty();
 	$('#table_cmdwater tbody').empty();
+	$('#table_cmdequip tbody').empty();
 
     if (isset(_eqLogic.configuration)) {
 
@@ -444,6 +537,12 @@ function updateInfos(_infos) {
                 addWater(_eqLogic.configuration.waters[i]);
             }
         }
+
+        if (isset(_eqLogic.configuration.equips)) {
+            for (var i in _eqLogic.configuration.equips) {
+                addEquip(_eqLogic.configuration.equips[i]);
+            }
+        }
 		
 		if (isset(_eqLogic.configuration.ginfos)) {
 			
@@ -460,8 +559,8 @@ function updateInfos(_infos) {
     }
     _eqLogic.configuration.lights = [];
     $('#table_cmdlight tbody .trlight').each(function () {
-		var light = { index : 0 , name : '', cmdON : 0 , cmdOFF : 0 , infoSTATUS : 0 };
-
+		var light = { index : 0 , order : 0 , name : '', type : '', cmdON : 0 , cmdOFF : 0 , infoSTATUS : 0 };
+		light.order = 0;
         light.index = $(this).attr('data-cfg_id');
 		light.name = $(this).find('.eqcfg[cfg-name=cfg_light'+light.index+'_name]').value();
 		light.type = $(this).find('.eqcfg[cfg-name=cfg_light'+light.index+'_type]').value();
@@ -499,7 +598,7 @@ function updateInfos(_infos) {
 
     _eqLogic.configuration.waters = [];
     $('#table_cmdwater tbody .trwater').each(function () {
-		var water = { index : 0 , name : '', cmdOPEN : 0 , cmdCLOSE : 0 , infoDEBIT : 0, infoCONSO : 0, infoSTATUS : 0 };
+		var water = { index : 0 , name : '', type : '', cmdOPEN : 0 , cmdCLOSE : 0 , infoDEBIT : 0, infoCONSO : 0, infoSTATUS : 0 };
 
         water.index = $(this).attr('data-cfg_id');
 		water.name = $(this).find('.eqcfg[cfg-name=cfg_water'+water.index+'_name]').value();
@@ -510,6 +609,20 @@ function updateInfos(_infos) {
         water.infoCONSO = $(this).find('.eqcfg[cfg-name=cfg_water'+water.index+'_conso]').value();
         water.infoSTATUS = $(this).find('.eqcfg[cfg-name=cfg_water'+water.index+'_status]').value();
         _eqLogic.configuration.waters.push(water);
+    });
+
+    _eqLogic.configuration.equips = [];
+    $('#table_cmdequip tbody .trequip').each(function () {
+		var equip = { index : 0 , name : '', type : '', param1 : '', info1 : '', param2 : '', info2 : '' };
+
+        equip.index = $(this).attr('data-cfg_id');
+		equip.name = $(this).find('.eqcfg[cfg-name=cfg_equip'+equip.index+'_name]').value();
+		equip.type = $(this).find('.eqcfg[cfg-name=cfg_equip'+equip.index+'_type]').value();
+        equip.param1 = $(this).find('.eqcfg[cfg-name=cfg_equip'+equip.index+'_param1]').value();
+        equip.info1 = $(this).find('.eqcfg[cfg-name=cfg_equip'+equip.index+'_info1]').value();
+        equip.param2 = $(this).find('.eqcfg[cfg-name=cfg_equip'+equip.index+'_param2]').value();
+        equip.info2 = $(this).find('.eqcfg[cfg-name=cfg_equip'+equip.index+'_info2]').value();
+        _eqLogic.configuration.equips.push(equip);
     });
 	
 	_eqLogic.configuration.ginfos = {
