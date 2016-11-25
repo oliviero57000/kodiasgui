@@ -307,6 +307,50 @@ if ( init('group') == 'light' )
 	}
 }
 
+if ( init('group') == 'acces' )
+{
+	// log::add('kodiasgui', 'info', 'light command received.');
+	
+	if ( init('func') == 'switch' )
+	{
+		$access = $eqLogic->getConfiguration('access');
+		
+		$accesID = intval (init('obj')) - 1;
+		
+		$myacces = $lights[$accesID];
+		$cmdetatid="";
+		
+		$etat = $myacces['infoSTATUS'];
+		sscanf($etat,"#%d#",$cmdetatid);
+		if ($cmdetatid!="")
+		{
+			$cmdetat = cmd::byId($cmdetatid);
+			$resultcmd = $cmdetat->execute();
+			if ($resultcmd == "")
+			{
+				$etat  = "0" ;
+				$myacces['infoSTATUS'] = "1";
+			}
+			else
+			{
+				$etat = "1";
+				$myacces['infoSTATUS'] = "0";
+			}
+		}
+		$cmdid="";
+		if ($etat =="1")
+			sscanf($myacces['cmdCLOSE'],"#%d#",$cmdid);
+		else
+			sscanf($myacces['cmdOPEN'],"#%d#",$cmdid);
+		if ($cmdid!="")
+		{
+			$cmd = cmd::byId($cmdid);
+			$resultcmd = $cmd->execute();
+		}
+		 
+		echo ( json_encode ($myacces ));
+	}
+}
 
 
 ?>
