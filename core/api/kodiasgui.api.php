@@ -19,6 +19,7 @@ foreach ($eqLogics as $eqLogic)
 		$ipgranted = $_SERVER['REMOTE_ADDR'];
 		$eqLogic->setConfiguration('IP',$ipgranted) ;
 		$eqLogic->save();
+		break;
 	}
 }
 
@@ -37,7 +38,7 @@ else
 	echo 'who are you '. $uniqueID.' ?';
 	die();	
 }
-log::add('kodiasgui', 'info', 'api call ');
+
 
 /*
 if (init('apikey') != config::byKey('api') || config::byKey('api') == '') {
