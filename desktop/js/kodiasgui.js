@@ -418,7 +418,7 @@ function addThermo( _thermo ) {
 	if ( el != null )
 	  equipidx = parseInt(el)+1;
 
-	addEquip({index: equipidx , order : equipidx , name : 'Equipement', type : '', param1 : '',info1 : '', param2 : '',info2 : '' });
+	addEquip({index: equipidx , order : equipidx , name : 'Equipement', type : '', infoSTATUS : '', param1 : '',info1 : '', param2 : '',info2 : '' });
 });	
  
 function addEquip( _equip ) {
@@ -439,20 +439,32 @@ function addEquip( _equip ) {
 		tr += '<option selected>{{TV}}</option>';
 	else
 		tr += '<option>{{TV}}</option>';
-	if ( _equip.type == 'Lave linge' )
-		tr += '<option selected>{{Lave linge}}</option>';
+	if ( _equip.type == 'Lave-Linge' )
+		tr += '<option selected>{{Lave-Linge}}</option>';
 	else
-		tr += '<option>{{Lave linge}}</option>';
-	if ( _equip.type == 'Seche linge' )
-		tr += '<option selected>{{Seche linge}}</option>';
+		tr += '<option>{{Lave-linge}}</option>';
+	if ( _equip.type == 'Seche-Linge' )
+		tr += '<option selected>{{Seche-Linge}}</option>';
 	else
-		tr += '<option>{{Seche linge}}</option>';
-	if ( _equip.type == 'Lave vaisselle' )
-		tr += '<option selected>{{Lave vaisselle}}</option>';
+		tr += '<option>{{Seche-Linge}}</option>';
+	if ( _equip.type == 'Lave-Vaisselle' )
+		tr += '<option selected>{{Lave-Vaisselle}}</option>';
 	else
-		tr += '<option>{{Lave vaisselle}}</option>';
-	
+		tr += '<option>{{Lave-Vaisselle}}</option>';
+	if ( _equip.type == 'Hotte' )
+		tr += '<option selected>{{Hotte}}</option>';
+	else
+		tr += '<option>{{Hotte}}</option>';	
+	if ( _equip.type == 'Autre' )
+		tr += '<option selected>{{Autre}}</option>';
+	else
+		tr += '<option>{{Autre}}</option>';	
 	tr += '</select>';	
+	tr += '</td>';		
+	tr += '<td>';
+	tr += '<input class="eqcfg form-control input-sm" cfg-name="cfg_equip'+_equip.index+'_status" placeholder="{{Info STATUS}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />';
+	tr += '<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="cfg_equip'+_equip.index+'_status" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>';
+	tr += '</td>';	
 	tr += '<td>';
 	tr += '<input type="text" class="eqcfg form-control" cfg-name="cfg_equip'+_equip.index+'_param1" />';
 	tr += '</td>';	
@@ -474,6 +486,7 @@ function addEquip( _equip ) {
    $('#table_cmdequip tbody').append(tr);
   
    $('#table_cmdequip tbody').find('.eqcfg[cfg-name=cfg_equip'+_equip.index+'_name]').val(_equip.name);
+   $('#table_cmdequip tbody').find('.eqcfg[cfg-name=cfg_equip'+_equip.index+'_status]').val(_equip.infoSTATUS);
    $('#table_cmdequip tbody').find('.eqcfg[cfg-name=cfg_equip'+_equip.index+'_param1]').val(_equip.param1);
    $('#table_cmdequip tbody').find('.eqcfg[cfg-name=cfg_equip'+_equip.index+'_info1]').val(_equip.info1);
    $('#table_cmdequip tbody').find('.eqcfg[cfg-name=cfg_equip'+_equip.index+'_param2]').val(_equip.param2);
@@ -613,11 +626,12 @@ function updateInfos(_infos) {
 
     _eqLogic.configuration.equips = [];
     $('#table_cmdequip tbody .trequip').each(function () {
-		var equip = { index : 0 , name : '', type : '', param1 : '', info1 : '', param2 : '', info2 : '' };
+		var equip = { index : 0 , name : '', type : '', infoSTATUS : '', param1 : '', info1 : '', param2 : '', info2 : '' };
 
         equip.index = $(this).attr('data-cfg_id');
 		equip.name = $(this).find('.eqcfg[cfg-name=cfg_equip'+equip.index+'_name]').value();
 		equip.type = $(this).find('.eqcfg[cfg-name=cfg_equip'+equip.index+'_type]').value();
+        equip.infoSTATUS = $(this).find('.eqcfg[cfg-name=cfg_equip'+equip.index+'_status]').value();
         equip.param1 = $(this).find('.eqcfg[cfg-name=cfg_equip'+equip.index+'_param1]').value();
         equip.info1 = $(this).find('.eqcfg[cfg-name=cfg_equip'+equip.index+'_info1]').value();
         equip.param2 = $(this).find('.eqcfg[cfg-name=cfg_equip'+equip.index+'_param2]').value();
