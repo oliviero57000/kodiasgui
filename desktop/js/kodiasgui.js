@@ -686,7 +686,7 @@ function updateInfos(_infos) {
     return _eqLogic;
 }
 
-  $('.eqLogicAttr[data-l1key=configuration][data-l2key=type]').on('change', function () {
+$('.eqLogicAttr[data-l1key=configuration][data-l2key=type]').on('change', function () {
     if($(this).value()=='shared'){
         $('.kodi_spec').hide();
     }
