@@ -52,7 +52,19 @@ class kodiasgui extends eqLogic {
 		$cmd->save();
 	}	
 
+	public function copyFromEqLogic($_eqLogic_id) {
+		$eqLogic = eqLogic::byId($_eqLogic_id);
+		if (!is_object($eqLogic)) {
+			throw new Exception(__('Impossible de trouver l\'équipement : ', __FILE__) . $_eqLogic_id);
+		}
+		if ($eqLogic->getEqType_name() != 'kodiasgui') {
+			throw new Exception(__('Vous ne pouvez importer la configuration d\'un équipement autre que Kodi.', __FILE__));
+		}
 
+
+		$this->save();
+	}
+	
 	/*     * **********************Getteur Setteur*************************** */
 }
 

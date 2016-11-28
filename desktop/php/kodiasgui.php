@@ -46,12 +46,6 @@ $eqLogics = eqLogic::byType('kodiasgui');
 						</center>
 						<span style="font-size : 1.1em;position:relative; top : 23px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#00979C"><center>{{Configuration}}</center></span>
 					</div>		
-					<div class="cursor eqLogicAction" data-action="bt_healthSpecific" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
-						<center>
-							<i class="fa fa-medkit" style="font-size : 7em;color:#00979C;"></i>
-						</center> 
-						<span style="font-size : 1.1em;position:relative; top : 23px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#00979C"><center>{{Santé}}</center></span>
-					</div>
 					<div class="cursor eqLogicAction" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
 						<a target="_blank" style="text-decoration: none!important;" href="https://www.jeedom.fr/doc/documentation/plugins/kodiasgui/fr_FR/kodiasgui.html">
 							<center>
@@ -63,11 +57,14 @@ $eqLogics = eqLogic::byType('kodiasgui');
 
 				</div>
 
-				<legend><i class="fa fa-table"></i> {{Mes kodi}}
+				<legend><i class="fa fa-table"></i> {{Configuration générale aux kodis}}
 				</legend>
 				<div class="eqLogicThumbnailContainer">
 					<?php
 				foreach ($eqLogics as $eqLogic) {
+					
+					if ( $eqLogic->getConfiguration('type') == 'shared'  )
+					{
 					$opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
 					echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
 					echo "<center>";
@@ -75,6 +72,26 @@ $eqLogics = eqLogic::byType('kodiasgui');
 					echo "</center>";
 					echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;"><center>' . $eqLogic->getHumanName(true, true) . '</center></span>';
 					echo '</div>';
+					}
+				}
+				?>
+				</div>				
+				
+				<legend><i class="fa fa-table"></i> {{Configuration spécifique des kodi}}
+				</legend>
+				<div class="eqLogicThumbnailContainer">
+					<?php
+				foreach ($eqLogics as $eqLogic) {
+					if ( $eqLogic->getConfiguration('type') != 'shared'  )
+						{					
+						$opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
+						echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;' . $opacity . '" >';
+						echo "<center>";
+						echo '<img src="plugins/kodiasgui/doc/images/kodiasgui_icon.png" height="105" width="95" />';
+						echo "</center>";
+						echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;"><center>' . $eqLogic->getHumanName(true, true) . '</center></span>';
+						echo '</div>';
+						}
 				}
 				?>
 				</div>
@@ -87,7 +104,6 @@ $eqLogics = eqLogic::byType('kodiasgui');
 									<i class="fa fa-arrow-circle-left eqLogicAction cursor" data-action="returnToThumbnailDisplay"></i> {{Général}}
 									<i class='fa fa-cogs eqLogicAction pull-right cursor expertModeVisible' data-action='configure'></i>
 									<a class="btn btn-xs btn-default pull-right eqLogicAction" data-action="copy"><i class="fa fa-files-o"></i> {{Dupliquer}}</a>
-									<a class="btn btn-xs btn-default pull-right" id="bt_importEqLogic"><i class="fa fa-share"></i> {{Importer équipement}}</a>
 								</legend>
 		<a class="btn btn-success eqLogicAction pull-right" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder la configuration}}</a>
 		<a class="btn btn-danger eqLogicAction pull-right" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer l'équipement}}</a>
@@ -149,20 +165,46 @@ $eqLogics = eqLogic::byType('kodiasgui');
 										<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isVisible" checked/>{{Visible}}</label>
 									</div>
 								</div>
+								
 								<div class="form-group">
-									<label class="col-sm-3 control-label">{{UID}}</label>
+									<label class="col-sm-3 control-label">{{Type}}</label>
 									<div class="col-sm-3">
-										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="UID" readonly />
+										<select id="sel_type" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="type" >
+											<option value="notshared">{{Configuration Specifique}}</option>
+											<option value="shared">{{Configuration Générale}}</option>
+										</select>									
+									</div>
+								</div>								
+								
+								<div class="kodi_spec">
+								
+									<div class="form-group">
+										<label class="col-sm-3 control-label">{{UID}}</label>
+										<div class="col-sm-3">
+											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="UID" readonly />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">{{IP}}</label>
+										<div class="col-sm-3">
+											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="IP" readonly />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">{{Configuration générale}}</label>
+										<div class="col-sm-3">
+											<select id="sel_master" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="MasterCfg" >
+												<?php
+												foreach ($eqLogics as $eqLogic) {
+													if ( $eqLogic->getConfiguration('type') == 'shared'  ) {
+														echo '<option value="' . $eqLogic->getId() . '">' . $eqLogic->getHumanName() . '</option>';
+													}
+												}
+												?>
+											</select>
+										</div>
 									</div>
 								</div>
-								<div class="form-group">
-									<label class="col-sm-3 control-label">{{IP}}</label>
-									<div class="col-sm-3">
-										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="IP" readonly />
-									</div>
-								</div>
-
-
 
 							</fieldset>
 						</form>
@@ -241,7 +283,9 @@ $eqLogics = eqLogic::byType('kodiasgui');
 					</tbody>
 					</table>					
 					
-					<a class="btn btn-primary btn-sm  pull-left" id="bt_addlight"><i class="fa fa-plus-circle"></i> {{Ajouter une lumière}}</a><br/><br/>
+					<a class="btn btn-primary btn-sm  pull-left" id="bt_addlight"><i class="fa fa-plus-circle"></i> {{Ajouter une lumière}}</a>
+					<a class="btn btn-default btn-sm  pull-left" id="bt_importlight"><i class="fa fa-plus-circle"></i> {{Importer des lumières}}</a>
+					<br/><br/>
 					<table id="table_cmdlight" class="table table-bordered table-condensed">
 					<thead>
 						<tr>
@@ -284,7 +328,9 @@ $eqLogics = eqLogic::byType('kodiasgui');
 					</tbody>
 					</table>						
 					
-					<a class="btn btn-primary btn-sm  pull-left" id="bt_addacces"><i class="fa fa-plus-circle"></i> {{Ajouter un accès}}</a><br/><br/>
+					<a class="btn btn-primary btn-sm  pull-left" id="bt_addacces"><i class="fa fa-plus-circle"></i> {{Ajouter un accès}}</a>
+					<a class="btn btn-default btn-sm  pull-left" id="bt_importacces"><i class="fa fa-plus-circle"></i> {{Importer des accès}}</a>
+					<br/><br/>
 					<table id="table_cmdacces" class="table table-bordered table-condensed">
 					<thead>
 						<tr>
@@ -359,12 +405,15 @@ $eqLogics = eqLogic::byType('kodiasgui');
 					</tbody>
 					</table>					
 
-					<a class="btn btn-primary btn-sm  pull-left" id="bt_addtherm"><i class="fa fa-plus-circle"></i> {{Ajouter un chauffage ou une climatisation}}</a><br/><br/>
+					<a class="btn btn-primary btn-sm  pull-left" id="bt_addtherm"><i class="fa fa-plus-circle"></i> {{Ajouter un chauffage ou une climatisation}}</a>
+					<a class="btn btn-default btn-sm  pull-left" id="bt_importtherm"><i class="fa fa-plus-circle"></i> {{Importer des chauffages}}</a>
+					<br/><br/>
 					<table id="table_cmdtherm" class="table table-bordered table-condensed">
 					<thead>
 						<tr>
 							<th>#</th>
 							<th>{{Nom}}</th>
+							<th>{{Type}}</th>
 							<th>{{Consigne}}</th>
 							<th>{{Info STATUS}}</th>
 							<th>{{Commande ON}}</th>
@@ -403,7 +452,9 @@ $eqLogics = eqLogic::byType('kodiasgui');
 					</tbody>
 					</table>					
 
-					<a class="btn btn-primary btn-sm  pull-left" id="bt_addWater"><i class="fa fa-plus-circle"></i> {{Ajouter une alimentation}}</a><br/><br/>
+					<a class="btn btn-primary btn-sm  pull-left" id="bt_addWater"><i class="fa fa-plus-circle"></i> {{Ajouter une alimentation}}</a>
+					<a class="btn btn-default btn-sm  pull-left" id="bt_importwater"><i class="fa fa-plus-circle"></i> {{Importer des alimentations}}</a>
+					<br/><br/>
 					<table id="table_cmdwater" class="table table-bordered table-condensed">
 					<thead>
 						<tr>
@@ -428,7 +479,9 @@ $eqLogics = eqLogic::byType('kodiasgui');
 					<div role="tabpanel" class="tab-pane" id="cmdEquips" >
 					<br>
 
-					<a class="btn btn-primary btn-sm  pull-left" id="bt_addEquip"><i class="fa fa-plus-circle"></i> {{Ajouter un objet connecté}}</a><br/><br/>
+					<a class="btn btn-primary btn-sm  pull-left" id="bt_addEquip"><i class="fa fa-plus-circle"></i> {{Ajouter un objet connecté}}</a>
+					<a class="btn btn-default btn-sm  pull-left" id="bt_importequip"><i class="fa fa-plus-circle"></i> {{Importer des objets connectés}}}</a>
+					<br/><br/>
 					<table id="table_cmdequip" class="table table-bordered table-condensed">
 					<thead>
 						<tr>

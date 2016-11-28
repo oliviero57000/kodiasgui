@@ -354,6 +354,17 @@ function addThermo( _thermo ) {
 	tr += '<td>';
 	tr += '<input type="text" class="eqcfg form-control" cfg-name="cfg_thermo'+_thermo.index+'_name" />';
 	tr += '</td>';
+	tr += '<td><select class="eqcfg form-control" cfg-name="cfg_thermo'+_thermo.index+'_type">';
+	if ( _thermo.type == 'Radiateur' )
+		tr += '<option selected>{{Radiateur}}</option>';
+	else
+		tr += '<option >{{Radiateur}}</option>';
+	if ( _thermo.type == 'Climatiseur' )
+		tr += '<option selected>{{Climatiseur}}</option>';
+	else
+		tr += '<option>{{Climatiseur}}</option>';
+	tr += '</select>';	
+	tr += '</td>';		
 	tr += '<td>';
 	tr += '<input class="eqcfg form-control input-sm" cfg-name="cfg_thermo'+_thermo.index+'_consigne" placeholder="{{Info CONSIGNE}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />';
 	tr += '<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="cfg_thermo'+_thermo.index+'_consigne" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>';
@@ -418,7 +429,7 @@ function addThermo( _thermo ) {
 	if ( el != null )
 	  equipidx = parseInt(el)+1;
 
-	addEquip({index: equipidx , order : equipidx , name : 'Equipement', type : '', infoSTATUS : '', param1 : '',info1 : '', param2 : '',info2 : '' });
+	addEquip({index: equipidx , name : 'Equipement', type : '', infoSTATUS : '', param1 : '',info1 : '', param2 : '',info2 : '' });
 });	
  
 function addEquip( _equip ) {
@@ -572,8 +583,7 @@ function updateInfos(_infos) {
     }
     _eqLogic.configuration.lights = [];
     $('#table_cmdlight tbody .trlight').each(function () {
-		var light = { index : 0 , order : 0 , name : '', type : '', cmdON : 0 , cmdOFF : 0 , infoSTATUS : 0 };
-		light.order = 0;
+		var light = { index : 0 , name : '', type : '', cmdON : 0 , cmdOFF : 0 , infoSTATUS : 0 };
         light.index = $(this).attr('data-cfg_id');
 		light.name = $(this).find('.eqcfg[cfg-name=cfg_light'+light.index+'_name]').value();
 		light.type = $(this).find('.eqcfg[cfg-name=cfg_light'+light.index+'_type]').value();
@@ -601,6 +611,7 @@ function updateInfos(_infos) {
 
         thermo.index = $(this).attr('data-cfg_id');
 		thermo.name = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_name]').value();
+		thermo.type = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_type]').value();		
         thermo.cmdON = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_on]').value();
         thermo.cmdOFF = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_off]').value();
         thermo.infoCONSIGNE = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_consigne]').value();
@@ -675,8 +686,21 @@ function updateInfos(_infos) {
     return _eqLogic;
 }
 
+  $('.eqLogicAttr[data-l1key=configuration][data-l2key=type]').on('change', function () {
+    if($(this).value()=='shared'){
+        $('.kodi_spec').hide();
+    }
+	if($(this).value()=='unshared'){
+		$('.kodi_spec').show();
+    }
+	
+});
 
 
 function addCmdToTable(_cmd) {
    
 }
+
+
+
+

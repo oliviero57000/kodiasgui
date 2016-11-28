@@ -114,11 +114,8 @@ if ( init('func') == 'getui' )
 	echo ' ,"lights": [';
 	$lights = $eqLogic->getConfiguration('lights');
 	$notfirst = false;
-	$order =1;
 	foreach($lights as $index => $light)
 	{
-		$light['order'] = (string)$order;
-		$order++;
 		foreach($light as $key => $value)
 		{
 			if ( strncmp($key,"info",4)==0 )
