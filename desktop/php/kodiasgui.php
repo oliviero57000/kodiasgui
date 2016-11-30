@@ -116,6 +116,7 @@ $eqLogics = eqLogic::byType('kodiasgui');
 			<li role="presentation"><a href="#cmdTherms" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Chauffages}}</a></li>
 			<li role="presentation"><a href="#cmdWaters" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Eau}}</a></li>
 			<li role="presentation"><a href="#cmdEquips" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Equipements}}</a></li>
+			<li role="presentation"><a href="#cmdShortcuts" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Raccourci}}</a></li>
 		</ul>
 	
 		<div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">
@@ -284,7 +285,7 @@ $eqLogics = eqLogic::byType('kodiasgui');
 					</table>					
 					
 					<a class="btn btn-primary btn-sm  pull-left" id="bt_addlight"><i class="fa fa-plus-circle"></i> {{Ajouter une lumière}}</a>
-					<a class="btn btn-default btn-sm  pull-left" id="bt_importlight"><i class="fa fa-plus-circle"></i> {{Importer des lumières}}</a>
+
 					<br/><br/>
 					<table id="table_cmdlight" class="table table-bordered table-condensed">
 					<thead>
@@ -327,9 +328,8 @@ $eqLogics = eqLogic::byType('kodiasgui');
 
 					</tbody>
 					</table>						
-					
+
 					<a class="btn btn-primary btn-sm  pull-left" id="bt_addacces"><i class="fa fa-plus-circle"></i> {{Ajouter un accès}}</a>
-					<a class="btn btn-default btn-sm  pull-left" id="bt_importacces"><i class="fa fa-plus-circle"></i> {{Importer des accès}}</a>
 					<br/><br/>
 					<table id="table_cmdacces" class="table table-bordered table-condensed">
 					<thead>
@@ -406,7 +406,6 @@ $eqLogics = eqLogic::byType('kodiasgui');
 					</table>					
 
 					<a class="btn btn-primary btn-sm  pull-left" id="bt_addtherm"><i class="fa fa-plus-circle"></i> {{Ajouter un chauffage ou une climatisation}}</a>
-					<a class="btn btn-default btn-sm  pull-left" id="bt_importtherm"><i class="fa fa-plus-circle"></i> {{Importer des chauffages}}</a>
 					<br/><br/>
 					<table id="table_cmdtherm" class="table table-bordered table-condensed">
 					<thead>
@@ -453,7 +452,7 @@ $eqLogics = eqLogic::byType('kodiasgui');
 					</table>					
 
 					<a class="btn btn-primary btn-sm  pull-left" id="bt_addWater"><i class="fa fa-plus-circle"></i> {{Ajouter une alimentation}}</a>
-					<a class="btn btn-default btn-sm  pull-left" id="bt_importwater"><i class="fa fa-plus-circle"></i> {{Importer des alimentations}}</a>
+
 					<br/><br/>
 					<table id="table_cmdwater" class="table table-bordered table-condensed">
 					<thead>
@@ -480,7 +479,7 @@ $eqLogics = eqLogic::byType('kodiasgui');
 					<br>
 
 					<a class="btn btn-primary btn-sm  pull-left" id="bt_addEquip"><i class="fa fa-plus-circle"></i> {{Ajouter un objet connecté}}</a>
-					<a class="btn btn-default btn-sm  pull-left" id="bt_importequip"><i class="fa fa-plus-circle"></i> {{Importer des objets connectés}}}</a>
+					
 					<br/><br/>
 					<table id="table_cmdequip" class="table table-bordered table-condensed">
 					<thead>
@@ -503,8 +502,31 @@ $eqLogics = eqLogic::byType('kodiasgui');
 					
 					</div>	
 					
-				</div>
+					<div role="tabpanel" class="tab-pane" id="cmdShortcuts" >
+					<br>
 
+					<a class="btn btn-primary btn-sm  pull-left" id="bt_addShortcuts"><i class="fa fa-plus-circle"></i> {{Ajouter un raccourci}}</a>
+					
+					<br/><br/>
+						<table id="table_cmdshort" class="table table-bordered table-condensed">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>{{Nom}}</th>
+								<th>{{Menu}}</th>
+								<th>{{Cmd}}</th>
+								<th>{{Info}}</th>
+								<th>{{Icon}}</th>
+								<th></th>
+							</tr>
+						</thead>					
+						<tbody>
+
+						</tbody>
+						</table>						
+					</div>
+					
+				</div>
 
 			</div>
 		</div>

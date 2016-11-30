@@ -504,6 +504,121 @@ function addEquip( _equip ) {
    $('#table_cmdequip tbody').find('.eqcfg[cfg-name=cfg_equip'+_equip.index+'_info2]').val(_equip.info2);
 }
 
+// Shortcuts
+ 
+ $("#table_cmdshort").delegate(".listEquipementAction", 'click', function () {
+    var el = $(this);
+    jeedom.cmd.getSelectModal({cmd: {type: 'action', subType: 'other'}}, function (result) {
+        var calcul = el.closest('tr').find('.eqcfg[cfg-name=' + el.attr('fct') + ']');
+        calcul.atCaret('insert', result.human);
+    });
+});
+ 
+ $("#table_cmdshort").delegate(".listEquipementInfo", 'click', function () {
+	 var el = $(this);
+    jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function (result) {
+		var calcul = el.closest('tr').find('.eqcfg[cfg-name='+el.attr('fct')+']');
+		calcul.atCaret('insert', result.human);
+    });
+}); 
+
+ $('#table_cmdshort tbody').delegate('tr .remove', 'click', function (event) {
+    $(this).closest('tr').remove();
+});
+
+ $("#bt_addShortcuts").on('click', function (event) {
+    	
+	var el = $('#table_cmdshort tbody tr:last').attr('data-cfg_id');
+	var shortcidx =1;
+	
+	if ( el != null )
+	  shortcidx = parseInt(el)+1;
+
+	addShortcut({ index : shortcidx , name : '', menu : '', cmd : '', info : '', icon : '' });
+});	
+ 
+function addShortcut( _shortcut ) {
+	
+	var tr = '<tr class="trshort" data-cfg_id="' + _shortcut.index + '" >';
+	tr += '<td>';
+	tr += _shortcut.index;
+	tr += '</td>';
+	tr += '<td>';
+	tr += '<input type="text" class="eqcfg form-control" cfg-name="cfg_shortcut'+_shortcut.index+'_name" />';
+	tr += '</td>';
+	tr += '<td><select class="eqcfg form-control" cfg-name="cfg_shortcut'+_shortcut.index+'_menu">';
+	if ( _shortcut.menu == 'Eclairage' )
+		tr += '<option selected>{{Eclairage}}</option>';
+	else
+		tr += '<option >{{Eclairage}}</option>';
+	if ( _shortcut.menu == 'Securite' )
+		tr += '<option selected>{{Sécurité}}</option>';
+	else
+		tr += '<option>{{Sécurité}}</option>';
+	if ( _shortcut.menu == 'Chauffage' )
+		tr += '<option selected>{{Chauffage}}</option>';
+	else
+		tr += '<option>{{Chauffage}}</option>';
+	if ( _shortcut.menu == 'Energie' )
+		tr += '<option selected>{{Energie}}</option>';
+	else
+		tr += '<option>{{Energie}}</option>';
+	tr += '</select>';	
+	tr += '</td>';		
+	tr += '<td>';
+	tr += '<input class="eqcfg form-control input-sm" cfg-name="cfg_shortcut'+_shortcut.index+'_cmd" placeholder="{{Commande}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />';
+	tr += '<a class="btn btn-default btn-sm cursor listEquipementAction" fct="cfg_shortcut'+_shortcut.index+'_cmd" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>';
+	tr += '</td>';	
+	tr += '<td>';
+	tr += '<input class="eqcfg form-control input-sm" cfg-name="cfg_shortcut'+_shortcut.index+'_info" placeholder="{{Info}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />';
+	tr += '<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="cfg_shortcut'+_shortcut.index+'_info" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>';
+	tr += '</td>';
+	tr += '<td><select class="eqcfg form-control" cfg-name="cfg_shortcut'+_shortcut.index+'_icon">';
+	if ( _shortcut.icon == 'Eclairage' )
+		tr += '<option selected>{{Eclairage}}</option>';
+	else
+		tr += '<option >{{Eclairage}}</option>';
+	if ( _shortcut.icon == 'Chauffage' )
+		tr += '<option selected>{{Chauffage}}</option>';
+	else
+		tr += '<option>{{Chauffage}}</option>';
+	if ( _shortcut.icon == 'Securite' )
+		tr += '<option selected>{{Sécurité}}</option>';
+	else
+		tr += '<option>{{Sécurité}}</option>';
+	if ( _shortcut.icon == 'Energie' )
+		tr += '<option selected>{{Energie}}</option>';
+	else
+		tr += '<option>{{Energie}}</option>';
+	if ( _shortcut.icon == 'TV' )
+		tr += '<option selected>{{TV}}</option>';
+	else
+		tr += '<option>{{TV}}</option>';
+	if ( _shortcut.icon == 'Porte' )
+		tr += '<option selected>{{Porte}}</option>';
+	else
+		tr += '<option>{{Porte}}</option>';
+	if ( _shortcut.icon == 'Infos' )
+		tr += '<option selected>{{Infos}}</option>';
+	else
+		tr += '<option>{{Infos}}</option>';
+	if ( _shortcut.icon == 'Eau' )
+		tr += '<option selected>{{Eau}}</option>';
+	else
+		tr += '<option>{{Eau}}</option>';	
+	tr += '</select>';	
+	tr += '</td>';	
+	tr += '<td>';	
+	tr += '<a class="btn btn-default btn-sm cursor remove" style="margin-left : 5px;"><i class="fa fa-minus-circle "></i> {{Supprimer}}</a>';	
+	tr += '</td></tr>';	
+   
+   $('#table_cmdshort tbody').append(tr);
+  
+   $('#table_cmdshort tbody').find('.eqcfg[cfg-name=cfg_shortcut'+_shortcut.index+'_name]').val(_shortcut.name);
+   $('#table_cmdshort tbody').find('.eqcfg[cfg-name=cfg_shortcut'+_shortcut.index+'_cmd]').val(_shortcut.cmd);
+   $('#table_cmdshort tbody').find('.eqcfg[cfg-name=cfg_shortcut'+_shortcut.index+'_info]').val(_shortcut.info);
+
+}
 
 // Global
  
@@ -534,7 +649,9 @@ function updateInfos(_infos) {
 	$('#table_cmdtherm tbody').empty();
 	$('#table_cmdwater tbody').empty();
 	$('#table_cmdequip tbody').empty();
-
+	$('#table_cmdshort tbody').empty();
+	
+	
     if (isset(_eqLogic.configuration)) {
 
 		if (isset(_eqLogic.configuration.lights)) {
@@ -565,6 +682,12 @@ function updateInfos(_infos) {
         if (isset(_eqLogic.configuration.equips)) {
             for (var i in _eqLogic.configuration.equips) {
                 addEquip(_eqLogic.configuration.equips[i]);
+            }
+        }
+
+        if (isset(_eqLogic.configuration.shortcuts)) {
+            for (var i in _eqLogic.configuration.shortcuts) {
+                addShortcut(_eqLogic.configuration.shortcuts[i]);
             }
         }
 		
@@ -649,6 +772,19 @@ function updateInfos(_infos) {
         equip.info2 = $(this).find('.eqcfg[cfg-name=cfg_equip'+equip.index+'_info2]').value();
         _eqLogic.configuration.equips.push(equip);
     });
+
+    _eqLogic.configuration.shortcuts = [];
+    $('#table_cmdshort tbody .trshort').each(function () {
+		var shortcut = { index : 0 , name : '', menu : '', cmd : '', info : '', icon : '' };
+
+        shortcut.index = $(this).attr('data-cfg_id');
+		shortcut.name = $(this).find('.eqcfg[cfg-name=cfg_shortcut'+shortcut.index+'_name]').value();
+		shortcut.menu = $(this).find('.eqcfg[cfg-name=cfg_shortcut'+shortcut.index+'_menu]').value();
+        shortcut.cmd = $(this).find('.eqcfg[cfg-name=cfg_shortcut'+shortcut.index+'_cmd]').value();
+        shortcut.info = $(this).find('.eqcfg[cfg-name=cfg_shortcut'+shortcut.index+'_info]').value();
+        shortcut.icon = $(this).find('.eqcfg[cfg-name=cfg_shortcut'+shortcut.index+'_icon]').value();
+        _eqLogic.configuration.shortcuts.push(shortcut);
+    });
 	
 	_eqLogic.configuration.ginfos = {
 		infoMSGURGENT: '', 
@@ -689,9 +825,19 @@ function updateInfos(_infos) {
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=type]').on('change', function () {
     if($(this).value()=='shared'){
         $('.kodi_spec').hide();
+		$('#table_cmdinfo').hide();
+		$('#table_lightinfo').hide();
+		$('#table_accesinfo').hide();
+		$('#table_therminfo').hide();
+		$('#table_waterinfo').hide();
     }
-	if($(this).value()=='unshared'){
+	if($(this).value()=='notshared'){
 		$('.kodi_spec').show();
+		$('#table_cmdinfo').show();
+		$('#table_lightinfo').show();
+		$('#table_accesinfo').show();
+		$('#table_therminfo').show();
+		$('#table_waterinfo').show();
     }
 	
 });
@@ -700,7 +846,6 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=type]').on('change', functi
 function addCmdToTable(_cmd) {
    
 }
-
 
 
 

@@ -4,6 +4,224 @@ require_once dirname(__FILE__) . "/../../../../core/php/core.inc.php";
 	
 //  192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=hello&UID=58089181cdc2b
 
+function sendShortCuts()
+{
+	global $eqLogic,$cmd;
+	echo '[';
+	$shortcuts = $eqLogic->getConfiguration('shortcuts');
+	$notfirst = false;
+	foreach($shortcuts as $index => $shortcut)
+	{
+		foreach($shortcut as $key => $value)
+		{
+			if ( strncmp($key,"info",4)==0 )
+			{
+				$cmdid="";
+				sscanf($value,"#%d#",$cmdid);
+
+				if ($cmdid!="")
+				{
+					$cmd = cmd::byId($cmdid);
+					$resultcmd = $cmd->execute();
+					if ($resultcmd == "")
+						$shortcut[$key]  = "0" ;
+					else
+						$shortcut[$key] = (string)$resultcmd ;
+				}
+			}
+		}
+		if ( $notfirst )
+			echo (' , ');
+		echo ( json_encode ($shortcut ));
+		$notfirst = true;
+	}	
+	
+	echo ' ] ';
+	
+}
+
+function sendLights()
+{
+	global $eqLogic,$cmd;
+	echo '[';
+	$lights = $eqLogic->getConfiguration('lights');
+	$notfirst = false;
+	foreach($lights as $index => $light)
+	{
+		foreach($light as $key => $value)
+		{
+			if ( strncmp($key,"info",4)==0 )
+			{
+				$cmdid="";
+				sscanf($value,"#%d#",$cmdid);
+
+				if ($cmdid!="")
+				{
+					$cmd = cmd::byId($cmdid);
+					$resultcmd = $cmd->execute();
+					if ($resultcmd == "")
+						$light[$key]  = "0" ;
+					else
+						$light[$key] = (string)$resultcmd ;
+				}
+			}
+		}
+		if ( $notfirst )
+			echo (' , ');
+		echo ( json_encode ($light ));
+		$notfirst = true;
+	}	
+	
+	echo ' ] ';
+	
+}
+
+function sendAccess()
+{
+	global $eqLogic,$cmd;
+	echo '[';
+
+	$access = $eqLogic->getConfiguration('access');
+	$notfirst = false;
+	foreach($access as $index => $acces)
+	{
+		foreach($acces as $key => $value)
+		{
+			if ( strncmp($key,"info",4)==0 )
+			{
+				$cmdid="";
+				sscanf($value,"#%d#",$cmdid);
+
+				if ($cmdid!="")
+				{
+					$cmd = cmd::byId($cmdid);
+					$resultcmd = $cmd->execute();
+					if ($resultcmd == "")
+						$acces[$key]  = "0" ;
+					else
+						$acces[$key] = (string)$resultcmd ;
+				}
+			}
+		}
+		if ( $notfirst )
+			echo (' , ');
+		echo ( json_encode ($acces ));
+		$notfirst = true;
+	}		
+
+
+	echo ' ] ';
+}
+
+function sendThermos()
+{
+	global $eqLogic,$cmd;
+	echo '[';
+
+	$thermos = $eqLogic->getConfiguration('thermos');
+	$notfirst = false;
+	foreach($thermos as $index => $thermo)
+	{
+		foreach($thermo as $key => $value)
+		{
+			if ( strncmp($key,"info",4)==0 )
+			{
+				$cmdid="";
+				sscanf($value,"#%d#",$cmdid);
+
+				if ($cmdid!="")
+				{
+					$cmd = cmd::byId($cmdid);
+					$resultcmd = $cmd->execute();
+					if ($resultcmd == "")
+						$thermo[$key]  = "0" ;
+					else
+						$thermo[$key] = (string)$resultcmd ;
+				}
+			}
+		}
+		if ( $notfirst )
+			echo (' , ');
+		echo ( json_encode ($thermo ));
+		$notfirst = true;
+	}	
+
+	echo ' ] ';
+}
+
+function sendWaters()
+{
+	global $eqLogic,$cmd;
+	echo '[';
+	
+	$waters = $eqLogic->getConfiguration('waters');
+	$notfirst = false;
+	foreach($waters as $index => $water)
+	{
+		foreach($water as $key => $value)
+		{
+			if ( strncmp($key,"info",4)==0 )
+			{
+				$cmdid="";
+				sscanf($value,"#%d#",$cmdid);
+
+				if ($cmdid!="")
+				{
+					$cmd = cmd::byId($cmdid);
+					$resultcmd = $cmd->execute();
+					if ($resultcmd == "")
+						$water[$key]  = "0" ;
+					else
+						$water[$key] = (string)$resultcmd ;
+				}
+			}
+		}
+		if ( $notfirst )
+			echo (' , ');
+		echo ( json_encode ($water ));
+		$notfirst = true;
+	}		
+	
+	echo ' ] ';
+}
+
+function sendEquips()
+{
+	global $eqLogic,$cmd;
+	echo '[';
+	
+	$equips = $eqLogic->getConfiguration('equips');
+	$notfirst = false;
+	foreach($equips as $index => $equip)
+	{
+		foreach($equip as $key => $value)
+		{
+			if ( strncmp($key,"info",4)==0 )
+			{
+				$cmdid="";
+				sscanf($value,"#%d#",$cmdid);
+
+				if ($cmdid!="")
+				{
+					$cmd = cmd::byId($cmdid);
+					$resultcmd = $cmd->execute();
+					if ($resultcmd == "")
+						$equip[$key]  = "0" ;
+					else
+						$equip[$key] = (string)$resultcmd ;
+				}
+			}
+
+		}
+		if ( $notfirst )
+			echo (' , ');
+		echo ( json_encode ($equip ));
+		$notfirst = true;
+	}	
+
+	echo ' ] ';
+}
+
 function sendKodi()
 {
 	global $eqLogic,$cmd;
@@ -34,152 +252,27 @@ function sendKodi()
 	echo ' , "ginfos":';
 	echo ( json_encode ($ginfos) );
 	
-	echo ' ,"lights": [';
-	$lights = $eqLogic->getConfiguration('lights');
-	$notfirst = false;
-	foreach($lights as $index => $light)
-	{
-		foreach($light as $key => $value)
-		{
-			if ( strncmp($key,"info",4)==0 )
-			{
-				$cmdid="";
-				sscanf($value,"#%d#",$cmdid);
-
-				if ($cmdid!="")
-				{
-					$cmd = cmd::byId($cmdid);
-					$resultcmd = $cmd->execute();
-					if ($resultcmd == "")
-						$light[$key]  = "0" ;
-					else
-						$light[$key] = (string)$resultcmd ;
-				}
-			}
-		}
-		if ( $notfirst )
-			echo (' , ');
-		echo ( json_encode ($light ));
-		$notfirst = true;
-	}	
+	echo ' ,"lights": ';
 	
-	echo ' ] ,"access": [';
-	$access = $eqLogic->getConfiguration('access');
-	$notfirst = false;
-	foreach($access as $index => $acces)
-	{
-		foreach($acces as $key => $value)
-		{
-			if ( strncmp($key,"info",4)==0 )
-			{
-				$cmdid="";
-				sscanf($value,"#%d#",$cmdid);
+	sendLights();
 
-				if ($cmdid!="")
-				{
-					$cmd = cmd::byId($cmdid);
-					$resultcmd = $cmd->execute();
-					if ($resultcmd == "")
-						$acces[$key]  = "0" ;
-					else
-						$acces[$key] = (string)$resultcmd ;
-				}
-			}
-		}
-		if ( $notfirst )
-			echo (' , ');
-		echo ( json_encode ($acces ));
-		$notfirst = true;
-	}		
-
-	echo ' ] ,"thermos": [';
-	$thermos = $eqLogic->getConfiguration('thermos');
-	$notfirst = false;
-	foreach($thermos as $index => $thermo)
-	{
-		foreach($thermo as $key => $value)
-		{
-			if ( strncmp($key,"info",4)==0 )
-			{
-				$cmdid="";
-				sscanf($value,"#%d#",$cmdid);
-
-				if ($cmdid!="")
-				{
-					$cmd = cmd::byId($cmdid);
-					$resultcmd = $cmd->execute();
-					if ($resultcmd == "")
-						$thermo[$key]  = "0" ;
-					else
-						$thermo[$key] = (string)$resultcmd ;
-				}
-			}
-		}
-		if ( $notfirst )
-			echo (' , ');
-		echo ( json_encode ($thermo ));
-		$notfirst = true;
-	}	
+	echo ',"access": ';
 	
-	echo ' ] ,"waters": [';
-	$waters = $eqLogic->getConfiguration('waters');
-	$notfirst = false;
-	foreach($waters as $index => $water)
-	{
-		foreach($water as $key => $value)
-		{
-			if ( strncmp($key,"info",4)==0 )
-			{
-				$cmdid="";
-				sscanf($value,"#%d#",$cmdid);
+	sendAccess();
 
-				if ($cmdid!="")
-				{
-					$cmd = cmd::byId($cmdid);
-					$resultcmd = $cmd->execute();
-					if ($resultcmd == "")
-						$water[$key]  = "0" ;
-					else
-						$water[$key] = (string)$resultcmd ;
-				}
-			}
-		}
-		if ( $notfirst )
-			echo (' , ');
-		echo ( json_encode ($water ));
-		$notfirst = true;
-	}		
+	echo ' ,"thermos": ';
 	
-	echo ' ] ,"equips": [';
-	$equips = $eqLogic->getConfiguration('equips');
-	$notfirst = false;
-	foreach($equips as $index => $equip)
-	{
-		foreach($equip as $key => $value)
-		{
-			if ( strncmp($key,"info",4)==0 )
-			{
-				$cmdid="";
-				sscanf($value,"#%d#",$cmdid);
+	sendThermos();
+	
+	echo ' ,"waters": ';
+	
+	sendWaters();
+	
+	echo ' ,"equips": ';
 
-				if ($cmdid!="")
-				{
-					$cmd = cmd::byId($cmdid);
-					$resultcmd = $cmd->execute();
-					if ($resultcmd == "")
-						$equip[$key]  = "0" ;
-					else
-						$equip[$key] = (string)$resultcmd ;
-				}
-			}
-
-		}
-		if ( $notfirst )
-			echo (' , ');
-		echo ( json_encode ($equip ));
-		$notfirst = true;
-	}	
-	echo ' ] }';
+	sendEquips();
+	
+	echo ' }';
 
 }	
 
@@ -265,17 +358,41 @@ if ( init('func') == 'getui' )
 {
 	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getui&uid=58248a5a41c45
 	
-	echo ' {"local" : ';
 	sendKodi();
-	echo ' , "global" : ';
-	
-	$masterid = $eqLogic->getConfiguration('MasterCfg');
-	$eqLogic = eqLogic::byid($masterid);
-	sendKodi();
-	echo ' } ';
 	
 }
 
+
+if ( init('func') == 'getlights' )
+{
+	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getlights&uid=58248a5a41c45
+	
+	$masterid = $eqLogic->getConfiguration('MasterCfg');
+	$eqLogic = eqLogic::byid($masterid);
+	sendLights();
+	
+}
+
+
+
+if ( init('func') == 'getacces' )
+{
+	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getmasterui&uid=58248a5a41c45
+	
+	$masterid = $eqLogic->getConfiguration('MasterCfg');
+	$eqLogic = eqLogic::byid($masterid);
+	sendAccess();
+	
+}
+
+if ( init('func') == 'getshortcuts' )
+{
+	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getshortcuts&uid=58248a5a41c45
+	log::add('kodiasgui', 'info', 'getshortcuts command received.');
+	$masterid = $eqLogic->getConfiguration('MasterCfg');
+	$eqLogic = eqLogic::byid($masterid);
+	sendShortCuts();
+}
 
 
 if ( init('group') == 'light' )
@@ -284,8 +401,13 @@ if ( init('group') == 'light' )
 	
 	if ( init('func') == 'switch' )
 	{
-		$lights = $eqLogic->getConfiguration('lights');
+		if ( init('mode') == 'global' )
+		{
+			$masterid = $eqLogic->getConfiguration('MasterCfg');
+			$eqLogic = eqLogic::byid($masterid);			
+		}
 		
+		$lights = $eqLogic->getConfiguration('lights');
 		$lightID = intval (init('obj')) - 1;
 		
 		$mylight = $lights[$lightID];
