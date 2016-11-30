@@ -388,7 +388,7 @@ if ( init('func') == 'getacces' )
 if ( init('func') == 'getshortcuts' )
 {
 	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getshortcuts&uid=58248a5a41c45
-	log::add('kodiasgui', 'info', 'getshortcuts command received.');
+	
 	$masterid = $eqLogic->getConfiguration('MasterCfg');
 	$eqLogic = eqLogic::byid($masterid);
 	sendShortCuts();
@@ -403,6 +403,7 @@ if ( init('group') == 'light' )
 	{
 		if ( init('mode') == 'global' )
 		{
+			log::add('kodiasgui', 'info', 'global command received.');
 			$masterid = $eqLogic->getConfiguration('MasterCfg');
 			$eqLogic = eqLogic::byid($masterid);			
 		}
