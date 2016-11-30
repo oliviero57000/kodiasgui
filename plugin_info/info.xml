@@ -7,6 +7,6 @@
     <licence>AGPL</licence>
     <author>Remy Mesnard</author>
     <installation>Aucune</installation>
-    <require>1.192</require>
+    <require>2.4.6</require>
     <category>multimedia</category>
 </info>

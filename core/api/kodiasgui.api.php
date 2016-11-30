@@ -403,7 +403,6 @@ if ( init('group') == 'light' )
 	{
 		if ( init('mode') == 'global' )
 		{
-			log::add('kodiasgui', 'info', 'global command received.');
 			$masterid = $eqLogic->getConfiguration('MasterCfg');
 			$eqLogic = eqLogic::byid($masterid);			
 		}

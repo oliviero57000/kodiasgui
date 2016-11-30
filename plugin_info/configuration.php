@@ -24,12 +24,7 @@ if (!isConnect()) {
 ?>
 <form class="form-horizontal">
     <fieldset>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">{{Ajout automatique de nouveaux équipements}}</label>
-            <div class="col-sm-2">
-                <input type="checkbox" class="configKey bootstrapSwitch enableType" data-size="small" data-l1key="enablediscover"/>
-            </div>
-        </div>
+
     </fieldset>
 </form>
 
