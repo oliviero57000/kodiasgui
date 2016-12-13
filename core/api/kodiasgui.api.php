@@ -113,7 +113,7 @@ function sendAccess()
 	echo ' ] ';
 }
 
-function sendThermos()
+function sendTherms()
 {
 	global $eqLogic,$cmd;
 	echo '[';
@@ -262,7 +262,7 @@ function sendKodi()
 
 	echo ' ,"thermos": ';
 	
-	sendThermos();
+	sendTherms();
 	
 	echo ' ,"waters": ';
 	
@@ -322,6 +322,63 @@ if (init('apikey') != config::byKey('api') || config::byKey('api') == '') {
 
 */
 
+
+if ( init('func') == 'getdesign' )
+{
+	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getdesign&plan=1&uid=58248a5a41c45
+
+	//$plan = plan::byPlanHeaderId(init('plan'));
+	
+	$planHeader = null;
+	$planHeaders = planHeader::all();
+	$planid = init('plan');
+
+	if (init('plan') != '') {
+		foreach ($planHeaders as $planHeader_select) {
+			if ($planHeader_select->getId() == init('plan')) {
+				$planHeader = $planHeader_select;
+				break;
+			}
+		}
+		
+	}	
+	
+    $filename = $planHeader->getImage('sha1') . '.' . $planHeader->getImage('type');
+   //  $size = $this->getImage('size');
+   // return '<img src="core/img/plan/' . $filename . '" data-sixe_y="' . $size[1] . '" data-sixe_x="' . $size[0] . '">';
+	
+	
+
+	echo ' {"name" : "'.$planHeader->getName().'" , "image" : "'.$filename.'" , "plan" : [ ';
+	
+	$plans = plan::all();
+	
+	//$views->getName()
+	foreach ($plans as $plan) 
+	{
+		if ( $plan->getPlanHeader_id() == $planid )
+		{
+			echo ' { "id" :"'.$plan->getId().'" , "x" : "'.$plan->getPosition("left").'" , "y" : "'.$plan->getPosition("top").'"  } ';
+			
+		//	echo $plan->getLink().'   '; 
+			echo $plan->getLink_type().'   '; 
+			echo $plan->getLink_id().'   '; 
+			
+			echo $plan->getLink()->getName().'   '; 
+			echo $plan->getLink()->getEqType_name().'   '; 
+			echo $plan->getLink()->getConfiguration('KodiType').'   '; 
+	
+		}
+
+	}	
+
+
+//echo($retourOk);
+//		echo(json_encode($view));
+
+}	
+
+
 if ( init('func') == 'getcmds' )
 {
 	// http://192.168.0.38//plugins/kodi/core/api/kodi.api.php?func=getcmds&cmds=21,22
@@ -362,7 +419,6 @@ if ( init('func') == 'getui' )
 	
 }
 
-
 if ( init('func') == 'getlights' )
 {
 	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getlights&uid=58248a5a41c45
@@ -373,15 +429,23 @@ if ( init('func') == 'getlights' )
 	
 }
 
-
-
 if ( init('func') == 'getacces' )
 {
-	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getmasterui&uid=58248a5a41c45
+	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getacces&uid=58248a5a41c45
 	
 	$masterid = $eqLogic->getConfiguration('MasterCfg');
 	$eqLogic = eqLogic::byid($masterid);
 	sendAccess();
+	
+}
+
+if ( init('func') == 'gettherms' )
+{
+	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=gettherms&uid=58248a5a41c45
+	
+	$masterid = $eqLogic->getConfiguration('MasterCfg');
+	$eqLogic = eqLogic::byid($masterid);
+	sendTherms();
 	
 }
 
@@ -488,6 +552,15 @@ if ( init('group') == 'acces' )
 		 
 		echo ( json_encode ($myacces ));
 	}
+
+	
+}
+
+if ( init('group') == 'thermo' )
+{
+	// log::add('kodiasgui', 'info', 'light command received.');
+	
+
 
 	
 }
