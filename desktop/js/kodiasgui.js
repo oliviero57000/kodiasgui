@@ -304,15 +304,7 @@ function addWater( _water ) {
 }
 
 // Thermos
- 
- $("#table_cmdtherm").delegate(".listEquipementAction", 'click', function () {
-    var el = $(this);
-    jeedom.cmd.getSelectModal({cmd: {type: 'action', subType: 'other'}}, function (result) {
-        var calcul = el.closest('tr').find('.eqcfg[cfg-name=' + el.attr('fct') + ']');
-        calcul.atCaret('insert', result.human);
-    });
-});
- 
+
  $("#table_cmdtherm").delegate(".listEquipementInfo", 'click', function () {
 	 var el = $(this);
     jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function (result) {
@@ -320,15 +312,6 @@ function addWater( _water ) {
 		calcul.atCaret('insert', result.human);
     });
 }); 
- 
- $("#table_therminfo").delegate(".listEquipementInfo", 'click', function () {
-	 var el = $(this);
-	 
-    jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function (result) {
-		var calcul = el.closest('tr').find('.eqinfos[cfg-name='+el.attr('fct')+']');
-		calcul.atCaret('insert', result.human);
-    });
-});  
 
  $('#table_cmdtherm tbody').delegate('tr .remove', 'click', function (event) {
     $(this).closest('tr').remove();
@@ -342,7 +325,7 @@ function addWater( _water ) {
 	if ( el != null )
 	  thermoidx = parseInt(el)+1;
 
-	addThermo({index: thermoidx, name : 'Chauffage', cmdON : 0 , cmdOFF : 0 , infoSTATUS : 0 , infoCONSIGNE : 0 , cmdAUTO : 0 });
+	addThermo({index: thermoidx, name : 'Sonde', type : '' , infoSTATUS : '' });
 });	
  
 function addThermo( _thermo ) {
@@ -355,49 +338,119 @@ function addThermo( _thermo ) {
 	tr += '<input type="text" class="eqcfg form-control" cfg-name="cfg_thermo'+_thermo.index+'_name" />';
 	tr += '</td>';
 	tr += '<td><select class="eqcfg form-control" cfg-name="cfg_thermo'+_thermo.index+'_type">';
-	if ( _thermo.type == 'Radiateur' )
+	if ( _thermo.type == 'temp' )
+		tr += '<option value="temp" selected>{{Température}}</option>';
+	else
+		tr += '<option value="temp" >{{Température}}</option>';
+	if ( _thermo.type == 'hum' )
+		tr += '<option value="hum" selected>{{Humidité}}</option>';
+	else
+		tr += '<option value="hum" >{{Humidité}}</option>';
+	tr += '</select>';	
+	tr += '</td>';		
+	tr += '<td>';
+	tr += '<input class="eqcfg form-control input-sm" cfg-name="cfg_thermo'+_thermo.index+'_status" placeholder="{{Info STATUS}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />';
+	tr += '<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="cfg_thermo'+_thermo.index+'_status" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>';
+	tr += '</td>';
+
+
+	tr += '<td>';	
+	tr += '<a class="btn btn-default btn-sm cursor remove" style="margin-left : 5px;"><i class="fa fa-minus-circle "></i> {{Supprimer}}</a>';	
+	tr += '</td></tr>';	
+   
+   $('#table_cmdtherm tbody').append(tr);
+   $('#table_cmdtherm tbody').find('.eqcfg[cfg-name=cfg_thermo'+_thermo.index+'_name]').val(_thermo.name);
+   $('#table_cmdtherm tbody').find('.eqcfg[cfg-name=cfg_thermo'+_thermo.index+'_status]').val(_thermo.infoSTATUS);
+}
+
+// Heats
+ 
+ $("#table_cmdheat").delegate(".listEquipementAction", 'click', function () {
+    var el = $(this);
+    jeedom.cmd.getSelectModal({cmd: {type: 'action', subType: 'other'}}, function (result) {
+        var calcul = el.closest('tr').find('.eqcfg[cfg-name=' + el.attr('fct') + ']');
+        calcul.atCaret('insert', result.human);
+    });
+});
+ 
+ $("#table_cmdheat").delegate(".listEquipementInfo", 'click', function () {
+	 var el = $(this);
+    jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function (result) {
+		var calcul = el.closest('tr').find('.eqcfg[cfg-name='+el.attr('fct')+']');
+		calcul.atCaret('insert', result.human);
+    });
+}); 
+ 
+
+ $('#table_cmdheat tbody').delegate('tr .remove', 'click', function (event) {
+    $(this).closest('tr').remove();
+});
+
+ $("#bt_addheat").on('click', function (event) {
+    	
+	var el = $('#table_cmdheat tbody tr:last').attr('data-cfg_id');
+	var thermoidx =1;
+	
+	if ( el != null )
+	  thermoidx = parseInt(el)+1;
+
+	addHeat({index: thermoidx, name : 'Chauffage', cmdON : 0 , cmdOFF : 0 , infoSTATUS : 0 , infoCONSIGNE : 0 , cmdAUTO : 0 });
+});	
+ 
+function addHeat( _heat ) {
+	
+	 var tr = '<tr class="trheat" data-cfg_id="' + _heat.index + '" >';
+	 tr += '<td>';
+	 tr += _heat.index;
+	 tr += '</td>';
+	tr += '<td>';
+	tr += '<input type="text" class="eqcfg form-control" cfg-name="cfg_heat'+_heat.index+'_name" />';
+	tr += '</td>';
+	tr += '<td><select class="eqcfg form-control" cfg-name="cfg_heat'+_heat.index+'_type">';
+	if ( _heat.type == 'Radiateur' )
 		tr += '<option selected>{{Radiateur}}</option>';
 	else
 		tr += '<option >{{Radiateur}}</option>';
-	if ( _thermo.type == 'Climatiseur' )
+	if ( _heat.type == 'Climatiseur' )
 		tr += '<option selected>{{Climatiseur}}</option>';
 	else
 		tr += '<option>{{Climatiseur}}</option>';
 	tr += '</select>';	
 	tr += '</td>';		
 	tr += '<td>';
-	tr += '<input class="eqcfg form-control input-sm" cfg-name="cfg_thermo'+_thermo.index+'_consigne" placeholder="{{Info CONSIGNE}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />';
-	tr += '<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="cfg_thermo'+_thermo.index+'_consigne" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>';
+	tr += '<input class="eqcfg form-control input-sm" cfg-name="cfg_heat'+_heat.index+'_consigne" placeholder="{{Info CONSIGNE}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />';
+	tr += '<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="cfg_heat'+_heat.index+'_consigne" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>';
 	tr += '</td>';
 	tr += '<td>';
-	tr += '<input class="eqcfg form-control input-sm" cfg-name="cfg_thermo'+_thermo.index+'_status" placeholder="{{Info STATUS}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />';
-	tr += '<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="cfg_thermo'+_thermo.index+'_status" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>';
+	tr += '<input class="eqcfg form-control input-sm" cfg-name="cfg_heat'+_heat.index+'_status" placeholder="{{Info STATUS}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />';
+	tr += '<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="cfg_heat'+_heat.index+'_status" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>';
 	tr += '</td>';
 	tr += '<td>';
-	tr += '<input class="eqcfg form-control input-sm" cfg-name="cfg_thermo'+_thermo.index+'_on" placeholder="{{Commande ON}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />';
-	tr += '<a class="btn btn-default btn-sm cursor listEquipementAction" fct="cfg_thermo'+_thermo.index+'_on" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>';
+	tr += '<input class="eqcfg form-control input-sm" cfg-name="cfg_heat'+_heat.index+'_on" placeholder="{{Commande ON}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />';
+	tr += '<a class="btn btn-default btn-sm cursor listEquipementAction" fct="cfg_heat'+_heat.index+'_on" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>';
 	tr += '</td>';
 	tr += '<td>';
-	tr += '<input class="eqcfg form-control input-sm" cfg-name="cfg_thermo'+_thermo.index+'_off" placeholder="{{Commande OFF}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />';
-	tr += '<a class="btn btn-default btn-sm cursor listEquipementAction" fct="cfg_thermo'+_thermo.index+'_off" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>';
+	tr += '<input class="eqcfg form-control input-sm" cfg-name="cfg_heat'+_heat.index+'_off" placeholder="{{Commande OFF}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />';
+	tr += '<a class="btn btn-default btn-sm cursor listEquipementAction" fct="cfg_heat'+_heat.index+'_off" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>';
 	tr += '</td>';	
 	tr += '<td>';
-	tr += '<input class="eqcfg form-control input-sm" cfg-name="cfg_thermo'+_thermo.index+'_auto" placeholder="{{Commande AUTO}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />';
-	tr += '<a class="btn btn-default btn-sm cursor listEquipementAction" fct="cfg_thermo'+_thermo.index+'_auto" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>';
+	tr += '<input class="eqcfg form-control input-sm" cfg-name="cfg_heat'+_heat.index+'_auto" placeholder="{{Commande AUTO}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />';
+	tr += '<a class="btn btn-default btn-sm cursor listEquipementAction" fct="cfg_heat'+_heat.index+'_auto" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>';
 	tr += '</td>';	
 	tr += '<td>';	
 	tr += '<a class="btn btn-default btn-sm cursor remove" style="margin-left : 5px;"><i class="fa fa-minus-circle "></i> {{Supprimer}}</a>';	
 	tr += '</td></tr>';	
    
-   $('#table_cmdtherm tbody').append(tr);
+   $('#table_cmdheat tbody').append(tr);
   
-   $('#table_cmdtherm tbody').find('.eqcfg[cfg-name=cfg_thermo'+_thermo.index+'_name]').val(_thermo.name);
-   $('#table_cmdtherm tbody').find('.eqcfg[cfg-name=cfg_thermo'+_thermo.index+'_on]').val(_thermo.cmdON);
-   $('#table_cmdtherm tbody').find('.eqcfg[cfg-name=cfg_thermo'+_thermo.index+'_off]').val(_thermo.cmdOFF);
-   $('#table_cmdtherm tbody').find('.eqcfg[cfg-name=cfg_thermo'+_thermo.index+'_auto]').val(_thermo.cmdAUTO);
-   $('#table_cmdtherm tbody').find('.eqcfg[cfg-name=cfg_thermo'+_thermo.index+'_consigne]').val(_thermo.infoCONSIGNE);
-   $('#table_cmdtherm tbody').find('.eqcfg[cfg-name=cfg_thermo'+_thermo.index+'_status]').val(_thermo.infoSTATUS);
+   $('#table_cmdheat tbody').find('.eqcfg[cfg-name=cfg_heat'+_heat.index+'_name]').val(_heat.name);
+   $('#table_cmdheat tbody').find('.eqcfg[cfg-name=cfg_heat'+_heat.index+'_on]').val(_heat.cmdON);
+   $('#table_cmdheat tbody').find('.eqcfg[cfg-name=cfg_heat'+_heat.index+'_off]').val(_heat.cmdOFF);
+   $('#table_cmdheat tbody').find('.eqcfg[cfg-name=cfg_heat'+_heat.index+'_auto]').val(_heat.cmdAUTO);
+   $('#table_cmdheat tbody').find('.eqcfg[cfg-name=cfg_heat'+_heat.index+'_consigne]').val(_heat.infoCONSIGNE);
+   $('#table_cmdheat tbody').find('.eqcfg[cfg-name=cfg_heat'+_heat.index+'_status]').val(_heat.infoSTATUS);
 }
+
 
 // Equips
  
@@ -547,22 +600,22 @@ function addShortcut( _shortcut ) {
 	tr += '<input type="text" class="eqcfg form-control" cfg-name="cfg_shortcut'+_shortcut.index+'_name" />';
 	tr += '</td>';
 	tr += '<td><select class="eqcfg form-control" cfg-name="cfg_shortcut'+_shortcut.index+'_menu">';
-	if ( _shortcut.menu == 'Eclairage' )
-		tr += '<option selected>{{Eclairage}}</option>';
+	if ( _shortcut.menu == 'light' )
+		tr += '<option value="light" selected>{{Eclairage}}</option>';
 	else
-		tr += '<option >{{Eclairage}}</option>';
-	if ( _shortcut.menu == 'Securite' )
-		tr += '<option selected>{{Sécurité}}</option>';
+		tr += '<option value="light" >{{Eclairage}}</option>';
+	if ( _shortcut.menu == 'safety' )
+		tr += '<option value="safety" selected>{{Sécurité}}</option>';
 	else
-		tr += '<option>{{Sécurité}}</option>';
-	if ( _shortcut.menu == 'Chauffage' )
-		tr += '<option selected>{{Chauffage}}</option>';
+		tr += '<option value="safety" >{{Sécurité}}</option>';
+	if ( _shortcut.menu == 'heat' )
+		tr += '<option value="heat" selected>{{Chauffage}}</option>';
 	else
-		tr += '<option>{{Chauffage}}</option>';
-	if ( _shortcut.menu == 'Energie' )
-		tr += '<option selected>{{Energie}}</option>';
+		tr += '<option value="heat" >{{Chauffage}}</option>';
+	if ( _shortcut.menu == 'energy' )
+		tr += '<option  value="energy" selected>{{Energie}}</option>';
 	else
-		tr += '<option>{{Energie}}</option>';
+		tr += '<option  value="energy" >{{Energie}}</option>';
 	tr += '</select>';	
 	tr += '</td>';		
 	tr += '<td>';
@@ -630,11 +683,6 @@ function updateInfos(_infos) {
 
 	$('#table_lightinfo tbody').find('.eqinfos[cfg-name=eqinfos_infoLUMEN]').val(_infos.infoLUMEN);
 	
-	$('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_infotempint]').val(_infos.infotempint);
-	$('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_infotempext]').val(_infos.infotempext);
-	$('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_infohumint]').val(_infos.infohumint);
-	$('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_infohumext]').val(_infos.infohumext);
-	
 	$('#table_accesinfo tbody').find('.eqinfos[cfg-name=eqinfos_infopresent]').val(_infos.infopresent);
 	
 	$('#table_waterinfo tbody').find('.eqinfos[cfg-name=eqinfos_infoflood]').val(_infos.infoflood);
@@ -647,6 +695,7 @@ function updateInfos(_infos) {
     $('#table_cmdlight tbody').empty();
     $('#table_cmdacces tbody').empty();
 	$('#table_cmdtherm tbody').empty();
+	$('#table_cmdheat tbody').empty();
 	$('#table_cmdwater tbody').empty();
 	$('#table_cmdequip tbody').empty();
 	$('#table_cmdshort tbody').empty();
@@ -673,6 +722,12 @@ function updateInfos(_infos) {
             }
         }
 
+        if (isset(_eqLogic.configuration.heats)) {
+            for (var i in _eqLogic.configuration.heats) {
+                addHeat(_eqLogic.configuration.heats[i]);
+            }
+        }
+		
         if (isset(_eqLogic.configuration.waters)) {
             for (var i in _eqLogic.configuration.waters) {
                 addWater(_eqLogic.configuration.waters[i]);
@@ -730,7 +785,7 @@ function updateInfos(_infos) {
 
     _eqLogic.configuration.thermos = [];
     $('#table_cmdtherm tbody .trtherm').each(function () {
-		var thermo = { index : 0 , name : '', cmdON : 0 , cmdOFF : 0 , infoCONSIGNE : 0, cmdAUTO : 0, infoSTATUS : 0 };
+		var thermo = { index : 0 , name : '', type : '', cmdON : 0 , cmdOFF : 0 , infoCONSIGNE : 0, cmdAUTO : 0, infoSTATUS : 0 };
 
         thermo.index = $(this).attr('data-cfg_id');
 		thermo.name = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_name]').value();
@@ -743,6 +798,17 @@ function updateInfos(_infos) {
         _eqLogic.configuration.thermos.push(thermo);
     });
 
+	_eqLogic.configuration.heats = [];
+    $('#table_cmdheat tbody .trheat').each(function () {
+		var heat = { index : 0 , name : '', type : 0 , infoSTATUS : 0 };
+
+        heat.index = $(this).attr('data-cfg_id');
+		heat.name = $(this).find('.eqcfg[cfg-name=cfg_heat'+heat.index+'_name]').value();
+		heat.type = $(this).find('.eqcfg[cfg-name=cfg_heat'+heat.index+'_type]').value();		
+        heat.infoSTATUS = $(this).find('.eqcfg[cfg-name=cfg_heat'+heat.index+'_status]').value();
+        _eqLogic.configuration.heats.push(heat);
+    });
+	
     _eqLogic.configuration.waters = [];
     $('#table_cmdwater tbody .trwater').each(function () {
 		var water = { index : 0 , name : '', type : '', cmdOPEN : 0 , cmdCLOSE : 0 , infoDEBIT : 0, infoCONSO : 0, infoSTATUS : 0 };
@@ -792,12 +858,7 @@ function updateInfos(_infos) {
 		infoFIRE : 0, 
 		
 		infoLUMEN : 0, 
-		
-		infotempint : 0, 
-		infotempext : 0, 
-		infohumint : 0, 
-		infohumext : 0, 
-		
+
 		infopresent : 0,
 		
 		infoflood : 0 
@@ -809,11 +870,6 @@ function updateInfos(_infos) {
 
 	
 	_eqLogic.configuration.ginfos.infoLUMEN = $('#table_lightinfo tbody').find('.eqinfos[cfg-name=eqinfos_infoLUMEN]').value();
-
-	_eqLogic.configuration.ginfos.infotempint = $('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_infotempint]').value();
-	_eqLogic.configuration.ginfos.infotempext = $('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_infotempext]').value();
-	_eqLogic.configuration.ginfos.infohumint = $('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_infohumint]').value();
-	_eqLogic.configuration.ginfos.infohumext = $('#table_therminfo tbody').find('.eqinfos[cfg-name=eqinfos_infohumext]').value();
 
 	_eqLogic.configuration.ginfos.infopresent = $('#table_accesinfo tbody').find('.eqinfos[cfg-name=eqinfos_infopresent]').value();
 	
@@ -829,7 +885,6 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=type]').on('change', functi
 		$('#table_cmdinfo').hide();
 		$('#table_lightinfo').hide();
 		$('#table_accesinfo').hide();
-		$('#table_therminfo').hide();
 		$('#table_waterinfo').hide();
     }
 	if($(this).value()=='notshared'){
@@ -837,7 +892,6 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=type]').on('change', functi
 		$('#table_cmdinfo').show();
 		$('#table_lightinfo').show();
 		$('#table_accesinfo').show();
-		$('#table_therminfo').show();
 		$('#table_waterinfo').show();
     }
 	

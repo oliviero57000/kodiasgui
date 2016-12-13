@@ -12,28 +12,31 @@ function sendShortCuts()
 	$notfirst = false;
 	foreach($shortcuts as $index => $shortcut)
 	{
-		foreach($shortcut as $key => $value)
+		if ($shortcut['menu'] == init('menu') )
 		{
-			if ( strncmp($key,"info",4)==0 )
+			foreach($shortcut as $key => $value)
 			{
-				$cmdid="";
-				sscanf($value,"#%d#",$cmdid);
-
-				if ($cmdid!="")
+				if ( strncmp($key,"info",4)==0 )
 				{
-					$cmd = cmd::byId($cmdid);
-					$resultcmd = $cmd->execute();
-					if ($resultcmd == "")
-						$shortcut[$key]  = "0" ;
-					else
-						$shortcut[$key] = (string)$resultcmd ;
+					$cmdid="";
+					sscanf($value,"#%d#",$cmdid);
+
+					if ($cmdid!="")
+					{
+						$cmd = cmd::byId($cmdid);
+						$resultcmd = $cmd->execute();
+						if ($resultcmd == "")
+							$shortcut[$key]  = "0" ;
+						else
+							$shortcut[$key] = (string)$resultcmd ;
+					}
 				}
 			}
+			if ( $notfirst )
+				echo (' , ');
+			echo ( json_encode ($shortcut ));
+			$notfirst = true;
 		}
-		if ( $notfirst )
-			echo (' , ');
-		echo ( json_encode ($shortcut ));
-		$notfirst = true;
 	}	
 	
 	echo ' ] ';
@@ -149,6 +152,43 @@ function sendTherms()
 	echo ' ] ';
 }
 
+function sendHeats()
+{
+	global $eqLogic,$cmd;
+	echo '[';
+
+	$heats = $eqLogic->getConfiguration('heats');
+	$notfirst = false;
+	foreach($heats as $index => $heat)
+	{
+		foreach($heat as $key => $value)
+		{
+			if ( strncmp($key,"info",4)==0 )
+			{
+				$cmdid="";
+				sscanf($value,"#%d#",$cmdid);
+
+				if ($cmdid!="")
+				{
+					$cmd = cmd::byId($cmdid);
+					$resultcmd = $cmd->execute();
+					if ($resultcmd == "")
+						$heat[$key]  = "0" ;
+					else
+						$heat[$key] = (string)$resultcmd ;
+				}
+			}
+		}
+		if ( $notfirst )
+			echo (' , ');
+		echo ( json_encode ($heat ));
+		$notfirst = true;
+	}	
+
+	echo ' ] ';
+}
+
+
 function sendWaters()
 {
 	global $eqLogic,$cmd;
@@ -263,6 +303,10 @@ function sendKodi()
 	echo ' ,"thermos": ';
 	
 	sendTherms();
+	
+	echo ' ,"heats": ';
+	
+	sendHeats();
 	
 	echo ' ,"waters": ';
 	
@@ -446,6 +490,16 @@ if ( init('func') == 'gettherms' )
 	$masterid = $eqLogic->getConfiguration('MasterCfg');
 	$eqLogic = eqLogic::byid($masterid);
 	sendTherms();
+	
+}
+
+if ( init('func') == 'getheats' )
+{
+	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getheats&uid=58248a5a41c45
+	
+	$masterid = $eqLogic->getConfiguration('MasterCfg');
+	$eqLogic = eqLogic::byid($masterid);
+	sendHeats();
 	
 }
 

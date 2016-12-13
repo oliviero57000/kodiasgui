@@ -368,61 +368,26 @@ $eqLogics = eqLogic::byType('kodiasgui');
 					<div role="tabpanel" class="tab-pane" id="cmdTherms" >
 					<br>
 
-					<table id="table_therminfo" class="table table-bordered table-condensed">
+					<a class="btn btn-primary btn-sm  pull-left" id="bt_addtherm"><i class="fa fa-plus-circle"></i> {{Ajouter un capteur d'humiditée ou de température}}</a>
+					<br/><br/>
+					<table id="table_cmdtherm" class="table table-bordered table-condensed">
 					<thead>
 						<tr>
-							<th>{{Information}}</th>
+							<th>#</th>
+							<th>{{Nom}}</th>
+							<th>{{Type}}</th>
 							<th>{{Info STATUS}}</th>
+							<th></th>
 						</tr>
 					</thead>					
 					<tbody>
-					
-					<tr style="background-color : lightgrey;" >
-						<td colspan="2" >{{Températures}}</td>
-					</tr>	
-					
-					<tr>
-						<td>{{Température pièce}}</td>
-						<td>
-						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_infotempint" placeholder="{{Capteur Tempèrature Intérieur}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
-						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_infotempint" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
-						</td>
-					</tr>
 
-					<tr>
-						<td>{{Température exterieure}}</td>
-						<td>
-						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_infotempext" placeholder="{{Capteur Tempèrature Extérieure}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
-						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_infotempext" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
-						</td>
-					</tr>
-
-					<tr style="background-color : lightgrey;" >
-						<td colspan="2" >{{Humidités}}</td>
-					</tr>	
-					
-					<tr>
-						<td>{{Humidité pièce}}</td>
-						<td>
-						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_infohumint" placeholder="{{Capteur Tempèrature Intérieur}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
-						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_infohumint" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
-						</td>
-					</tr>
-
-					<tr>
-						<td>{{Humidité exterieure}}</td>
-						<td>
-						<input class="eqinfos form-control input-sm" cfg-name="eqinfos_infohumext" placeholder="{{Capteur Tempèrature Extérieure}}" style="margin-bottom : 5px;width : 70%; display : inline-block;" />
-						<a class="btn btn-default btn-sm cursor listEquipementInfo" fct="eqinfos_infohumext" style="margin-left : 5px;"><i class="fa fa-list-alt "></i> {{Rechercher équipement}}</a>
-						</td>
-					</tr>
-					
 					</tbody>
-					</table>					
+					</table>				
 
-					<a class="btn btn-primary btn-sm  pull-left" id="bt_addtherm"><i class="fa fa-plus-circle"></i> {{Ajouter un chauffage ou une climatisation}}</a>
+					<a class="btn btn-primary btn-sm  pull-left" id="bt_addheat"><i class="fa fa-plus-circle"></i> {{Ajouter un chauffage ou une climatisation}}</a>
 					<br/><br/>
-					<table id="table_cmdtherm" class="table table-bordered table-condensed">
+					<table id="table_cmdheat" class="table table-bordered table-condensed">
 					<thead>
 						<tr>
 							<th>#</th>
