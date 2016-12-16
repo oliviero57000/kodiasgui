@@ -373,6 +373,8 @@ if ( init('func') == 'getdesign' )
 
 	//$plan = plan::byPlanHeaderId(init('plan'));
 	
+	
+	
 	$planHeader = null;
 	$planHeaders = planHeader::all();
 	$planid = init('plan');
@@ -386,12 +388,12 @@ if ( init('func') == 'getdesign' )
 		}
 		
 	}	
-	
+
+	if ( $planHeader != null )
+	{
     $filename = $planHeader->getImage('sha1') . '.' . $planHeader->getImage('type');
    //  $size = $this->getImage('size');
    // return '<img src="core/img/plan/' . $filename . '" data-sixe_y="' . $size[1] . '" data-sixe_x="' . $size[0] . '">';
-	
-	
 
 	echo ' {"name" : "'.$planHeader->getName().'" , "image" : "'.$filename.'" , "plan" : [ ';
 	
@@ -410,12 +412,13 @@ if ( init('func') == 'getdesign' )
 			
 			echo $plan->getLink()->getName().'   '; 
 			echo $plan->getLink()->getEqType_name().'   '; 
-			echo $plan->getLink()->getConfiguration('KodiType').'   '; 
+		//	echo $plan->getLink()->getConfiguration('KodiType').'   '; 
 	
 		}
 
 	}	
 
+	}
 
 //echo($retourOk);
 //		echo(json_encode($view));

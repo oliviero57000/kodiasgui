@@ -394,7 +394,7 @@ function addThermo( _thermo ) {
 	if ( el != null )
 	  thermoidx = parseInt(el)+1;
 
-	addHeat({index: thermoidx, name : 'Chauffage', cmdON : 0 , cmdOFF : 0 , infoSTATUS : 0 , infoCONSIGNE : 0 , cmdAUTO : 0 });
+	addHeat({index: thermoidx, name : 'Chauffage',group : '', cmdON : 0 , cmdOFF : 0 , infoSTATUS : 0 , infoCONSIGNE : 0 , cmdAUTO : 0 });
 });	
  
 function addHeat( _heat ) {
@@ -405,6 +405,9 @@ function addHeat( _heat ) {
 	 tr += '</td>';
 	tr += '<td>';
 	tr += '<input type="text" class="eqcfg form-control" cfg-name="cfg_heat'+_heat.index+'_name" />';
+	tr += '</td>';
+	tr += '<td>';
+	tr += '<input type="text" class="eqcfg form-control" cfg-name="cfg_heat'+_heat.index+'_group" />';
 	tr += '</td>';
 	tr += '<td><select class="eqcfg form-control" cfg-name="cfg_heat'+_heat.index+'_type">';
 	if ( _heat.type == 'Radiateur' )
@@ -444,6 +447,7 @@ function addHeat( _heat ) {
    $('#table_cmdheat tbody').append(tr);
   
    $('#table_cmdheat tbody').find('.eqcfg[cfg-name=cfg_heat'+_heat.index+'_name]').val(_heat.name);
+   $('#table_cmdheat tbody').find('.eqcfg[cfg-name=cfg_heat'+_heat.index+'_group]').val(_heat.group);   
    $('#table_cmdheat tbody').find('.eqcfg[cfg-name=cfg_heat'+_heat.index+'_on]').val(_heat.cmdON);
    $('#table_cmdheat tbody').find('.eqcfg[cfg-name=cfg_heat'+_heat.index+'_off]').val(_heat.cmdOFF);
    $('#table_cmdheat tbody').find('.eqcfg[cfg-name=cfg_heat'+_heat.index+'_auto]').val(_heat.cmdAUTO);
@@ -783,30 +787,31 @@ function updateInfos(_infos) {
         _eqLogic.configuration.access.push(acces);
     });
 
-    _eqLogic.configuration.thermos = [];
+    _eqLogic.configuration.heats = [];
+    $('#table_cmdheat tbody .trheat').each(function () {
+		var heat = { index : 0 , name : '', group : '' , type : '', cmdON : 0 , cmdOFF : 0 , infoCONSIGNE : 0, cmdAUTO : 0, infoSTATUS : 0 };
+
+        heat.index = $(this).attr('data-cfg_id');
+		heat.name = $(this).find('.eqcfg[cfg-name=cfg_heat'+heat.index+'_name]').value();
+		heat.group = $(this).find('.eqcfg[cfg-name=cfg_heat'+heat.index+'_group]').value();
+		heat.type = $(this).find('.eqcfg[cfg-name=cfg_heat'+heat.index+'_type]').value();		
+        heat.cmdON = $(this).find('.eqcfg[cfg-name=cfg_heat'+heat.index+'_on]').value();
+        heat.cmdOFF = $(this).find('.eqcfg[cfg-name=cfg_heat'+heat.index+'_off]').value();
+        heat.infoCONSIGNE = $(this).find('.eqcfg[cfg-name=cfg_heat'+heat.index+'_consigne]').value();
+        heat.cmdAUTO = $(this).find('.eqcfg[cfg-name=cfg_heat'+heat.index+'_auto]').value();
+        heat.infoSTATUS = $(this).find('.eqcfg[cfg-name=cfg_heat'+heat.index+'_status]').value();
+        _eqLogic.configuration.heats.push(heat);
+    });
+
+	_eqLogic.configuration.thermos = [];
     $('#table_cmdtherm tbody .trtherm').each(function () {
-		var thermo = { index : 0 , name : '', type : '', cmdON : 0 , cmdOFF : 0 , infoCONSIGNE : 0, cmdAUTO : 0, infoSTATUS : 0 };
+		var thermo = { index : 0 , name : '', type : 0 , infoSTATUS : 0 };
 
         thermo.index = $(this).attr('data-cfg_id');
 		thermo.name = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_name]').value();
 		thermo.type = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_type]').value();		
-        thermo.cmdON = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_on]').value();
-        thermo.cmdOFF = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_off]').value();
-        thermo.infoCONSIGNE = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_consigne]').value();
-        thermo.cmdAUTO = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_auto]').value();
         thermo.infoSTATUS = $(this).find('.eqcfg[cfg-name=cfg_thermo'+thermo.index+'_status]').value();
         _eqLogic.configuration.thermos.push(thermo);
-    });
-
-	_eqLogic.configuration.heats = [];
-    $('#table_cmdheat tbody .trheat').each(function () {
-		var heat = { index : 0 , name : '', type : 0 , infoSTATUS : 0 };
-
-        heat.index = $(this).attr('data-cfg_id');
-		heat.name = $(this).find('.eqcfg[cfg-name=cfg_heat'+heat.index+'_name]').value();
-		heat.type = $(this).find('.eqcfg[cfg-name=cfg_heat'+heat.index+'_type]').value();		
-        heat.infoSTATUS = $(this).find('.eqcfg[cfg-name=cfg_heat'+heat.index+'_status]').value();
-        _eqLogic.configuration.heats.push(heat);
     });
 	
     _eqLogic.configuration.waters = [];

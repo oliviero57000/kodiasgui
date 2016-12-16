@@ -392,6 +392,7 @@ $eqLogics = eqLogic::byType('kodiasgui');
 						<tr>
 							<th>#</th>
 							<th>{{Nom}}</th>
+							<th>{{Groupe}}</th>
 							<th>{{Type}}</th>
 							<th>{{Consigne}}</th>
 							<th>{{Info STATUS}}</th>
