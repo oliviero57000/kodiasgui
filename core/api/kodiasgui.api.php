@@ -3,321 +3,283 @@
 require_once dirname(__FILE__) . "/../../../../core/php/core.inc.php";
 	
 //  192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=hello&UID=58089181cdc2b
-
-function sendShortCuts()
+function array_orderby()
 {
-	global $eqLogic,$cmd;
-	echo '[';
-	$shortcuts = $eqLogic->getConfiguration('shortcuts');
-	$notfirst = false;
-	foreach($shortcuts as $index => $shortcut)
+
+	$args = func_get_args();
+
+	$data = array_shift($args);
+
+	foreach ($args as $n => $field)
 	{
-		if ($shortcut['menu'] == init('menu') )
+		if (is_string($field))
 		{
-			foreach($shortcut as $key => $value)
-			{
-				if ( strncmp($key,"info",4)==0 )
-				{
-					$cmdid="";
-					sscanf($value,"#%d#",$cmdid);
-
-					if ($cmdid!="")
-					{
-						$cmd = cmd::byId($cmdid);
-						$resultcmd = $cmd->execute();
-						if ($resultcmd == "")
-							$shortcut[$key]  = "0" ;
-						else
-							$shortcut[$key] = (string)$resultcmd ;
-					}
-				}
-			}
-			if ( $notfirst )
-				echo (' , ');
-			echo ( json_encode ($shortcut ));
-			$notfirst = true;
-		}
-	}	
-	
-	echo ' ] ';
-	
-}
-
-function sendLights()
-{
-	global $eqLogic,$cmd;
-	echo '[';
-	$lights = $eqLogic->getConfiguration('lights');
-	$notfirst = false;
-	foreach($lights as $index => $light)
-	{
-		foreach($light as $key => $value)
-		{
-			if ( strncmp($key,"info",4)==0 )
-			{
-				$cmdid="";
-				sscanf($value,"#%d#",$cmdid);
-
-				if ($cmdid!="")
-				{
-					$cmd = cmd::byId($cmdid);
-					$resultcmd = $cmd->execute();
-					if ($resultcmd == "")
-						$light[$key]  = "0" ;
-					else
-						$light[$key] = (string)$resultcmd ;
-				}
-			}
-		}
-		if ( $notfirst )
-			echo (' , ');
-		echo ( json_encode ($light ));
-		$notfirst = true;
-	}	
-	
-	echo ' ] ';
-	
-}
-
-function sendAccess()
-{
-	global $eqLogic,$cmd;
-	echo '[';
-
-	$access = $eqLogic->getConfiguration('access');
-	$notfirst = false;
-	foreach($access as $index => $acces)
-	{
-		foreach($acces as $key => $value)
-		{
-			if ( strncmp($key,"info",4)==0 )
-			{
-				$cmdid="";
-				sscanf($value,"#%d#",$cmdid);
-
-				if ($cmdid!="")
-				{
-					$cmd = cmd::byId($cmdid);
-					$resultcmd = $cmd->execute();
-					if ($resultcmd == "")
-						$acces[$key]  = "0" ;
-					else
-						$acces[$key] = (string)$resultcmd ;
-				}
-			}
-		}
-		if ( $notfirst )
-			echo (' , ');
-		echo ( json_encode ($acces ));
-		$notfirst = true;
-	}		
-
-
-	echo ' ] ';
-}
-
-function sendTherms()
-{
-	global $eqLogic,$cmd;
-	echo '[';
-
-	$thermos = $eqLogic->getConfiguration('thermos');
-	$notfirst = false;
-	foreach($thermos as $index => $thermo)
-	{
-		foreach($thermo as $key => $value)
-		{
-			if ( strncmp($key,"info",4)==0 )
-			{
-				$cmdid="";
-				sscanf($value,"#%d#",$cmdid);
-
-				if ($cmdid!="")
-				{
-					$cmd = cmd::byId($cmdid);
-					$resultcmd = $cmd->execute();
-					if ($resultcmd == "")
-						$thermo[$key]  = "0" ;
-					else
-						$thermo[$key] = (string)$resultcmd ;
-				}
-			}
-		}
-		if ( $notfirst )
-			echo (' , ');
-		echo ( json_encode ($thermo ));
-		$notfirst = true;
-	}	
-
-	echo ' ] ';
-}
-
-function sendHeats()
-{
-	global $eqLogic,$cmd;
-	echo '[';
-
-	$heats = $eqLogic->getConfiguration('heats');
-	$notfirst = false;
-	foreach($heats as $index => $heat)
-	{
-		foreach($heat as $key => $value)
-		{
-			if ( strncmp($key,"info",4)==0 )
-			{
-				$cmdid="";
-				sscanf($value,"#%d#",$cmdid);
-
-				if ($cmdid!="")
-				{
-					$cmd = cmd::byId($cmdid);
-					$resultcmd = $cmd->execute();
-					if ($resultcmd == "")
-						$heat[$key]  = "0" ;
-					else
-						$heat[$key] = (string)$resultcmd ;
-				}
-			}
-		}
-		if ( $notfirst )
-			echo (' , ');
-		echo ( json_encode ($heat ));
-		$notfirst = true;
-	}	
-
-	echo ' ] ';
-}
-
-
-function sendWaters()
-{
-	global $eqLogic,$cmd;
-	echo '[';
-	
-	$waters = $eqLogic->getConfiguration('waters');
-	$notfirst = false;
-	foreach($waters as $index => $water)
-	{
-		foreach($water as $key => $value)
-		{
-			if ( strncmp($key,"info",4)==0 )
-			{
-				$cmdid="";
-				sscanf($value,"#%d#",$cmdid);
-
-				if ($cmdid!="")
-				{
-					$cmd = cmd::byId($cmdid);
-					$resultcmd = $cmd->execute();
-					if ($resultcmd == "")
-						$water[$key]  = "0" ;
-					else
-						$water[$key] = (string)$resultcmd ;
-				}
-			}
-		}
-		if ( $notfirst )
-			echo (' , ');
-		echo ( json_encode ($water ));
-		$notfirst = true;
-	}		
-	
-	echo ' ] ';
-}
-
-function sendEquips()
-{
-	global $eqLogic,$cmd;
-	echo '[';
-	
-	$equips = $eqLogic->getConfiguration('equips');
-	$notfirst = false;
-	foreach($equips as $index => $equip)
-	{
-		foreach($equip as $key => $value)
-		{
-			if ( strncmp($key,"info",4)==0 )
-			{
-				$cmdid="";
-				sscanf($value,"#%d#",$cmdid);
-
-				if ($cmdid!="")
-				{
-					$cmd = cmd::byId($cmdid);
-					$resultcmd = $cmd->execute();
-					if ($resultcmd == "")
-						$equip[$key]  = "0" ;
-					else
-						$equip[$key] = (string)$resultcmd ;
-				}
-			}
-
-		}
-		if ( $notfirst )
-			echo (' , ');
-		echo ( json_encode ($equip ));
-		$notfirst = true;
-	}	
-
-	echo ' ] ';
-}
-
-function sendKodi()
-{
-	global $eqLogic,$cmd;
-	
-	echo ' {"name" : "'.$eqLogic->getName().'"';
-	
-	$ginfos = $eqLogic->getConfiguration('ginfos');
-
-	foreach($ginfos as $key => $value)
-	{
-		if ( strncmp($key,"info",4)==0 )
-		{
-			$cmdid="";
-			sscanf($value,"#%d#",$cmdid);
-
-			if ($cmdid!="")
-			{
-				$cmd = cmd::byId($cmdid);
-				$resultcmd = $cmd->execute();
-				if ($resultcmd == "")
-					$ginfos[$key] = '0' ;
-				else
-					$ginfos[$key] = (string)$resultcmd ;
-			}
+		$tmp = array();
+		foreach ($data as $key => $row)
+			$tmp[$key] = $row[$field];
+		$args[$n] = $tmp;
 		}
 	}
+	$args[] = &$data;
+	call_user_func_array('array_multisort', $args);
 
-	echo ' , "ginfos":';
-	echo ( json_encode ($ginfos) );
-	
-	echo ' ,"lights": ';
-	
-	sendLights();
+	return array_pop($args);
+}
 
-	echo ',"access": ';
+function sendKodi($planid)
+{
+	global $eqLogic;
 	
-	sendAccess();
+	echo ' {"name" : "'.$eqLogic->getName().'"';
 
-	echo ' ,"thermos": ';
-	
-	sendTherms();
-	
-	echo ' ,"heats": ';
-	
-	sendHeats();
-	
-	echo ' ,"waters": ';
-	
-	sendWaters();
-	
-	echo ' ,"equips": ';
+	$planHeader = null;
+	$planHeaders = planHeader::all();
 
-	sendEquips();
-	
-	echo ' }';
+	if ($planid != '') {
+		foreach ($planHeaders as $planHeader_select) {
+			if ($planHeader_select->getId() == $planid) {
+				$planHeader = $planHeader_select;
+				break;
+			}
+		}
+		
+	}	
 
+	if ( $planHeader != null )
+	{
+    $filename = $planHeader->getImage('sha1') . '.' . $planHeader->getImage('type');
+
+	echo ' , "plan" : "'.$planHeader->getName().'" , "image" : "'.$filename.'" ';
+
+	$planconfig = getKodiConfig($planid);
+	
+	echo ' , "ginfos" : ';
+	echo ( json_encode ($planconfig['ginfos']) );
+	
+	echo ' , "thermos" : ';
+	$sorted = array_orderby($planconfig['thermos'], 'X', SORT_ASC, 'id', SORT_ASC);
+	echo json_encode($sorted);
+
+	echo ' , "access" : ';
+	$sorted = array_orderby($planconfig['access'], 'Y', SORT_ASC, 'id', SORT_ASC);
+	echo json_encode($sorted);
+
+	echo ' , "lights" : ';
+	$sorted = array_orderby($planconfig['lights'], 'Y', SORT_ASC, 'id', SORT_ASC);
+	echo json_encode($sorted);
+
+	echo ' , "alerts" : ';
+	echo json_encode($planconfig['alerts']);
+
+	echo ' , "lumens" : ';
+	echo json_encode($planconfig['lumens']);
+
+	echo ' , "equips" : ';
+	$sorted = array_orderby($planconfig['equips'], 'Y', SORT_ASC, 'id', SORT_ASC);
+	echo json_encode($sorted);
+
+	
+	echo ' } ';
+
+	
+	}
+
+}
+
+function getKodiConfig($planid)
+{
+	global $cmd;
+	
+	$plans = plan::all();
+	
+	$nbthermo=0;
+	$nblight=0;
+	$nbacces=0;
+	$nblumen=0;
+	$nbalert=0;
+	$nbequip=0;
+	
+
+	foreach ($plans as $plan) 
+	{
+		if (( $plan->getPlanHeader_id() == $planid ) &  ( $plan->getLink()->getEqType_name() == 'virtual' ))
+		{
+			$eqparams = $plan->getLink()->getDisplay('parameters'); 
+			
+			switch ($eqparams['Kodi Type']){
+				case "Thermo":
+				case "Hygro":
+					$thermo['name']=$eqparams['Kodi Alias'];
+					
+					$cmds = $plan->getLink()->getCmd();
+					foreach ($cmds as $cmd)
+					{		
+						$cmdname = strtoupper($cmd->getName());
+						if (( $cmdname == "TEMPéRATURE" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
+						{
+							$resultcmd = $cmd->execute();
+							$thermo['Value']=$resultcmd;							
+						}
+					}
+					$thermo['id']=$plan->getId();
+					$thermo['X']=$plan->getPosition("left");
+					$thermo['Y']=$plan->getPosition("top");
+					$thermo['Type']=$eqparams['Kodi Type'];
+					$thermos[$nbthermo++]=$thermo;
+					break;
+				case "Lumen":
+					$lumen['name']=$eqparams['Kodi Alias'];
+					
+					$cmds = $plan->getLink()->getCmd();
+					foreach ($cmds as $cmd)
+					{		
+						$cmdname = strtoupper($cmd->getName());
+						if (( $cmdname == "LUMEN" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
+						{
+							$resultcmd = $cmd->execute();
+							$lumen['Value']=$resultcmd;							
+						}
+					}
+					$lumen['id']=$plan->getId();
+					$lumen['X']=$plan->getPosition("left");
+					$lumen['Y']=$plan->getPosition("top");
+					$lumens[$nblumen++]=$lumen;
+					break;
+				case "Move":
+				case "Flood":
+				case "Fire":
+					$alert['name']=$eqparams['Kodi Alias'];
+					
+					$cmds = $plan->getLink()->getCmd();
+					foreach ($cmds as $cmd)
+					{		
+						$cmdname = strtoupper($cmd->getName());
+						if (( $cmdname == "FLOOD" ) | ( $cmdname == "FIRE" ) | ( $cmdname == "MOVE" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
+						{
+							$resultcmd = $cmd->execute();
+							$alert['Value']=$resultcmd;							
+						}
+					}
+					$alert['id']=$plan->getId();
+					$alert['X']=$plan->getPosition("left");
+					$alert['Y']=$plan->getPosition("top");
+					$alert['Type']=$eqparams['Kodi Type'];
+					$alerts[$nbalert++]=$alert;
+					break;
+				case "Light":
+					$light['name']=$eqparams['Kodi Alias'];
+					
+					$cmds = $plan->getLink()->getCmd();
+					foreach ($cmds as $cmd)
+					{		
+						$cmdname = strtoupper($cmd->getName());
+						if (( $cmdname == "ETAT" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
+						{
+							$resultcmd = $cmd->execute();
+							$light['Value']=$resultcmd;							
+						}
+						
+						if (( $cmdname == "ON" ) | ( $cmdname == "ALLUMER" ))
+							$light['On']=$cmd->getId();							
+
+						if (( $cmdname == "OFF" ) | ( $cmdname == "ETEINDRE" ))
+							$light['Off']=$cmd->getId();							
+
+						
+					}
+					$light['id']=$plan->getId();
+					$light['X']=$plan->getPosition("left");
+					$light['Y']=$plan->getPosition("top");
+					$lights[$nblight++]=$light;
+					break;
+				case "Store":
+				case "Door":
+				case "Window":
+				case "Velux":
+					$acces['name']=$eqparams['Kodi Alias'];
+					
+					$cmds = $plan->getLink()->getCmd();
+					foreach ($cmds as $cmd)
+					{		
+						$cmdname = strtoupper($cmd->getName());
+						if (( $cmdname  == "ETAT" ) | ( $cmdname  == "STATUS" ) | ( $cmdname  == "VALUE" ) )
+						{
+							$resultcmd = $cmd->execute();
+							$acces['Value']=$resultcmd;							
+						}
+						
+						if (( $cmdname == "ON" ) | ( $cmdname == "OUVRIR" )| ( $cmdname == "OPEN" ))
+							$acces['On']=$cmd->getId();							
+
+						if (( $cmdname == "OFF" ) | ( $cmdname == "FERMER" ) | ( $cmdname == "CLOSE" ))
+							$acces['Off']=$cmd->getId();							
+
+						
+					}
+					$acces['Type']=$eqparams['Kodi Type'];
+					$acces['id']=$plan->getId();
+					$acces['X']=$plan->getPosition("left");
+					$acces['Y']=$plan->getPosition("top");
+					$access[$nbacces++]=$acces;
+					break;
+				case "Frigo":
+				case "Equipment":
+					$equip['name']=$eqparams['Kodi Alias'];
+					
+					$cmds = $plan->getLink()->getCmd();
+					foreach ($cmds as $cmd)
+					{		
+						$cmdname = strtoupper($cmd->getName());
+						if (( $cmdname  == "ETAT" ) | ( $cmdname  == "STATUS" ) | ( $cmdname  == "VALUE" ) | ($cmdname  == "PORTE" ) )
+						{
+							$resultcmd = $cmd->execute();
+							$equip['Value']=$resultcmd;							
+						}
+
+						if (( $cmdname  == "PARAM1" ) | ( $cmdname  == "TEMPERATURE1" ) )
+						{
+							$resultcmd = $cmd->execute();
+							$equip['Value1']=$resultcmd;	
+							$equip['Param1']==$eqparams['Kodi Param1'];	
+						}
+						
+						if (( $cmdname  == "PARAM2" ) | ( $cmdname  == "TEMPERATURE2" ) )
+						{
+							$resultcmd = $cmd->execute();
+							$equip['Value2']=$resultcmd;							
+							$equip['Param2']==$eqparams['Kodi Param2'];							
+						}						
+						
+						if ( $cmdname == "ON" )
+							$equip['On']=$cmd->getId();							
+
+						if ( $cmdname == "OFF" )
+							$equip['Off']=$cmd->getId();							
+
+						
+					}
+					$equip['Type']=$eqparams['Kodi Type'];
+					$equip['id']=$plan->getId();
+					$equip['X']=$plan->getPosition("left");
+					$equip['Y']=$plan->getPosition("top");
+					$equips[$nbequip++]=$equip;
+					break;					
+			}
+		
+		}
+
+	}
+
+	$planconfig['ginfos'] = $ginfos;
+	$planconfig['thermos'] = $thermos;
+	$planconfig['access'] = $access;
+	$planconfig['lights'] = $lights;
+	$planconfig['alerts'] = $alerts;
+	$planconfig['lumens'] = $lumens;
+	$planconfig['equips'] = $equips;
+	
+	return ($planconfig);
+	
 }	
 
 
@@ -373,55 +335,6 @@ if ( init('func') == 'getdesign' )
 
 	//$plan = plan::byPlanHeaderId(init('plan'));
 	
-	
-	
-	$planHeader = null;
-	$planHeaders = planHeader::all();
-	$planid = init('plan');
-
-	if (init('plan') != '') {
-		foreach ($planHeaders as $planHeader_select) {
-			if ($planHeader_select->getId() == init('plan')) {
-				$planHeader = $planHeader_select;
-				break;
-			}
-		}
-		
-	}	
-
-	if ( $planHeader != null )
-	{
-    $filename = $planHeader->getImage('sha1') . '.' . $planHeader->getImage('type');
-   //  $size = $this->getImage('size');
-   // return '<img src="core/img/plan/' . $filename . '" data-sixe_y="' . $size[1] . '" data-sixe_x="' . $size[0] . '">';
-
-	echo ' {"name" : "'.$planHeader->getName().'" , "image" : "'.$filename.'" , "plan" : [ ';
-	
-	$plans = plan::all();
-	
-	//$views->getName()
-	foreach ($plans as $plan) 
-	{
-		if ( $plan->getPlanHeader_id() == $planid )
-		{
-			echo ' { "id" :"'.$plan->getId().'" , "x" : "'.$plan->getPosition("left").'" , "y" : "'.$plan->getPosition("top").'"  } ';
-			
-		//	echo $plan->getLink().'   '; 
-			echo $plan->getLink_type().'   '; 
-			echo $plan->getLink_id().'   '; 
-			
-			echo $plan->getLink()->getName().'   '; 
-			echo $plan->getLink()->getEqType_name().'   '; 
-		//	echo $plan->getLink()->getConfiguration('KodiType').'   '; 
-	
-		}
-
-	}	
-
-	}
-
-//echo($retourOk);
-//		echo(json_encode($view));
 
 }	
 
@@ -460,9 +373,9 @@ if ( init('func') == 'getcmds' )
 
 if ( init('func') == 'getui' )
 {
-	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getui&uid=58248a5a41c45
+	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getui&uid=5857b9ed851c3
 	
-	sendKodi();
+	sendKodi($eqLogic->getConfiguration('plan'));
 	
 }
 
@@ -470,9 +383,7 @@ if ( init('func') == 'getlights' )
 {
 	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getlights&uid=58248a5a41c45
 	
-	$masterid = $eqLogic->getConfiguration('MasterCfg');
-	$eqLogic = eqLogic::byid($masterid);
-	sendLights();
+	sendKodi($eqLogic->getConfiguration('plan_light'));
 	
 }
 
@@ -480,9 +391,7 @@ if ( init('func') == 'getacces' )
 {
 	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getacces&uid=58248a5a41c45
 	
-	$masterid = $eqLogic->getConfiguration('MasterCfg');
-	$eqLogic = eqLogic::byid($masterid);
-	sendAccess();
+	sendKodi($eqLogic->getConfiguration('plan_security'));
 	
 }
 
@@ -490,29 +399,8 @@ if ( init('func') == 'gettherms' )
 {
 	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=gettherms&uid=58248a5a41c45
 	
-	$masterid = $eqLogic->getConfiguration('MasterCfg');
-	$eqLogic = eqLogic::byid($masterid);
-	sendTherms();
+	sendKodi($eqLogic->getConfiguration('plan_thermo'));
 	
-}
-
-if ( init('func') == 'getheats' )
-{
-	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getheats&uid=58248a5a41c45
-	
-	$masterid = $eqLogic->getConfiguration('MasterCfg');
-	$eqLogic = eqLogic::byid($masterid);
-	sendHeats();
-	
-}
-
-if ( init('func') == 'getshortcuts' )
-{
-	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getshortcuts&uid=58248a5a41c45
-	
-	$masterid = $eqLogic->getConfiguration('MasterCfg');
-	$eqLogic = eqLogic::byid($masterid);
-	sendShortCuts();
 }
 
 
