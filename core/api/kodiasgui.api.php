@@ -71,9 +71,6 @@ function sendKodi($planid)
 	echo ' , "alerts" : ';
 	echo json_encode($planconfig['alerts']);
 
-	echo ' , "lumens" : ';
-	echo json_encode($planconfig['lumens']);
-
 	echo ' , "equips" : ';
 	$sorted = array_orderby($planconfig['equips'], 'Y', SORT_ASC, 'id', SORT_ASC);
 	echo json_encode($sorted);
@@ -95,7 +92,6 @@ function getKodiConfig($planid)
 	$nbthermo=0;
 	$nblight=0;
 	$nbacces=0;
-	$nblumen=0;
 	$nbalert=0;
 	$nbequip=0;
 	
@@ -128,7 +124,8 @@ function getKodiConfig($planid)
 					$thermos[$nbthermo++]=$thermo;
 					break;
 				case "Lumen":
-					$lumen['name']=$eqparams['Kodi Alias'];
+				case "Info":
+					$ginfo['name']=$eqparams['Kodi Alias'];
 					
 					$cmds = $plan->getLink()->getCmd();
 					foreach ($cmds as $cmd)
@@ -137,13 +134,14 @@ function getKodiConfig($planid)
 						if (( $cmdname == "LUMEN" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
 						{
 							$resultcmd = $cmd->execute();
-							$lumen['Value']=$resultcmd;							
+							$ginfo['Value']=$resultcmd;							
 						}
 					}
-					$lumen['id']=$plan->getId();
-					$lumen['X']=$plan->getPosition("left");
-					$lumen['Y']=$plan->getPosition("top");
-					$lumens[$nblumen++]=$lumen;
+					$ginfo['id']=$plan->getId();
+					$ginfo['X']=$plan->getPosition("left");
+					$ginfo['Y']=$plan->getPosition("top");
+					$ginfo['Type']=$eqparams['Kodi Type'];
+					$ginfos[$nblumen++]=$ginfo;
 					break;
 				case "Move":
 				case "Flood":
