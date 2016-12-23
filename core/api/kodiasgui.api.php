@@ -75,6 +75,17 @@ function sendKodi($planid)
 	$sorted = array_orderby($planconfig['equips'], 'Y', SORT_ASC, 'id', SORT_ASC);
 	echo json_encode($sorted);
 
+	echo ' , "heats" : ';
+	$sorted = array_orderby($planconfig['heats'], 'X', SORT_ASC, 'id', SORT_ASC);
+	echo json_encode($sorted);
+
+	echo ' , "waters" : ';
+	$sorted = array_orderby($planconfig['waters'], 'Y', SORT_ASC, 'id', SORT_ASC);
+	echo json_encode($sorted);
+	
+	echo ' , "shortcuts" : ';
+	$sorted = array_orderby($planconfig['shortcuts'], 'Y', SORT_ASC, 'id', SORT_ASC);
+	echo json_encode($sorted);
 	
 	echo ' } ';
 
@@ -94,12 +105,31 @@ function getKodiConfig($planid)
 	$nbacces=0;
 	$nbalert=0;
 	$nbequip=0;
-	
+	$nbginfo=0;
+	$nbheat=0;
+	$nbwater=0;
+	$nbshortcut=0;
+
+	$ginfos = [];
+	$thermos= [];
+	$access= [];
+	$lights= [];
+	$alerts= [];
+	$lumens= [];
+	$equips= [];
+	$heats= [];
+	$waters= [];
+	$shortcuts= [];
 
 	foreach ($plans as $plan) 
 	{
-		if (( $plan->getPlanHeader_id() == $planid ) &  ( $plan->getLink()->getEqType_name() == 'virtual' ))
+		if ( $plan->getPlanHeader_id() == $planid ) 
 		{
+			if ( $plan->getLink_type() == "eqLogic" )
+			{
+			
+			//&  ( $plan->getLink()->getEqType_name() == 'virtual' ))
+			
 			$eqparams = $plan->getLink()->getDisplay('parameters'); 
 			
 			switch ($eqparams['Kodi Type']){
@@ -123,7 +153,7 @@ function getKodiConfig($planid)
 					$thermo['Type']=$eqparams['Kodi Type'];
 					$thermos[$nbthermo++]=$thermo;
 					break;
-				case "Lumen":
+				
 				case "Info":
 					$ginfo['name']=$eqparams['Kodi Alias'];
 					
@@ -131,7 +161,7 @@ function getKodiConfig($planid)
 					foreach ($cmds as $cmd)
 					{		
 						$cmdname = strtoupper($cmd->getName());
-						if (( $cmdname == "LUMEN" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
+						if (( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
 						{
 							$resultcmd = $cmd->execute();
 							$ginfo['Value']=$resultcmd;							
@@ -141,21 +171,22 @@ function getKodiConfig($planid)
 					$ginfo['X']=$plan->getPosition("left");
 					$ginfo['Y']=$plan->getPosition("top");
 					$ginfo['Type']=$eqparams['Kodi Type'];
-					$ginfos[$nblumen++]=$ginfo;
+					$ginfos[$nbginfo++]=$ginfo;
 					break;
 				case "Move":
 				case "Flood":
 				case "Fire":
+				case "Lumen":
 					$alert['name']=$eqparams['Kodi Alias'];
 					
 					$cmds = $plan->getLink()->getCmd();
 					foreach ($cmds as $cmd)
 					{		
 						$cmdname = strtoupper($cmd->getName());
-						if (( $cmdname == "FLOOD" ) | ( $cmdname == "FIRE" ) | ( $cmdname == "MOVE" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
+						if (( $cmdname == "LUMEN" ) | ( $cmdname == "FLOOD" ) | ( $cmdname == "FIRE" ) | ( $cmdname == "MOVE" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
 						{
 							$resultcmd = $cmd->execute();
-							$alert['Value']=$resultcmd;							
+							$alert['Value']= $resultcmd;
 						}
 					}
 					$alert['id']=$plan->getId();
@@ -221,6 +252,13 @@ function getKodiConfig($planid)
 					$access[$nbacces++]=$acces;
 					break;
 				case "Frigo":
+				case "TV":
+				case "Lave-Linge":
+				case "Seche-Linge":
+				case "Lave-Vaisselle":
+				case "Hotte":
+				case "Robot-Aspirateur":
+				
 				case "Equipment":
 					$equip['name']=$eqparams['Kodi Alias'];
 					
@@ -238,20 +276,20 @@ function getKodiConfig($planid)
 						{
 							$resultcmd = $cmd->execute();
 							$equip['Value1']=$resultcmd;	
-							$equip['Param1']==$eqparams['Kodi Param1'];	
+							$equip['Param1']=$eqparams['Kodi Param1'];	
 						}
 						
 						if (( $cmdname  == "PARAM2" ) | ( $cmdname  == "TEMPERATURE2" ) )
 						{
 							$resultcmd = $cmd->execute();
 							$equip['Value2']=$resultcmd;							
-							$equip['Param2']==$eqparams['Kodi Param2'];							
+							$equip['Param2']=$eqparams['Kodi Param2'];	
 						}						
 						
-						if ( $cmdname == "ON" )
+						if (( $cmdname == "ON" )| ( $cmdname  == "START" ) )
 							$equip['On']=$cmd->getId();							
 
-						if ( $cmdname == "OFF" )
+						if (( $cmdname == "OFF" )| ( $cmdname  == "STOP" )| ( $cmdname  == "HOME" ) )
 							$equip['Off']=$cmd->getId();							
 
 						
@@ -261,11 +299,98 @@ function getKodiConfig($planid)
 					$equip['X']=$plan->getPosition("left");
 					$equip['Y']=$plan->getPosition("top");
 					$equips[$nbequip++]=$equip;
-					break;					
-			}
-		
-		}
+					break;
+				case "Chauffage":
+				case "Clim":
+				case "Thermostat":
+					$heat['name']=$eqparams['Kodi Alias'];
+					
+					$cmds = $plan->getLink()->getCmd();
+					foreach ($cmds as $cmd)
+					{		
+						$cmdname = strtoupper($cmd->getName());
+						if (( $cmdname  == "ETAT" ) | ( $cmdname  == "STATUS" ) | ( $cmdname  == "VALUE" ) |( $cmdname == "TEMPéRATURE" ) | ( $cmdname == "CONSIGNE" ) )
+						{
+							$resultcmd = $cmd->execute();
+							$equip['Value']=$resultcmd;							
+						}
 
+						if (( $cmdname == "PLUS" )| ( $cmdname  == "UP" ))
+							$heat['Up']=$cmd->getId();							
+
+						if (( $cmdname == "MOINS" )| ( $cmdname  == "DOWN" ))
+							$heat['Down']=$cmd->getId();							
+						
+						if ( $cmdname == "ON" )
+							$heat['On']=$cmd->getId();							
+
+						if ( $cmdname == "OFF" )
+							$heat['Off']=$cmd->getId();							
+
+						
+					}
+					$heat['Type']=$eqparams['Kodi Type'];
+					$heat['id']=$plan->getId();
+					$heat['X']=$plan->getPosition("left");
+					$heat['Y']=$plan->getPosition("top");
+					$heats[$nbheat++]=$heat;
+					break;	
+				case "Water":
+					$water['name']=$eqparams['Kodi Alias'];
+					
+					$cmds = $plan->getLink()->getCmd();
+					foreach ($cmds as $cmd)
+					{		
+						$cmdname = strtoupper($cmd->getName());
+						if (( $cmdname == "ETAT" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
+						{
+							$resultcmd = $cmd->execute();
+							$water['Value']=$resultcmd;							
+						}
+
+						$cmdname = strtoupper($cmd->getName());
+						if (( $cmdname == "DEBIT" ) | ( $cmdname == "FLOW" ) )
+						{
+							$resultcmd = $cmd->execute();
+							$water['Flow']=$resultcmd;							
+						}
+
+						$cmdname = strtoupper($cmd->getName());
+						if (( $cmdname == "COUNT" ) | ( $cmdname == "COMPTEUR" ) )
+						{
+							$resultcmd = $cmd->execute();
+							$water['Count']=$resultcmd;							
+						}
+						
+						if (( $cmdname == "ON" ) | ( $cmdname == "ALLUMER" ))
+							$water['On']=$cmd->getId();							
+
+						if (( $cmdname == "OFF" ) | ( $cmdname == "ETEINDRE" ))
+							$water['Off']=$cmd->getId();							
+
+						
+					}
+					$water['id']=$plan->getId();
+					$water['X']=$plan->getPosition("left");
+					$water['Y']=$plan->getPosition("top");
+					$waters[$nbwater++]=$water;
+					break;	
+				
+			}
+		}
+			else if ( $plan->getLink_type() == "scenario" )
+			{
+				$planscenar = $plan->getLink(); 
+				$shortcut['name']=$planscenar->getName();
+				$shortcut['run']=$planscenar->getId();
+				$shortcut['icon']=$planscenar->getIcon();
+				$shortcut['id']=$plan->getId();
+				$shortcut['X']=$plan->getPosition("left");
+				$shortcut['Y']=$plan->getPosition("top");
+				$shortcuts[$nbshortcut++]=$shortcut;
+
+			}
+		}
 	}
 
 	$planconfig['ginfos'] = $ginfos;
@@ -275,6 +400,9 @@ function getKodiConfig($planid)
 	$planconfig['alerts'] = $alerts;
 	$planconfig['lumens'] = $lumens;
 	$planconfig['equips'] = $equips;
+	$planconfig['heats'] = $heats;
+	$planconfig['waters'] = $waters;
+	$planconfig['shortcuts'] = $shortcuts;
 	
 	return ($planconfig);
 	
