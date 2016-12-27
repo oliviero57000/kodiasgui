@@ -51,7 +51,7 @@ function sendKodi($planid)
 
 	echo ' , "plan" : "'.$planHeader->getName().'" , "image" : "'.$filename.'" ';
 
-	$planconfig = getKodiConfig($planid);
+	$planconfig = getKodiConfig($planid,'');
 	
 	echo ' , "ginfos" : ';
 	echo ( json_encode ($planconfig['ginfos']) );
@@ -94,7 +94,7 @@ function sendKodi($planid)
 
 }
 
-function getKodiConfig($planid)
+function getKodiConfig($planid,$filter)
 {
 	global $cmd;
 	
@@ -135,121 +135,138 @@ function getKodiConfig($planid)
 			switch ($eqparams['Kodi Type']){
 				case "Thermo":
 				case "Hygro":
-					$thermo['name']=$eqparams['Kodi Alias'];
-					
-					$cmds = $plan->getLink()->getCmd();
-					foreach ($cmds as $cmd)
-					{		
-						$cmdname = strtoupper($cmd->getName());
-						if (( $cmdname == "TEMPéRATURE" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
-						{
-							$resultcmd = $cmd->execute();
-							$thermo['Value']=$resultcmd;							
+				
+					if (($filter == '')|($filter == 'thermo'))
+					{
+						$thermo['name']=$eqparams['Kodi Alias'];
+						
+						$cmds = $plan->getLink()->getCmd();
+						foreach ($cmds as $cmd)
+						{		
+							$cmdname = strtoupper($cmd->getName());
+							if (( $cmdname == "TEMPéRATURE" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
+							{
+								$resultcmd = $cmd->execute();
+								$thermo['Value']=$resultcmd;							
+							}
 						}
+						$thermo['id']=$plan->getId();
+						$thermo['X']=$plan->getPosition("left");
+						$thermo['Y']=$plan->getPosition("top");
+						$thermo['Type']=$eqparams['Kodi Type'];
+						$thermos[$nbthermo++]=$thermo;
 					}
-					$thermo['id']=$plan->getId();
-					$thermo['X']=$plan->getPosition("left");
-					$thermo['Y']=$plan->getPosition("top");
-					$thermo['Type']=$eqparams['Kodi Type'];
-					$thermos[$nbthermo++]=$thermo;
 					break;
 				
 				case "Info":
-					$ginfo['name']=$eqparams['Kodi Alias'];
-					
-					$cmds = $plan->getLink()->getCmd();
-					foreach ($cmds as $cmd)
-					{		
-						$cmdname = strtoupper($cmd->getName());
-						if (( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
-						{
-							$resultcmd = $cmd->execute();
-							$ginfo['Value']=$resultcmd;							
+				
+					if (($filter == '')|($filter == 'info'))
+					{				
+						$ginfo['name']=$eqparams['Kodi Alias'];
+						
+						$cmds = $plan->getLink()->getCmd();
+						foreach ($cmds as $cmd)
+						{		
+							$cmdname = strtoupper($cmd->getName());
+							if (( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
+							{
+								$resultcmd = $cmd->execute();
+								$ginfo['Value']=$resultcmd;							
+							}
 						}
+						$ginfo['id']=$plan->getId();
+						$ginfo['X']=$plan->getPosition("left");
+						$ginfo['Y']=$plan->getPosition("top");
+						$ginfo['Type']=$eqparams['Kodi Type'];
+						$ginfos[$nbginfo++]=$ginfo;
 					}
-					$ginfo['id']=$plan->getId();
-					$ginfo['X']=$plan->getPosition("left");
-					$ginfo['Y']=$plan->getPosition("top");
-					$ginfo['Type']=$eqparams['Kodi Type'];
-					$ginfos[$nbginfo++]=$ginfo;
 					break;
 				case "Move":
 				case "Flood":
 				case "Fire":
 				case "Lumen":
-					$alert['name']=$eqparams['Kodi Alias'];
-					
-					$cmds = $plan->getLink()->getCmd();
-					foreach ($cmds as $cmd)
-					{		
-						$cmdname = strtoupper($cmd->getName());
-						if (( $cmdname == "LUMEN" ) | ( $cmdname == "FLOOD" ) | ( $cmdname == "FIRE" ) | ( $cmdname == "MOVE" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
-						{
-							$resultcmd = $cmd->execute();
-							$alert['Value']= $resultcmd;
+					if (($filter == '')|($filter == 'alert'))
+					{					
+						$alert['name']=$eqparams['Kodi Alias'];
+						
+						$cmds = $plan->getLink()->getCmd();
+						foreach ($cmds as $cmd)
+						{		
+							$cmdname = strtoupper($cmd->getName());
+							if (( $cmdname == "LUMEN" ) | ( $cmdname == "FLOOD" ) | ( $cmdname == "FIRE" ) | ( $cmdname == "MOVE" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
+							{
+								$resultcmd = $cmd->execute();
+								$alert['Value']= $resultcmd;
+							}
 						}
+						$alert['id']=$plan->getId();
+						$alert['X']=$plan->getPosition("left");
+						$alert['Y']=$plan->getPosition("top");
+						$alert['Type']=$eqparams['Kodi Type'];
+						$alerts[$nbalert++]=$alert;
 					}
-					$alert['id']=$plan->getId();
-					$alert['X']=$plan->getPosition("left");
-					$alert['Y']=$plan->getPosition("top");
-					$alert['Type']=$eqparams['Kodi Type'];
-					$alerts[$nbalert++]=$alert;
 					break;
 				case "Light":
-					$light['name']=$eqparams['Kodi Alias'];
-					
-					$cmds = $plan->getLink()->getCmd();
-					foreach ($cmds as $cmd)
-					{		
-						$cmdname = strtoupper($cmd->getName());
-						if (( $cmdname == "ETAT" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
-						{
-							$resultcmd = $cmd->execute();
-							$light['Value']=$resultcmd;							
+					if (($filter == '')|($filter == 'light'))
+					{				
+						$light['name']=$eqparams['Kodi Alias'];
+						
+						$cmds = $plan->getLink()->getCmd();
+						foreach ($cmds as $cmd)
+						{		
+							$cmdname = strtoupper($cmd->getName());
+							if (( $cmdname == "ETAT" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
+							{
+								$resultcmd = $cmd->execute();
+								$light['Value']=$resultcmd;							
+							}
+							
+							if (( $cmdname == "ON" ) | ( $cmdname == "ALLUMER" ))
+								$light['On']=$cmd->getId();							
+
+							if (( $cmdname == "OFF" ) | ( $cmdname == "ETEINDRE" ))
+								$light['Off']=$cmd->getId();							
+
+							
 						}
-						
-						if (( $cmdname == "ON" ) | ( $cmdname == "ALLUMER" ))
-							$light['On']=$cmd->getId();							
-
-						if (( $cmdname == "OFF" ) | ( $cmdname == "ETEINDRE" ))
-							$light['Off']=$cmd->getId();							
-
-						
+						$light['id']=$plan->getId();
+						$light['X']=$plan->getPosition("left");
+						$light['Y']=$plan->getPosition("top");
+						$lights[$nblight++]=$light;
 					}
-					$light['id']=$plan->getId();
-					$light['X']=$plan->getPosition("left");
-					$light['Y']=$plan->getPosition("top");
-					$lights[$nblight++]=$light;
 					break;
 				case "Store":
 				case "Door":
 				case "Window":
 				case "Velux":
-					$acces['name']=$eqparams['Kodi Alias'];
-					
-					$cmds = $plan->getLink()->getCmd();
-					foreach ($cmds as $cmd)
-					{		
-						$cmdname = strtoupper($cmd->getName());
-						if (( $cmdname  == "ETAT" ) | ( $cmdname  == "STATUS" ) | ( $cmdname  == "VALUE" ) )
-						{
-							$resultcmd = $cmd->execute();
-							$acces['Value']=$resultcmd;							
+					if (($filter == '')|($filter == 'acces'))
+					{					
+						$acces['name']=$eqparams['Kodi Alias'];
+						
+						$cmds = $plan->getLink()->getCmd();
+						foreach ($cmds as $cmd)
+						{		
+							$cmdname = strtoupper($cmd->getName());
+							if (( $cmdname  == "ETAT" ) | ( $cmdname  == "STATUS" ) | ( $cmdname  == "VALUE" ) )
+							{
+								$resultcmd = $cmd->execute();
+								$acces['Value']=$resultcmd;							
+							}
+							
+							if (( $cmdname == "ON" ) | ( $cmdname == "OUVRIR" )| ( $cmdname == "OPEN" ))
+								$acces['On']=$cmd->getId();							
+
+							if (( $cmdname == "OFF" ) | ( $cmdname == "FERMER" ) | ( $cmdname == "CLOSE" ))
+								$acces['Off']=$cmd->getId();							
+
+							
 						}
-						
-						if (( $cmdname == "ON" ) | ( $cmdname == "OUVRIR" )| ( $cmdname == "OPEN" ))
-							$acces['On']=$cmd->getId();							
-
-						if (( $cmdname == "OFF" ) | ( $cmdname == "FERMER" ) | ( $cmdname == "CLOSE" ))
-							$acces['Off']=$cmd->getId();							
-
-						
+						$acces['Type']=$eqparams['Kodi Type'];
+						$acces['id']=$plan->getId();
+						$acces['X']=$plan->getPosition("left");
+						$acces['Y']=$plan->getPosition("top");
+						$access[$nbacces++]=$acces;
 					}
-					$acces['Type']=$eqparams['Kodi Type'];
-					$acces['id']=$plan->getId();
-					$acces['X']=$plan->getPosition("left");
-					$acces['Y']=$plan->getPosition("top");
-					$access[$nbacces++]=$acces;
 					break;
 				case "Frigo":
 				case "TV":
@@ -260,120 +277,129 @@ function getKodiConfig($planid)
 				case "Robot-Aspirateur":
 				
 				case "Equipment":
-					$equip['name']=$eqparams['Kodi Alias'];
-					
-					$cmds = $plan->getLink()->getCmd();
-					foreach ($cmds as $cmd)
-					{		
-						$cmdname = strtoupper($cmd->getName());
-						if (( $cmdname  == "ETAT" ) | ( $cmdname  == "STATUS" ) | ( $cmdname  == "VALUE" ) | ($cmdname  == "PORTE" ) )
-						{
-							$resultcmd = $cmd->execute();
-							$equip['Value']=$resultcmd;							
+					if (($filter == '')|($filter == 'equip'))
+					{				
+						$equip['name']=$eqparams['Kodi Alias'];
+						
+						$cmds = $plan->getLink()->getCmd();
+						foreach ($cmds as $cmd)
+						{		
+							$cmdname = strtoupper($cmd->getName());
+							if (( $cmdname  == "ETAT" ) | ( $cmdname  == "STATUS" ) | ( $cmdname  == "VALUE" ) | ($cmdname  == "PORTE" ) )
+							{
+								$resultcmd = $cmd->execute();
+								$equip['Value']=$resultcmd;							
+							}
+
+							if (( $cmdname  == "PARAM1" ) | ( $cmdname  == "TEMPERATURE1" ) )
+							{
+								$resultcmd = $cmd->execute();
+								$equip['Value1']=$resultcmd;	
+								$equip['Param1']=$eqparams['Kodi Param1'];	
+							}
+							
+							if (( $cmdname  == "PARAM2" ) | ( $cmdname  == "TEMPERATURE2" ) )
+							{
+								$resultcmd = $cmd->execute();
+								$equip['Value2']=$resultcmd;							
+								$equip['Param2']=$eqparams['Kodi Param2'];	
+							}						
+							
+							if (( $cmdname == "ON" )| ( $cmdname  == "START" ) )
+								$equip['On']=$cmd->getId();							
+
+							if (( $cmdname == "OFF" )| ( $cmdname  == "STOP" )| ( $cmdname  == "HOME" ) )
+								$equip['Off']=$cmd->getId();							
+
+							
 						}
-
-						if (( $cmdname  == "PARAM1" ) | ( $cmdname  == "TEMPERATURE1" ) )
-						{
-							$resultcmd = $cmd->execute();
-							$equip['Value1']=$resultcmd;	
-							$equip['Param1']=$eqparams['Kodi Param1'];	
-						}
-						
-						if (( $cmdname  == "PARAM2" ) | ( $cmdname  == "TEMPERATURE2" ) )
-						{
-							$resultcmd = $cmd->execute();
-							$equip['Value2']=$resultcmd;							
-							$equip['Param2']=$eqparams['Kodi Param2'];	
-						}						
-						
-						if (( $cmdname == "ON" )| ( $cmdname  == "START" ) )
-							$equip['On']=$cmd->getId();							
-
-						if (( $cmdname == "OFF" )| ( $cmdname  == "STOP" )| ( $cmdname  == "HOME" ) )
-							$equip['Off']=$cmd->getId();							
-
-						
+						$equip['Type']=$eqparams['Kodi Type'];
+						$equip['id']=$plan->getId();
+						$equip['X']=$plan->getPosition("left");
+						$equip['Y']=$plan->getPosition("top");
+						$equips[$nbequip++]=$equip;
 					}
-					$equip['Type']=$eqparams['Kodi Type'];
-					$equip['id']=$plan->getId();
-					$equip['X']=$plan->getPosition("left");
-					$equip['Y']=$plan->getPosition("top");
-					$equips[$nbequip++]=$equip;
 					break;
 				case "Chauffage":
 				case "Clim":
 				case "Thermostat":
-					$heat['name']=$eqparams['Kodi Alias'];
-					
-					$cmds = $plan->getLink()->getCmd();
-					foreach ($cmds as $cmd)
-					{		
-						$cmdname = strtoupper($cmd->getName());
-						if (( $cmdname  == "ETAT" ) | ( $cmdname  == "STATUS" ) | ( $cmdname  == "VALUE" ) |( $cmdname == "TEMPéRATURE" ) | ( $cmdname == "CONSIGNE" ) )
-						{
-							$resultcmd = $cmd->execute();
-							$equip['Value']=$resultcmd;							
+					if (($filter == '')|($filter == 'heat'))
+					{				
+						$heat['name']=$eqparams['Kodi Alias'];
+						
+						$cmds = $plan->getLink()->getCmd();
+						foreach ($cmds as $cmd)
+						{		
+							$cmdname = strtoupper($cmd->getName());
+							if (( $cmdname  == "ETAT" ) | ( $cmdname  == "STATUS" ) | ( $cmdname  == "VALUE" ) |( $cmdname == "TEMPéRATURE" ) | ( $cmdname == "CONSIGNE" ) )
+							{
+								$resultcmd = $cmd->execute();
+								$equip['Value']=$resultcmd;							
+							}
+
+							if (( $cmdname == "PLUS" )| ( $cmdname  == "UP" ))
+								$heat['Up']=$cmd->getId();							
+
+							if (( $cmdname == "MOINS" )| ( $cmdname  == "DOWN" ))
+								$heat['Down']=$cmd->getId();							
+							
+							if ( $cmdname == "ON" )
+								$heat['On']=$cmd->getId();							
+
+							if ( $cmdname == "OFF" )
+								$heat['Off']=$cmd->getId();							
+
+							
 						}
-
-						if (( $cmdname == "PLUS" )| ( $cmdname  == "UP" ))
-							$heat['Up']=$cmd->getId();							
-
-						if (( $cmdname == "MOINS" )| ( $cmdname  == "DOWN" ))
-							$heat['Down']=$cmd->getId();							
-						
-						if ( $cmdname == "ON" )
-							$heat['On']=$cmd->getId();							
-
-						if ( $cmdname == "OFF" )
-							$heat['Off']=$cmd->getId();							
-
-						
+						$heat['Type']=$eqparams['Kodi Type'];
+						$heat['id']=$plan->getId();
+						$heat['X']=$plan->getPosition("left");
+						$heat['Y']=$plan->getPosition("top");
+						$heats[$nbheat++]=$heat;
 					}
-					$heat['Type']=$eqparams['Kodi Type'];
-					$heat['id']=$plan->getId();
-					$heat['X']=$plan->getPosition("left");
-					$heat['Y']=$plan->getPosition("top");
-					$heats[$nbheat++]=$heat;
 					break;	
 				case "Water":
-					$water['name']=$eqparams['Kodi Alias'];
-					
-					$cmds = $plan->getLink()->getCmd();
-					foreach ($cmds as $cmd)
-					{		
-						$cmdname = strtoupper($cmd->getName());
-						if (( $cmdname == "ETAT" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
-						{
-							$resultcmd = $cmd->execute();
-							$water['Value']=$resultcmd;							
-						}
-
-						$cmdname = strtoupper($cmd->getName());
-						if (( $cmdname == "DEBIT" ) | ( $cmdname == "FLOW" ) )
-						{
-							$resultcmd = $cmd->execute();
-							$water['Flow']=$resultcmd;							
-						}
-
-						$cmdname = strtoupper($cmd->getName());
-						if (( $cmdname == "COUNT" ) | ( $cmdname == "COMPTEUR" ) )
-						{
-							$resultcmd = $cmd->execute();
-							$water['Count']=$resultcmd;							
-						}
+					if (($filter == '')|($filter == 'water'))
+					{				
+						$water['name']=$eqparams['Kodi Alias'];
 						
-						if (( $cmdname == "ON" ) | ( $cmdname == "ALLUMER" ))
-							$water['On']=$cmd->getId();							
+						$cmds = $plan->getLink()->getCmd();
+						foreach ($cmds as $cmd)
+						{		
+							$cmdname = strtoupper($cmd->getName());
+							if (( $cmdname == "ETAT" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
+							{
+								$resultcmd = $cmd->execute();
+								$water['Value']=$resultcmd;							
+							}
 
-						if (( $cmdname == "OFF" ) | ( $cmdname == "ETEINDRE" ))
-							$water['Off']=$cmd->getId();							
+							$cmdname = strtoupper($cmd->getName());
+							if (( $cmdname == "DEBIT" ) | ( $cmdname == "FLOW" ) )
+							{
+								$resultcmd = $cmd->execute();
+								$water['Flow']=$resultcmd;							
+							}
 
-						
+							$cmdname = strtoupper($cmd->getName());
+							if (( $cmdname == "COUNT" ) | ( $cmdname == "COMPTEUR" ) )
+							{
+								$resultcmd = $cmd->execute();
+								$water['Count']=$resultcmd;							
+							}
+							
+							if (( $cmdname == "ON" ) | ( $cmdname == "ALLUMER" ))
+								$water['On']=$cmd->getId();							
+
+							if (( $cmdname == "OFF" ) | ( $cmdname == "ETEINDRE" ))
+								$water['Off']=$cmd->getId();							
+
+							
+						}
+						$water['id']=$plan->getId();
+						$water['X']=$plan->getPosition("left");
+						$water['Y']=$plan->getPosition("top");
+						$waters[$nbwater++]=$water;
 					}
-					$water['id']=$plan->getId();
-					$water['X']=$plan->getPosition("left");
-					$water['Y']=$plan->getPosition("top");
-					$waters[$nbwater++]=$water;
 					break;	
 				
 			}
@@ -532,51 +558,46 @@ if ( init('func') == 'gettherms' )
 
 if ( init('group') == 'light' )
 {
-	// log::add('kodiasgui', 'info', 'light command received.');
+	// Get Kodi Config
 	
+		if ( init('mode') == 'global' )
+			$planid = $eqLogic->getConfiguration('plan_light');
+		else
+			$planid = $eqLogic->getConfiguration('plan');
+
+		$planconfig = getKodiConfig($planid,'light');
+
+		$light='';
+		$lights = $planconfig['lights'];
+	
+	// Get Selected Light
+	
+		foreach ($lights as $idxlight)
+		{
+			if ( $idxlight['id']== init('obj') )
+			{
+				$light = $idxlight;
+				break;
+			}
+		}
+		
+		if ($light=='' )
+		{
+			echo 'Light Not Found';
+			return;
+		}
+		
 	if ( init('func') == 'switch' )
 	{
-		if ( init('mode') == 'global' )
-		{
-			$masterid = $eqLogic->getConfiguration('MasterCfg');
-			$eqLogic = eqLogic::byid($masterid);			
-		}
-		
-		$lights = $eqLogic->getConfiguration('lights');
-		$lightID = intval (init('obj')) - 1;
-		
-		$mylight = $lights[$lightID];
-		$cmdetatid="";
-		
-		$etat = $mylight['infoSTATUS'];
-		sscanf($etat,"#%d#",$cmdetatid);
-		if ($cmdetatid!="")
-		{
-			$cmdetat = cmd::byId($cmdetatid);
-			$resultcmd = $cmdetat->execute();
-			if ($resultcmd == "")
-			{
-				$etat  = "0" ;
-				$mylight['infoSTATUS'] = "1";
-			}
-			else
-			{
-				$etat = "1";
-				$mylight['infoSTATUS'] = "0";
-			}
-		}
-		$cmdid="";
-		if ($etat =="1")
-			sscanf($mylight['cmdOFF'],"#%d#",$cmdid);
+
+		if ($light['Value']=='1' )
+			$cmdid = $light['Off'];
 		else
-			sscanf($mylight['cmdON'],"#%d#",$cmdid);
-		if ($cmdid!="")
-		{
-			$cmd = cmd::byId($cmdid);
-			$resultcmd = $cmd->execute();
-		}
-		 
-		echo ( json_encode ($mylight ));
+			$cmdid = $light['On'];
+
+		$cmd = cmd::byId($cmdid);
+		$resultcmd = $cmd->execute();
+		 echo 'OK';
 	}
 }
 
