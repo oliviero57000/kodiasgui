@@ -1,6 +1,25 @@
 <?php
 
 require_once dirname(__FILE__) . "/../../../../core/php/core.inc.php";
+
+
+function getCmdInfo($cd)
+{
+		
+	$resultcmd = $cd->execCmd(null,1,false);
+	
+	if ($resultcmd == null )
+		$resultcmd = $cd->execute();
+	
+	if ( is_string($resultcmd) )
+		return $resultcmd;
+	else
+		return (string)$resultcmd;
+}	
+								
+
+
+
 	
 //  192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=hello&UID=58089181cdc2b
 function array_orderby()
@@ -145,10 +164,7 @@ function getKodiConfig($planid,$filter)
 						{		
 							$cmdname = strtoupper($cmd->getName());
 							if (( $cmdname == "TEMPéRATURE" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
-							{
-								$resultcmd = $cmd->execute();
-								$thermo['Value']=$resultcmd;							
-							}
+								$thermo['Value']=getCmdInfo($cmd);
 						}
 						$thermo['id']=$plan->getId();
 						$thermo['X']=$plan->getPosition("left");
@@ -169,10 +185,7 @@ function getKodiConfig($planid,$filter)
 						{		
 							$cmdname = strtoupper($cmd->getName());
 							if (( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
-							{
-								$resultcmd = $cmd->execute();
-								$ginfo['Value']=$resultcmd;							
-							}
+								$ginfo['Value']=getCmdInfo($cmd);
 						}
 						$ginfo['id']=$plan->getId();
 						$ginfo['X']=$plan->getPosition("left");
@@ -194,10 +207,7 @@ function getKodiConfig($planid,$filter)
 						{		
 							$cmdname = strtoupper($cmd->getName());
 							if (( $cmdname == "LUMEN" ) | ( $cmdname == "FLOOD" ) | ( $cmdname == "FIRE" ) | ( $cmdname == "MOVE" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
-							{
-								$resultcmd = $cmd->execute();
-								$alert['Value']= $resultcmd;
-							}
+								$alert['Value']= getCmdInfo($cmd);
 						}
 						$alert['id']=$plan->getId();
 						$alert['X']=$plan->getPosition("left");
@@ -207,6 +217,8 @@ function getKodiConfig($planid,$filter)
 					}
 					break;
 				case "Light":
+				case "LightDimmer":
+				case "LightRGB":
 					if (($filter == '')|($filter == 'light'))
 					{				
 						$light['name']=$eqparams['Kodi Alias'];
@@ -216,10 +228,7 @@ function getKodiConfig($planid,$filter)
 						{		
 							$cmdname = strtoupper($cmd->getName());
 							if (( $cmdname == "ETAT" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
-							{
-								$resultcmd = $cmd->execute();
-								$light['Value']=$resultcmd;							
-							}
+								$light['Value']=getCmdInfo($cmd);							
 							
 							if (( $cmdname == "ON" ) | ( $cmdname == "ALLUMER" ))
 								$light['On']=$cmd->getId();							
@@ -229,6 +238,7 @@ function getKodiConfig($planid,$filter)
 
 							
 						}
+						$light['Type']=$eqparams['Kodi Type'];
 						$light['id']=$plan->getId();
 						$light['X']=$plan->getPosition("left");
 						$light['Y']=$plan->getPosition("top");
@@ -242,23 +252,26 @@ function getKodiConfig($planid,$filter)
 					if (($filter == '')|($filter == 'acces'))
 					{					
 						$acces['name']=$eqparams['Kodi Alias'];
-						
+						$acces['StopClose']="";
+						$acces['StopOpen']="";
 						$cmds = $plan->getLink()->getCmd();
 						foreach ($cmds as $cmd)
 						{		
 							$cmdname = strtoupper($cmd->getName());
 							if (( $cmdname  == "ETAT" ) | ( $cmdname  == "STATUS" ) | ( $cmdname  == "VALUE" ) )
-							{
-								$resultcmd = $cmd->execute();
-								$acces['Value']=$resultcmd;							
-							}
+								$acces['Value']=getCmdInfo($cmd);						
 							
 							if (( $cmdname == "ON" ) | ( $cmdname == "OUVRIR" )| ( $cmdname == "OPEN" ))
-								$acces['On']=$cmd->getId();							
+								$acces['Open']=$cmd->getId();							
 
 							if (( $cmdname == "OFF" ) | ( $cmdname == "FERMER" ) | ( $cmdname == "CLOSE" ))
-								$acces['Off']=$cmd->getId();							
+								$acces['Close']=$cmd->getId();							
 
+							if (($cmdname == "STOPOUVRIR") | ( $cmdname == "STOPOPEN" ))
+								$acces['StopOpen']=$cmd->getId();							
+
+							if (($cmdname == "STOPFERMER" ) | ( $cmdname == "STOPCLOSE"))
+								$acces['StopClose']=$cmd->getId();							
 							
 						}
 						$acces['Type']=$eqparams['Kodi Type'];
@@ -286,22 +299,17 @@ function getKodiConfig($planid,$filter)
 						{		
 							$cmdname = strtoupper($cmd->getName());
 							if (( $cmdname  == "ETAT" ) | ( $cmdname  == "STATUS" ) | ( $cmdname  == "VALUE" ) | ($cmdname  == "PORTE" ) )
-							{
-								$resultcmd = $cmd->execute();
-								$equip['Value']=$resultcmd;							
-							}
+								$equip['Value']=getCmdInfo($cmd);							
 
 							if (( $cmdname  == "PARAM1" ) | ( $cmdname  == "TEMPERATURE1" ) )
 							{
-								$resultcmd = $cmd->execute();
-								$equip['Value1']=$resultcmd;	
+								$equip['Value1']=getCmdInfo($cmd);	
 								$equip['Param1']=$eqparams['Kodi Param1'];	
 							}
 							
 							if (( $cmdname  == "PARAM2" ) | ( $cmdname  == "TEMPERATURE2" ) )
 							{
-								$resultcmd = $cmd->execute();
-								$equip['Value2']=$resultcmd;							
+								$equip['Value2']=getCmdInfo($cmd);							
 								$equip['Param2']=$eqparams['Kodi Param2'];	
 							}						
 							
@@ -320,8 +328,7 @@ function getKodiConfig($planid,$filter)
 						$equips[$nbequip++]=$equip;
 					}
 					break;
-				case "Chauffage":
-				case "Clim":
+
 				case "Thermostat":
 					if (($filter == '')|($filter == 'heat'))
 					{				
@@ -330,18 +337,16 @@ function getKodiConfig($planid,$filter)
 						$cmds = $plan->getLink()->getCmd();
 						foreach ($cmds as $cmd)
 						{		
+						
 							$cmdname = strtoupper($cmd->getName());
-							if (( $cmdname  == "ETAT" ) | ( $cmdname  == "STATUS" ) | ( $cmdname  == "VALUE" ) |( $cmdname == "TEMPéRATURE" ) | ( $cmdname == "CONSIGNE" ) )
-							{
-								$resultcmd = $cmd->execute();
-								$equip['Value']=$resultcmd;							
-							}
+							if (( $cmdname  == "ETAT" ) | ( $cmdname  == "STATUT" ) | ( $cmdname  == "STATUS" ) )
+								$heat['Value']=getCmdInfo($cmd);							
 
-							if (( $cmdname == "PLUS" )| ( $cmdname  == "UP" ))
-								$heat['Up']=$cmd->getId();							
-
-							if (( $cmdname == "MOINS" )| ( $cmdname  == "DOWN" ))
-								$heat['Down']=$cmd->getId();							
+							if ( $cmdname  == "MODE" ) 
+								$heat['Mode']=getCmdInfo($cmd);							
+							
+							if ( $cmdname == "CONSIGNE" ) 
+								$heat['Consigne']= getCmdInfo($cmd);							
 							
 							if ( $cmdname == "ON" )
 								$heat['On']=$cmd->getId();							
@@ -369,21 +374,21 @@ function getKodiConfig($planid,$filter)
 							$cmdname = strtoupper($cmd->getName());
 							if (( $cmdname == "ETAT" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
 							{
-								$resultcmd = $cmd->execute();
+								$resultcmd = $cmd->execCmd();
 								$water['Value']=$resultcmd;							
 							}
 
 							$cmdname = strtoupper($cmd->getName());
 							if (( $cmdname == "DEBIT" ) | ( $cmdname == "FLOW" ) )
 							{
-								$resultcmd = $cmd->execute();
+								$resultcmd = $cmd->execCmd();
 								$water['Flow']=$resultcmd;							
 							}
 
 							$cmdname = strtoupper($cmd->getName());
 							if (( $cmdname == "COUNT" ) | ( $cmdname == "COMPTEUR" ) )
 							{
-								$resultcmd = $cmd->execute();
+								$resultcmd = $cmd->execCmd();
 								$water['Count']=$resultcmd;							
 							}
 							
@@ -471,25 +476,6 @@ else
 }
 
 
-/*
-if (init('apikey') != config::byKey('api') || config::byKey('api') == '') {
-	connection::failed();
-	echo 'Clef API non valide, vous n\'etes pas autorisé à effectuer cette action (jeeApi)';
-	die();
-}
-
-*/
-
-
-if ( init('func') == 'getdesign' )
-{
-	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getdesign&plan=1&uid=58248a5a41c45
-
-	//$plan = plan::byPlanHeaderId(init('plan'));
-	
-
-}	
-
 
 if ( init('func') == 'getcmds' )
 {
@@ -507,7 +493,7 @@ if ( init('func') == 'getcmds' )
 		if ( ( $cmdID != "") & ( $cmdID != "0") )
 			{
 			$cmd = cmd::byId($cmdID);
-			$resultcmd = $cmd->execute();
+			$resultcmd = $cmd->execCmd();
 			if ($resultcmd == "")
 				$retourOk .= '0,' ;
 			else
@@ -596,55 +582,78 @@ if ( init('group') == 'light' )
 			$cmdid = $light['On'];
 
 		$cmd = cmd::byId($cmdid);
-		$resultcmd = $cmd->execute();
+		$resultcmd = $cmd->execCmd();
 		 echo 'OK';
 	}
 }
 
 if ( init('group') == 'acces' )
 {
-	// log::add('kodiasgui', 'info', 'light command received.');
+	// Get Kodi Config
 	
-	if ( init('func') == 'switch' )
-	{
-		$access = $eqLogic->getConfiguration('access');
-		
-		$accesID = intval (init('obj')) - 1;
-		
-		$myacces = $lights[$accesID];
-		$cmdetatid="";
-		
-		$etat = $myacces['infoSTATUS'];
-		sscanf($etat,"#%d#",$cmdetatid);
-		if ($cmdetatid!="")
-		{
-			$cmdetat = cmd::byId($cmdetatid);
-			$resultcmd = $cmdetat->execute();
-			if ($resultcmd == "")
-			{
-				$etat  = "0" ;
-				$myacces['infoSTATUS'] = "1";
-			}
-			else
-			{
-				$etat = "1";
-				$myacces['infoSTATUS'] = "0";
-			}
-		}
-		$cmdid="";
-		if ($etat =="1")
-			sscanf($myacces['cmdCLOSE'],"#%d#",$cmdid);
+		if ( init('mode') == 'global' )
+			$planid = $eqLogic->getConfiguration('plan_security');
 		else
-			sscanf($myacces['cmdOPEN'],"#%d#",$cmdid);
-		if ($cmdid!="")
-		{
-			$cmd = cmd::byId($cmdid);
-			$resultcmd = $cmd->execute();
-		}
-		 
-		echo ( json_encode ($myacces ));
-	}
+			$planid = $eqLogic->getConfiguration('plan');
 
+		$planconfig = getKodiConfig($planid,'acces');
+
+		$acces='';
+		$access = $planconfig['access'];
+	
+	// Get Selected Access Object
+	
+		foreach ($access as $idxacces)
+		{
+			if ( $idxacces['id']== init('obj') )
+			{
+				$acces = $idxacces;
+				break;
+			}
+		}
+		
+		if ($acces=='' )
+		{
+			echo 'Acces Not Found';
+			return;
+		}	
+		
+		if ( init('func') == 'switch' )
+		{
+			/* Possible Value
+				0 = Open
+				1 = Closed
+				2 = Move to Open
+				3 = Move to Close
+			*/
+ 
+			if ($acces['Value']=='0' )
+				$cmdid = $acces['Close'];
+			else if ($acces['Value']=='1' )
+				$cmdid = $acces['Open'];
+			else if ($acces['Value']=='2' )
+				{
+					if ($acces['StopOpen']!='')
+					{
+						$cmd = cmd::byId($cmdid);
+						$resultcmd = $cmd->execCmd();
+					}
+					$cmdid = $acces['Close'];
+				}
+			else
+				{
+					if ($acces['StopClose']!='')
+					{
+						$cmd = cmd::byId($cmdid);
+						$resultcmd = $cmd->execCmd();
+					}
+					$cmdid = $acces['Open'];
+				}
+			
+			$cmd = cmd::byId($cmdid);
+			$resultcmd = $cmd->execCmd();
+			echo 'OK';
+		}
 	
 }
 
