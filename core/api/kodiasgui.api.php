@@ -333,33 +333,35 @@ function getKodiConfig($planid,$filter)
 					if (($filter == '')|($filter == 'heat'))
 					{				
 						$heat['name']=$eqparams['Kodi Alias'];
-						
+						$nbmode=0;
+						$heatmodes= [];
 						$cmds = $plan->getLink()->getCmd();
 						foreach ($cmds as $cmd)
 						{		
-						
 							$cmdname = strtoupper($cmd->getName());
 							if (( $cmdname  == "ETAT" ) | ( $cmdname  == "STATUT" ) | ( $cmdname  == "STATUS" ) )
 								$heat['Value']=getCmdInfo($cmd);							
-
-							if ( $cmdname  == "MODE" ) 
+							else if ( $cmdname  == "MODE" ) 
 								$heat['Mode']=getCmdInfo($cmd);							
-							
-							if ( $cmdname == "CONSIGNE" ) 
+							else if ( $cmdname == "CONSIGNE" ) 
 								$heat['Consigne']= getCmdInfo($cmd);							
-							
-							if ( $cmdname == "ON" )
+							else if ( $cmdname == "ON" )
 								$heat['On']=$cmd->getId();							
-
-							if ( $cmdname == "OFF" )
+							else if ( $cmdname == "OFF" )
 								$heat['Off']=$cmd->getId();							
-
+							else
+							{
+								$cmdeqlid = $cmd->getLogicalId();
 							
+								if ( $cmdeqlid == "modeAction")
+									$heatmodes[$nbmode++]=$cmd->getName();	
+							}
 						}
 						$heat['Type']=$eqparams['Kodi Type'];
 						$heat['id']=$plan->getId();
 						$heat['X']=$plan->getPosition("left");
 						$heat['Y']=$plan->getPosition("top");
+						$heat['Modes']=$heatmodes;
 						$heats[$nbheat++]=$heat;
 					}
 					break;	
@@ -541,6 +543,15 @@ if ( init('func') == 'gettherms' )
 	
 }
 
+if ( init('func') == 'getheatmodes' )
+{
+	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=gettherms&uid=58248a5a41c45
+	
+	$heatconfig = getKodiConfig($eqLogic->getConfiguration('plan'),'heat');
+	
+	echo json_encode($heatconfig);
+	
+}
 
 if ( init('group') == 'light' )
 {
