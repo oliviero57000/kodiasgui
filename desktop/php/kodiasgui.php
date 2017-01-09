@@ -152,6 +152,35 @@ $planHeaders = planHeader::all();
 									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="IP" readonly />
 								</div>
 							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label">{{Port}}</label>
+								<div class="col-sm-3">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Port" placeholder="{{Port}}" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label">{{Login}}</label>
+								<div class="col-sm-3">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Login" placeholder="{{Login}}" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label">{{Password}}</label>
+								<div class="col-sm-3">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Password" placeholder="{{Password}}" />
+								</div>
+							</div>							
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label">{{URL de push}}</label>
+								<div class="col-sm-3">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="FWPushURL" />
+								</div>
+							</div>							
+
 							
 							<div class="form-group">
 								<label class="col-sm-3 control-label">{{Acceuil}}</label>

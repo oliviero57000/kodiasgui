@@ -45,6 +45,34 @@ function array_orderby()
 	return array_pop($args);
 }
 
+function callKodi($kodiuser,$kodipwd,$kodiip,$kodiport,$method,$params,$id)
+{
+	$requestHeader = 'http://'.$kodiuser.':'.$kodipwd.'@'.$kodiip.':'.$kodiport;			
+				
+	$json = array(
+			'id' => $id,
+			'jsonrpc' => '2.0',
+			'method' => $method,
+			'params' => $params
+	);			
+				
+	//$request = urlencode(json_encode($json));
+	$request = json_encode($json);
+					
+	$url = $requestHeader . "/jsonrpc?request=".$request;
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+	$response = curl_exec($ch);
+	
+	if ($response === false) 
+		return '';
+	else
+		return $response;
+	
+}
+
 function sendKodi($planid)
 {
 	global $eqLogic;
@@ -146,8 +174,6 @@ function getKodiConfig($planid,$filter)
 		{
 			if ( $plan->getLink_type() == "eqLogic" )
 			{
-			
-			//&  ( $plan->getLink()->getEqType_name() == 'virtual' ))
 			
 			$eqparams = $plan->getLink()->getDisplay('parameters'); 
 			
@@ -354,7 +380,7 @@ function getKodiConfig($planid,$filter)
 								$cmdeqlid = $cmd->getLogicalId();
 							
 								if ( $cmdeqlid == "modeAction")
-									$heatmodes[$nbmode++]=$cmd->getName();	
+									$heatmodes[$cmd->getName()]=$cmd->getId();	
 							}
 						}
 						$heat['Type']=$eqparams['Kodi Type'];
@@ -441,12 +467,30 @@ function getKodiConfig($planid,$filter)
 	
 }	
 
-
 $accessgranted = false;	
 	
 $eqLogics = eqLogic::byType('kodiasgui');
 $uniqueID =  init('uid');
 $granted="unknown";
+
+
+if ( ( $uniqueID =='' )& ( init('func') == 'push' ) )
+{
+	// Internal function PUSH Command
+	$callargs['_command'] ='push';
+	$callparam['wait'] = false;
+	$callparam['addonid'] = 'script.jeedomgui';
+	$callparam['params'] = $callargs;
+	foreach ($eqLogics as $eqLogic) 
+	{
+		// TODO test if kodi is alive ..
+
+		$result = callKodi($eqLogic->getConfiguration('Login'),$eqLogic->getConfiguration('Password'),$eqLogic->getConfiguration('IP'),$eqLogic->getConfiguration('Port'),'Addons.ExecuteAddon',$callparam,1);
+	}
+	
+	echo $result;
+	return;
+}
 
 foreach ($eqLogics as $eqLogic) 
 {
@@ -479,79 +523,32 @@ else
 
 
 
-if ( init('func') == 'getcmds' )
-{
-	// http://192.168.0.38//plugins/kodi/core/api/kodi.api.php?func=getcmds&cmds=21,22
-
-	//$view  = viewData::all();
-
-	$cmdList = init('cmds');
-	
-	$Acmd = split(',',$cmdList);
-
-	$retourOk = 'OK,';
-	foreach ($Acmd as $cmdID) 
-	{
-		if ( ( $cmdID != "") & ( $cmdID != "0") )
-			{
-			$cmd = cmd::byId($cmdID);
-			$resultcmd = $cmd->execCmd();
-			if ($resultcmd == "")
-				$retourOk .= '0,' ;
-			else
-				$retourOk .= $resultcmd.',' ;
-			}
-		else
-			$retourOk .= '0,';
-	}
-	
-	echo($retourOk);
-//		echo(json_encode($view));
-
-}	
-
-
 if ( init('func') == 'getui' )
 {
-	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getui&uid=5857b9ed851c3
-	
 	sendKodi($eqLogic->getConfiguration('plan'));
-	
 }
 
 if ( init('func') == 'getlights' )
 {
-	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getlights&uid=58248a5a41c45
-	
 	sendKodi($eqLogic->getConfiguration('plan_light'));
-	
 }
 
 if ( init('func') == 'getacces' )
 {
-	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=getacces&uid=58248a5a41c45
-	
 	sendKodi($eqLogic->getConfiguration('plan_security'));
-	
 }
 
 if ( init('func') == 'gettherms' )
 {
-	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=gettherms&uid=58248a5a41c45
-	
 	sendKodi($eqLogic->getConfiguration('plan_thermo'));
-	
 }
 
 if ( init('func') == 'getheatmodes' )
 {
-	// http://192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=gettherms&uid=58248a5a41c45
-	
 	$heatconfig = getKodiConfig($eqLogic->getConfiguration('plan'),'heat');
-	
 	echo json_encode($heatconfig);
-	
 }
+
 
 if ( init('group') == 'light' )
 {
@@ -625,7 +622,7 @@ if ( init('group') == 'acces' )
 		
 		if ($acces=='' )
 		{
-			echo 'Acces Not Found';
+			echo 'Acces Object Not Found';
 			return;
 		}	
 		
@@ -668,13 +665,53 @@ if ( init('group') == 'acces' )
 	
 }
 
-if ( init('group') == 'thermo' )
+if ( init('group') == 'heat' )
 {
 	// log::add('kodiasgui', 'info', 'light command received.');
 	
-
-
+	// Get Kodi Config
 	
+		if ( init('mode') == 'global' )
+			$planid = $eqLogic->getConfiguration('plan_thermo');
+		else
+			$planid = $eqLogic->getConfiguration('plan');
+
+		$planconfig = getKodiConfig($planid,'heat');
+
+		$heats = $planconfig['heats'];
+	
+	// Get Selected Heat Object
+	
+		$idxheat = init('obj');
+		$heat = $heats[$idxheat];
+		
+		if ($heat=='' )
+		{
+			echo 'Heat Object Not Found';
+			return;
+		}	
+		
+		if ( init('func') == 'setmode' )
+		{
+			
+			// Set Thermostat Mode   -> Param = new mode
+			$newmode = init('param');
+			if ( $newmode != 'Manuel')
+				{
+				$cmdid = $heat['Modes'][init('param')];
+				$cmd = cmd::byId($cmdid);
+				$resultcmd = $cmd->execCmd();			
+				}
+		}
+
+		if ( init('func') == 'off' )
+		{
+			// Stop
+			$cmdid = $heat['Off'];
+			$cmd = cmd::byId($cmdid);
+			$resultcmd = $cmd->execCmd();			
+		}
+		
 }
 
 
