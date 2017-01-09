@@ -247,8 +247,13 @@ function getKodiConfig($planid,$filter)
 						$light['name']=$eqparams['Kodi Alias'];
 						
 						$cmds = $plan->getLink()->getCmd();
+						$Color_Red = 255;							
+						$Color_Green = 255;							
+						$Color_Blue = 255;							
+						$Intensity = 255;
+
 						foreach ($cmds as $cmd)
-						{		
+						{	
 							$cmdname = strtoupper($cmd->getName());
 							if (( $cmdname == "ETAT" ) | ( $cmdname == "STATUS" ) | ( $cmdname == "VALUE" ) )
 								$light['Value']=getCmdInfo($cmd);							
@@ -259,8 +264,19 @@ function getKodiConfig($planid,$filter)
 							if (( $cmdname == "OFF" ) | ( $cmdname == "ETEINDRE" ))
 								$light['Off']=$cmd->getId();							
 
+							if ( $cmdname == "COLORRED" )
+								$Color_Red = getCmdInfo($cmd);							
+							if ( $cmdname == "COLORGREEN" )
+								$Color_Green = getCmdInfo($cmd);							
+							if ( $cmdname == "COLORBLUE" )
+								$Color_Blue = getCmdInfo($cmd);							
+							if ( $cmdname == "INTENSITY" )
+								$Intensity = getCmdInfo($cmd);							
 							
 						}
+
+						$light['Color'] = sprintf('0x%02X%02X%02X%02X',$Intensity,$Color_Red,$Color_Green,$Color_Blue);
+
 						$light['Type']=$eqparams['Kodi Type'];
 						$light['id']=$plan->getId();
 						$light['X']=$plan->getPosition("left");
