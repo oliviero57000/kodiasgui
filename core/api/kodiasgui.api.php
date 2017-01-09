@@ -16,9 +16,6 @@ function getCmdInfo($cd)
 	else
 		return (string)$resultcmd;
 }	
-								
-
-
 
 	
 //  192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=hello&UID=58089181cdc2b
@@ -477,7 +474,7 @@ $granted="unknown";
 if ( ( $uniqueID =='' )& ( init('func') == 'push' ) )
 {
 	// Internal function PUSH Command
-	$callargs['_command'] ='push';
+	$callargs['_function'] ='push';
 	$callparam['wait'] = false;
 	$callparam['addonid'] = 'script.jeedomgui';
 	$callparam['params'] = $callargs;
