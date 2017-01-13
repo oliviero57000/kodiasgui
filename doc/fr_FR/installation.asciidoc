@@ -1,0 +1,23 @@
+==== Installation et configuration du plug-in Jeedom
+
+==== Installation du plug-in Jeedom
+
+Après téléchargement du plugin sur votre Jeedom, il vous faut activer celui-ci. Il n'y a rien d'autres a faire. Ce plug-in n'utilise aucune dépendances.
+
+==== Installation du plug-in Kodi
+
+
+
+image::../images/configuration.png[]
+
+==== Installation du plugin Jeedom
+
+Si vous avez plusieurs Jeedom, il est conseillé de faire la mise à jour sur les Jeedom esclaves en premier. + 
+Ensuite vous pouvez faire celle du Jeedom maître.
+
+[IMPORTANT]
+Une mise à jour peut interférer momentanément sur le fonctionnement des équipement liés.
+
+Il est conseillé suite à celle-ci, de faire un *_Sauver et/ou Générer les commandes_* pour chaque équipement. + 
+Dans le cas d'Arduino/ESP/NodeMCU/Wemos, il peut être nécéssaire de les flasher avec le nouveau sketch généré.
+

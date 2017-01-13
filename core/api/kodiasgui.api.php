@@ -250,8 +250,11 @@ function getKodiConfig($planid,$filter)
 						$Color_Red = 255;							
 						$Color_Green = 255;							
 						$Color_Blue = 255;							
-						$Intensity = 255;
-
+						$nbmode=0;
+						$light['Mode']="";
+						$light['Modes']=[];
+						$Intensity=100;
+						
 						foreach ($cmds as $cmd)
 						{	
 							$cmdname = strtoupper($cmd->getName());
@@ -272,11 +275,15 @@ function getKodiConfig($planid,$filter)
 								$Color_Blue = getCmdInfo($cmd);							
 							if ( $cmdname == "INTENSITY" )
 								$Intensity = getCmdInfo($cmd);							
+							if ( $cmdname == "MODE" )
+								$light['Mode']= getCmdInfo($cmd);							
+							if ( substr($cmdname,0,5) == "MODE_" )
+								$light['Modes'][$nbmode++] = substr($cmd->getName(),5);					
 							
 						}
 
-						$light['Color'] = sprintf('0x%02X%02X%02X%02X',$Intensity,$Color_Red,$Color_Green,$Color_Blue);
-
+						$light['Color'] = sprintf('0xFF%02X%02X%02X',$Color_Red,$Color_Green,$Color_Blue);
+						$light['Intensity'] = $Intensity;
 						$light['Type']=$eqparams['Kodi Type'];
 						$light['id']=$plan->getId();
 						$light['X']=$plan->getPosition("left");
@@ -606,6 +613,35 @@ if ( init('group') == 'light' )
 		$resultcmd = $cmd->execCmd();
 		 echo 'OK';
 	}
+	
+	if ( init('func') == 'on' )
+	{
+		$cmdid = $light['On'];
+		$cmd = cmd::byId($cmdid);
+		$resultcmd = $cmd->execCmd();
+		 echo 'OK';
+	}
+	
+	if ( init('func') == 'off' )
+	{
+		$cmdid = $light['Off'];
+		$cmd = cmd::byId($cmdid);
+		$resultcmd = $cmd->execCmd();
+		 echo 'OK';
+	}
+	
+	if ( init('func') == 'setcolor' )
+	{
+		
+		// Set Light Color   -> Param = color in format 0xFFFFFFFF  argb
+		$newcolor = init('param');
+		//$cmdid = $heat['Modes'][init('param')];
+		//$cmd = cmd::byId($cmdid);
+		//$resultcmd = $cmd->execCmd();			
+			
+		echo 'OK';				
+	}	
+	
 }
 
 if ( init('group') == 'acces' )
@@ -675,7 +711,7 @@ if ( init('group') == 'acces' )
 			$resultcmd = $cmd->execCmd();
 			echo 'OK';
 		}
-	
+
 }
 
 if ( init('group') == 'heat' )

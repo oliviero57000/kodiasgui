@@ -1,5 +1,24 @@
-= Networks
+:icons:
+= Kodiasgui v0.90
 
-Ce plugin permet de se connecter a KODI.
+== Description
+Ce plugin vous permet de vous interfacer avec des Kodi afin de les utiliser comme interface graphique.
 
+Il est compatible avec le nouveau fonctionnement maître/esclave (plugin Jeedom Link) de Jeedom.
+
+Pour fonctionner il faut impérativement installer un plugin et un skin specifique sur le Kodi.
+
+Seul la version 16 de Kodi est supportée. Le plug-in Kodi peu fonctionner sur l'ensemble des plateformes supportée par Kodi. 
+
+
+'''
+== Installation
+include::installation.asciidoc[]
+
+'''
+== Configuration
 include::configuration.asciidoc[]
+
+'''
+== FAQ
+include::faq.asciidoc[]
