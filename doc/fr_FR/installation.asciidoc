@@ -2,13 +2,21 @@
 
 ==== Installation du plug-in Jeedom
 
-Après téléchargement du plugin sur votre Jeedom, il vous faut activer celui-ci. Il n'y a rien d'autres a faire. Ce plug-in n'utilise aucune dépendances.
+Après téléchargement du plugin sur votre Jeedom, il vous faut activer celui-ci. 
+Allez ensuite sur la page de configuration du plug-in pour passer a l'étape suivante.
 
 ==== Installation du plug-in Kodi
 
+Telecharger le plug-in et la skin kodi sur la page de configuration du plug-in Jeedom.
 
+image::../images/install1.png[]
 
-image::../images/configuration.png[]
+Proceder a l'installation du script sur Kodi , puis du Skin.
+Avant d'activer le skin vérifier que toutes les dépendances ont bien étée installée. Le skin utilisé comme base est Eminence 2.0 et celui-ci utilise beaucoup de dépendances. 
+Si vous ne trouvez pas les dépendances necessaires a l'installation de ce skin sur vos repository favoris. Elles sont toutes telechargeable a l'adresse suivante:
+
+www.lijah.net/repository/JeedomSkin_Plugin_Pack.zip
+
 
 ==== Installation du plugin Jeedom
 

@@ -24,7 +24,24 @@ if (!isConnect()) {
 ?>
 <form class="form-horizontal">
     <fieldset>
-
+		<div class="form-group" >
+			<label class="col-lg-5 control-label">{{Télécharger les plug-in Kodi V16}}</label>
+				<div class="form-group" >
+					<a href="/../plugins/kodiasgui/repo/script.jeedomgui.zip" class="btn btn-success" ><i class='fa fa-floppy-o'></i>{{ Télécharger le script }}</a>
+					<a href="/../plugins/kodiasgui/repo/skin.jeedomgui.zip" class="btn btn-success" ><i class='fa fa-floppy-o'></i>{{ Télécharger le skin }}</a>
+				</div>   
+		</div>   
+		<div class="form-group" >
+		<label class="col-lg-5 control-label">{{Télécharger les plug-in Kodi V17}}</label>
+		</div>
+		<li>
+		<div class="form-group">
+			<label class="col-lg-5 control-label">{{URL de push a enchainer}}</label>
+			<div class="form-group" >
+				<input type="text" class="configKey form-control"  data-l1key="PUSHURLFWD" placeholder=""/>
+			</div>
+		</div>	
+		
     </fieldset>
 </form>
 

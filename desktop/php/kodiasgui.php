@@ -87,10 +87,15 @@ $planHeaders = planHeader::all();
 		<a class="btn btn-danger eqLogicAction pull-right" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer l'équipement}}</a>
 	
 		<ul class="nav nav-tabs" role="tablist">
-			<li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-tachometer"></i> {{Configuration}}</a></li>
-
+			<li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Configuration}}</a></li>
+			<li role="presentation"><a href="#cmdHome" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Acceuil}}</a></li>
+			<li role="presentation"><a href="#cmdInfos" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Infos}}</a></li>
+			<li role="presentation"><a href="#cmdLigths" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Lumières}}</a></li>
+			<li role="presentation"><a href="#cmdAcces" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Sécurité}}</a></li>
+			<li role="presentation"><a href="#cmdTherms" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Chauffages}}</a></li>
+			<li role="presentation"><a href="#cmdEquip" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Machines}}</a></li>
 		</ul>
-	
+
 		<div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">
 			<div role="tabpanel" class="tab-pane active" id="eqlogictab">	
 			<br>								
@@ -100,15 +105,15 @@ $planHeaders = planHeader::all();
         <form class="form-horizontal">
             <fieldset>								
 								<div class="form-group">
-									<label class="col-sm-3 control-label">{{Nom de l'équipement Kodi}}</label>
-									<div class="col-sm-3">
+									<label class="col-sm-2 control-label">{{Nom de l'équipement Kodi}}</label>
+									<div class="col-sm-2">
 										<input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
 										<input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de l'équipement networks}}"/>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-3 control-label" >{{Objet parent}}</label>
-									<div class="col-sm-3">
+									<label class="col-sm-2 control-label" >{{Objet parent}}</label>
+									<div class="col-sm-2">
 										<select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
 											<option value="">{{Aucun}}</option>
 											<?php
@@ -120,7 +125,7 @@ $planHeaders = planHeader::all();
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-3 control-label">{{Catégorie}}</label>
+									<label class="col-sm-2 control-label">{{Catégorie}}</label>
 									<div class="col-sm-8">
 										<?php
 										foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
@@ -132,7 +137,7 @@ $planHeaders = planHeader::all();
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-3 control-label"></label>
+									<label class="col-sm-2 control-label"></label>
 									<div class="col-sm-8">
 										<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isEnable" checked/>{{Activer}}</label>
 										<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isVisible" checked/>{{Visible}}</label>
@@ -141,108 +146,262 @@ $planHeaders = planHeader::all();
 						
 								
 							<div class="form-group">
-								<label class="col-sm-3 control-label">{{UID}}</label>
-								<div class="col-sm-3">
+								<label class="col-sm-2 control-label">{{UID}}</label>
+								<div class="col-sm-2">
 									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="UID" readonly />
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">{{IP}}</label>
-								<div class="col-sm-3">
+								<label class="col-sm-2 control-label">{{IP}}</label>
+								<div class="col-sm-2">
 									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="IP" readonly />
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-3 control-label">{{Port}}</label>
-								<div class="col-sm-3">
+								<label class="col-sm-2 control-label">{{Port}}</label>
+								<div class="col-sm-2">
 									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Port" placeholder="{{Port}}" />
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-3 control-label">{{Login}}</label>
-								<div class="col-sm-3">
+								<label class="col-sm-2 control-label">{{Login}}</label>
+								<div class="col-sm-2">
 									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Login" placeholder="{{Login}}" />
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-3 control-label">{{Password}}</label>
-								<div class="col-sm-3">
+								<label class="col-sm-2 control-label">{{Password}}</label>
+								<div class="col-sm-2">
 									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Password" placeholder="{{Password}}" />
 								</div>
 							</div>							
 
-							<div class="form-group">
-								<label class="col-sm-3 control-label">{{URL de push}}</label>
-								<div class="col-sm-3">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="FWPushURL" />
-								</div>
-							</div>							
-
-							
-							<div class="form-group">
-								<label class="col-sm-3 control-label">{{Acceuil}}</label>
-								<div class="col-sm-3">
-									<select id="sel_plan" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="plan" >
-										<?php
-										foreach ($planHeaders as $plan) {
-												echo '<option value="' . $plan->getId() . '">' . $plan->getName() . '</option>';
-										}
-										?>
-									</select>
-								</div>
-							</div>
-								
-							<div class="form-group">
-								<label class="col-sm-3 control-label">{{Eclairages}}</label>
-								<div class="col-sm-3">
-									<select id="sel_plan_light" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="plan_light" >
-										<?php
-										foreach ($planHeaders as $plan) {
-												echo '<option value="' . $plan->getId() . '">' . $plan->getName() . '</option>';
-										}
-										?>
-									</select>
-								</div>
-							</div>
-							
-							<div class="form-group">
-								<label class="col-sm-3 control-label">{{Chauffages}}</label>
-								<div class="col-sm-3">
-									<select id="sel_plan_thermo" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="plan_thermo" >
-										<?php
-										foreach ($planHeaders as $plan) {
-												echo '<option value="' . $plan->getId() . '">' . $plan->getName() . '</option>';
-										}
-										?>
-									</select>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label class="col-sm-3 control-label">{{Sécurité}}</label>
-								<div class="col-sm-3">
-									<select id="sel_plan_security" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="plan_security" >
-										<?php
-										foreach ($planHeaders as $plan) {
-												echo '<option value="' . $plan->getId() . '">' . $plan->getName() . '</option>';
-										}
-										?>
-									</select>
-								</div>
-							</div>
-
-							
-							
+						
+						
 							
 							</fieldset>
 						</form>
 
 					</div>
 	
+			<div role="tabpanel" class="tab-pane" id="cmdHome" >
+
+							
+					<div class="form-group">
+						<label class="col-sm-2 control-label">{{Design de configuration de l'acceuil}}</label>
+						<div class="col-sm-2">
+							<select id="sel_plan_home" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="plan_home" >
+								<option value="" >{{Aucun}}</option>
+								<?php
+								foreach ($planHeaders as $plan) {
+										echo '<option value="' . $plan->getId() . '">' . $plan->getName() . '</option>';
+								}
+								?>
+							</select>
+						</div>
+					</div>
+
+							
+				<table id="table_cmdhome" class="table table-bordered table-condensed">
+
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>{{Equipement}}</th>
+						<th>{{Alias}}</th>
+						<th>{{Type}}</th>
+						<th></th>
+					</tr>
+				</thead>					
+
+				<tbody>
+				</tbody>
+
+				</table>
+							
+			
+			</div>
+	
+			<div role="tabpanel" class="tab-pane" id="cmdInfos" >
+			
+			
+				<div class="form-group">
+					<label class="col-sm-2 control-label">{{Design de configuration de l'écran infos}}</label>
+					<div class="col-sm-2">
+						<select id="sel_plan_info" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="plan_info" >
+							<option value="" >{{Aucun}}</option>
+							<?php
+							foreach ($planHeaders as $plan) {
+									echo '<option value="' . $plan->getId() . '">' . $plan->getName() . '</option>';
+							}
+							?>
+						</select>
+					</div>
 				</div>
+			
+				<table id="table_cmdinfo" class="table table-bordered table-condensed">
+
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>{{Equipement}}</th>
+						<th>{{Alias}}</th>
+						<th>{{Type}}</th>
+						<th></th>
+					</tr>
+				</thead>					
+
+				<tbody>
+				</tbody>
+
+				</table>
+			
+			</div>
+	
+			<div role="tabpanel" class="tab-pane" id="cmdLigths" >
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">{{Design de configuration de l'éclairages}}</label>
+					<div class="col-sm-2">
+						<select id="sel_plan_light" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="plan_light" >
+							<option value="" >{{Aucun}}</option>
+							<?php
+							foreach ($planHeaders as $plan) {
+									echo '<option value="' . $plan->getId() . '">' . $plan->getName() . '</option>';
+							}
+							?>
+						</select>
+					</div>
+				</div>
+
+
+				<table id="table_cmdlight" class="table table-bordered table-condensed">
+
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>{{Equipement}}</th>
+						<th>{{Alias}}</th>
+						<th>{{Type}}</th>
+						<th></th>
+					</tr>
+				</thead>					
+
+				<tbody>
+				</tbody>
+
+				</table>
+
+				
+			</div>
+	
+			<div role="tabpanel" class="tab-pane" id="cmdAcces" >
+
+				<div class="form-group">
+								<label class="col-sm-2 control-label">{{Design de configuration de la sécurité}}</label>
+								<div class="col-sm-2">
+									<select id="sel_plan_security" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="plan_security" >
+									<option value="" >{{Aucun}}</option>
+										<?php
+										foreach ($planHeaders as $plan) {
+												echo '<option value="' . $plan->getId() . '">' . $plan->getName() . '</option>';
+										}
+										?>
+									</select>
+								</div>
+							</div>
+							
+				<table id="table_cmdacces" class="table table-bordered table-condensed">
+
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>{{Equipement}}</th>
+						<th>{{Alias}}</th>
+						<th>{{Type}}</th>
+						<th></th>
+					</tr>
+				</thead>					
+
+				<tbody>
+				</tbody>
+
+				</table>			
+			</div>
+	
+			<div role="tabpanel" class="tab-pane" id="cmdTherms" >
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">{{Design de configuration du chauffages}}</label>
+					<div class="col-sm-2">
+						<select id="sel_plan_thermo" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="plan_thermo" >
+							<option value="" >{{Aucun}}</option>
+							<?php
+							foreach ($planHeaders as $plan) {
+									echo '<option value="' . $plan->getId() . '">' . $plan->getName() . '</option>';
+							}
+							?>
+						</select>
+					</div>
+				</div>
+
+				<table id="table_cmdthermo" class="table table-bordered table-condensed">
+
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>{{Equipement}}</th>
+						<th>{{Alias}}</th>
+						<th>{{Type}}</th>
+						<th></th>
+					</tr>
+				</thead>					
+
+				<tbody>
+				</tbody>
+
+				</table>	
+			
+			</div>
+	
+			<div role="tabpanel" class="tab-pane" id="cmdEquip" >
+			
+				<div class="form-group">
+					<label class="col-sm-2 control-label">{{Design de configuration des équipements}}</label>
+					<div class="col-sm-2">
+						<select id="sel_plan_equip" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="plan_equip" >
+							<option value="" >{{Aucun}}</option>
+							<?php
+							foreach ($planHeaders as $plan) {
+									echo '<option value="' . $plan->getId() . '">' . $plan->getName() . '</option>';
+							}
+							?>
+						</select>
+					</div>
+				</div>
+
+				<table id="table_cmdequip" class="table table-bordered table-condensed">
+
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>{{Equipement}}</th>
+						<th>{{Alias}}</th>
+						<th>{{Type}}</th>
+						<th></th>
+					</tr>
+				</thead>					
+
+				<tbody>
+				</tbody>
+
+				</table>				
+			
+			</div>			
+		</div>
 
 			</div>
 		</div>

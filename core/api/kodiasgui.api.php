@@ -93,7 +93,7 @@ function sendKodi($planid)
 	{
     $filename = $planHeader->getImage('sha1') . '.' . $planHeader->getImage('type');
 
-	echo ' , "plan" : "'.$planHeader->getName().'" , "image" : "'.$filename.'" ';
+	echo ' , "planid" : "'.$planid.' , "plan" : "'.$planHeader->getName().'" , "image" : "'.$filename.'" ';
 
 	$planconfig = getKodiConfig($planid,'');
 	
