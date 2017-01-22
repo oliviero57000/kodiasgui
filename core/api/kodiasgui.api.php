@@ -5,7 +5,6 @@ require_once dirname(__FILE__) . "/../../../../core/php/core.inc.php";
 
 function getCmdInfo($cd)
 {
-		
 	$resultcmd = $cd->execCmd(null,1,false);
 	
 	if ($resultcmd == null )
@@ -17,13 +16,10 @@ function getCmdInfo($cd)
 		return (string)$resultcmd;
 }	
 
-	
-//  192.168.0.38//plugins/kodiasgui/core/api/kodiasgui.api.php?func=hello&UID=58089181cdc2b
+
 function array_orderby()
 {
-
 	$args = func_get_args();
-
 	$data = array_shift($args);
 
 	foreach ($args as $n => $field)
@@ -53,9 +49,7 @@ function callKodi($kodiuser,$kodipwd,$kodiip,$kodiport,$method,$params,$id)
 			'params' => $params
 	);			
 				
-	//$request = urlencode(json_encode($json));
 	$request = json_encode($json);
-					
 	$url = $requestHeader . "/jsonrpc?request=".$request;
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -93,7 +87,7 @@ function sendKodi($planid)
 	{
     $filename = $planHeader->getImage('sha1') . '.' . $planHeader->getImage('type');
 
-	echo ' , "planid" : "'.$planid.' , "plan" : "'.$planHeader->getName().'" , "image" : "'.$filename.'" ';
+	echo ' , "planid" : "'.$planid.'" , "plan" : "'.$planHeader->getName().'" , "image" : "'.$filename.'" ';
 
 	$planconfig = getKodiConfig($planid,'');
 	
@@ -132,10 +126,8 @@ function sendKodi($planid)
 	echo json_encode($sorted);
 	
 	echo ' } ';
-
 	
 	}
-
 }
 
 function getKodiConfig($planid,$filter)
@@ -175,8 +167,8 @@ function getKodiConfig($planid,$filter)
 			$eqparams = $plan->getLink()->getDisplay('parameters'); 
 			
 			switch ($eqparams['Kodi Type']){
-				case "Thermo":
-				case "Hygro":
+				case "Thermometre":
+				case "Hygrometre":
 				
 					if (($filter == '')|($filter == 'thermo'))
 					{
@@ -217,10 +209,10 @@ function getKodiConfig($planid,$filter)
 						$ginfos[$nbginfo++]=$ginfo;
 					}
 					break;
-				case "Move":
-				case "Flood":
-				case "Fire":
-				case "Lumen":
+				case "Presence":
+				case "Innondation":
+				case "Feu":
+				case "Luminosite":
 					if (($filter == '')|($filter == 'alert'))
 					{					
 						$alert['name']=$eqparams['Kodi Alias'];
@@ -239,9 +231,9 @@ function getKodiConfig($planid,$filter)
 						$alerts[$nbalert++]=$alert;
 					}
 					break;
-				case "Light":
-				case "LightDimmer":
-				case "LightRGB":
+				case "Lumiere":
+				case "LumiereDimmer":
+				case "LumiereRGB":
 					if (($filter == '')|($filter == 'light'))
 					{				
 						$light['name']=$eqparams['Kodi Alias'];
@@ -292,8 +284,8 @@ function getKodiConfig($planid,$filter)
 					}
 					break;
 				case "Store":
-				case "Door":
-				case "Window":
+				case "Porte":
+				case "Fenetre":
 				case "Velux":
 					if (($filter == '')|($filter == 'acces'))
 					{					
@@ -411,7 +403,7 @@ function getKodiConfig($planid,$filter)
 						$heats[$nbheat++]=$heat;
 					}
 					break;	
-				case "Water":
+				case "Eau":
 					if (($filter == '')|($filter == 'water'))
 					{				
 						$water['name']=$eqparams['Kodi Alias'];
@@ -487,16 +479,19 @@ function getKodiConfig($planid,$filter)
 	
 }	
 
+// -------------------------------------------- MAIN
+
 $accessgranted = false;	
 	
 $eqLogics = eqLogic::byType('kodiasgui');
 $uniqueID =  init('uid');
 $granted="unknown";
 
+// Internal function PUSH Command
 
 if ( ( $uniqueID =='' )& ( init('func') == 'push' ) )
 {
-	// Internal function PUSH Command
+	
 	$callargs['_function'] ='push';
 	$callparam['wait'] = false;
 	$callparam['addonid'] = 'script.jeedomgui';
@@ -511,6 +506,8 @@ if ( ( $uniqueID =='' )& ( init('func') == 'push' ) )
 	echo $result;
 	return;
 }
+
+// Authenticate Kodi
 
 foreach ($eqLogics as $eqLogic) 
 {
@@ -527,6 +524,8 @@ foreach ($eqLogics as $eqLogic)
 
 if ( $accessgranted )
 {
+	// Manage Hello Test function 
+	
 	if ( init('func') == 'hello' )
 	{
 		log::add('kodiasgui', 'info', 'Hello from '.$granted.' IP:'.$ipgranted);
@@ -541,112 +540,110 @@ else
 	die();	
 }
 
+// PROCESS API get Commands
 
+switch (init('func')){
+	case "getui":
+		sendKodi($eqLogic->getConfiguration('plan'));
+	break;
 
-if ( init('func') == 'getui' )
-{
-	sendKodi($eqLogic->getConfiguration('plan'));
-}
-
-if ( init('func') == 'getlights' )
-{
-	sendKodi($eqLogic->getConfiguration('plan_light'));
-}
-
-if ( init('func') == 'getacces' )
-{
-	sendKodi($eqLogic->getConfiguration('plan_security'));
-}
-
-if ( init('func') == 'gettherms' )
-{
-	sendKodi($eqLogic->getConfiguration('plan_thermo'));
-}
-
-if ( init('func') == 'getheatmodes' )
-{
-	$heatconfig = getKodiConfig($eqLogic->getConfiguration('plan'),'heat');
-	echo json_encode($heatconfig);
-}
-
-
-if ( init('group') == 'light' )
-{
-	// Get Kodi Config
+	case "getlights":
+		sendKodi($eqLogic->getConfiguration('plan_light'));
+	break;
 	
-		if ( init('mode') == 'global' )
-			$planid = $eqLogic->getConfiguration('plan_light');
-		else
-			$planid = $eqLogic->getConfiguration('plan');
+	case "getacces":
+		sendKodi($eqLogic->getConfiguration('plan_security'));
+	break;
 
-		$planconfig = getKodiConfig($planid,'light');
+	case "gettherms":
+		sendKodi($eqLogic->getConfiguration('plan_thermo'));
+	break;
+	
+	case "getheatmodes":
+		$heatconfig = getKodiConfig($eqLogic->getConfiguration('plan'),'heat');
+		echo json_encode($heatconfig);
+	break;
+}
 
-		$light='';
-		$lights = $planconfig['lights'];
-	
-	// Get Selected Light
-	
-		foreach ($lights as $idxlight)
-		{
-			if ( $idxlight['id']== init('obj') )
+// PROCESS API group Commands
+
+switch (init('group')){
+	case "light":
+		// Get Kodi Config
+		
+			if ( init('mode') == 'global' )
+				$planid = $eqLogic->getConfiguration('plan_light');
+			else
+				$planid = $eqLogic->getConfiguration('plan');
+
+			$planconfig = getKodiConfig($planid,'light');
+
+			$light='';
+			$lights = $planconfig['lights'];
+		
+		// Get Selected Light
+		
+			foreach ($lights as $idxlight)
 			{
-				$light = $idxlight;
-				break;
+				if ( $idxlight['id']== init('obj') )
+				{
+					$light = $idxlight;
+					break;
+				}
 			}
-		}
-		
-		if ($light=='' )
-		{
-			echo 'Light Not Found';
-			return;
-		}
-		
-	if ( init('func') == 'switch' )
-	{
-
-		if ($light['Value']=='1' )
-			$cmdid = $light['Off'];
-		else
-			$cmdid = $light['On'];
-
-		$cmd = cmd::byId($cmdid);
-		$resultcmd = $cmd->execCmd();
-		 echo 'OK';
-	}
-	
-	if ( init('func') == 'on' )
-	{
-		$cmdid = $light['On'];
-		$cmd = cmd::byId($cmdid);
-		$resultcmd = $cmd->execCmd();
-		 echo 'OK';
-	}
-	
-	if ( init('func') == 'off' )
-	{
-		$cmdid = $light['Off'];
-		$cmd = cmd::byId($cmdid);
-		$resultcmd = $cmd->execCmd();
-		 echo 'OK';
-	}
-	
-	if ( init('func') == 'setcolor' )
-	{
-		
-		// Set Light Color   -> Param = color in format 0xFFFFFFFF  argb
-		$newcolor = init('param');
-		//$cmdid = $heat['Modes'][init('param')];
-		//$cmd = cmd::byId($cmdid);
-		//$resultcmd = $cmd->execCmd();			
 			
-		echo 'OK';				
-	}	
-	
-}
+			if ($light=='' )
+			{
+				echo 'Light Not Found';
+				return;
+			}
+			
+		if ( init('func') == 'switch' )
+		{
 
-if ( init('group') == 'acces' )
-{
-	// Get Kodi Config
+			if ($light['Value']=='1' )
+				$cmdid = $light['Off'];
+			else
+				$cmdid = $light['On'];
+
+			$cmd = cmd::byId($cmdid);
+			$resultcmd = $cmd->execCmd();
+			 echo 'OK';
+		}
+		
+		if ( init('func') == 'on' )
+		{
+			$cmdid = $light['On'];
+			$cmd = cmd::byId($cmdid);
+			$resultcmd = $cmd->execCmd();
+			 echo 'OK';
+		}
+		
+		if ( init('func') == 'off' )
+		{
+			$cmdid = $light['Off'];
+			$cmd = cmd::byId($cmdid);
+			$resultcmd = $cmd->execCmd();
+			 echo 'OK';
+		}
+		
+		if ( init('func') == 'setcolor' )
+		{
+			
+			// Set Light Color   -> Param = color in format 0xFFFFFFFF  argb
+			$newcolor = init('param');
+			//$cmdid = $heat['Modes'][init('param')];
+			//$cmd = cmd::byId($cmdid);
+			//$resultcmd = $cmd->execCmd();			
+				
+			echo 'OK';				
+		}	
+
+	
+	break;
+	
+	case "acces":
+		// Get Kodi Config
 	
 		if ( init('mode') == 'global' )
 			$planid = $eqLogic->getConfiguration('plan_security');
@@ -658,7 +655,7 @@ if ( init('group') == 'acces' )
 		$acces='';
 		$access = $planconfig['access'];
 	
-	// Get Selected Access Object
+		// Get Selected Access Object
 	
 		foreach ($access as $idxacces)
 		{
@@ -712,13 +709,13 @@ if ( init('group') == 'acces' )
 			echo 'OK';
 		}
 
-}
-
-if ( init('group') == 'heat' )
-{
-	// log::add('kodiasgui', 'info', 'light command received.');
+	break;
 	
-	// Get Kodi Config
+	case "heat":
+
+		// log::add('kodiasgui', 'info', 'light command received.');
+	
+		// Get Kodi Config
 	
 		if ( init('mode') == 'global' )
 			$planid = $eqLogic->getConfiguration('plan_thermo');
@@ -729,7 +726,7 @@ if ( init('group') == 'heat' )
 
 		$heats = $planconfig['heats'];
 	
-	// Get Selected Heat Object
+		// Get Selected Heat Object
 	
 		$idxheat = init('obj');
 		$heat = $heats[$idxheat];
@@ -761,6 +758,8 @@ if ( init('group') == 'heat' )
 			$resultcmd = $cmd->execCmd();			
 		}
 		
+	break;
+	
 }
 
 
