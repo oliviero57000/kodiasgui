@@ -1,31 +1,70 @@
-==== Installation et configuration du plug-in Jeedom
+==== Installation et configuration des plug-in Jeedom et kodi
 
 ==== Installation du plug-in Jeedom
 
 Après téléchargement du plugin sur votre Jeedom, il vous faut activer celui-ci. 
 Allez ensuite sur la page de configuration du plug-in pour passer a l'étape suivante.
 
-==== Installation du plug-in Kodi
+==== Installation des plug-in Kodi
 
 Telecharger le plug-in et la skin kodi sur la page de configuration du plug-in Jeedom.
 
 image::../images/install1.png[]
 
-Proceder a l'installation du script sur Kodi , puis du Skin.
-Avant d'activer le skin vérifier que toutes les dépendances ont bien étée installée. Le skin utilisé comme base est Eminence 2.0 et celui-ci utilise beaucoup de dépendances. 
-Si vous ne trouvez pas les dépendances necessaires a l'installation de ce skin sur vos repository favoris. Elles sont toutes telechargeable a l'adresse suivante:
+Proceder à l'installation du script sur Kodi en premier, puis du Skin.
+Le skin utilisé comme base est Eminence 2.0 et celui-ci utilise beaucoup de dépendances il est donc assez long avant de s'activer. 
+Le skin téléchargera les extensions indispensable automatiquement sur le repository officiel Kodi. D'autres extensions optionelles peuvent etre activées, l'etat des dépendances est disponible dans le menu parametre du skin.
 
-www.lijah.net/repository/JeedomSkin_Plugin_Pack.zip
+[Important] 
+La page domotique remplace la page "Programmes" de kodi et pour le moment il n'y a pas moyen de cohabiter. Toutefois les programmes peuvent etre appelés directement en utilisant les menus configurable du Skin.
+Ce skin est concu pour proposer la page "domotique" (donc "programes" en fait) comme page de demmarrage, mais le parametrage par defaut Kodi met la page "multimedia" en page par défaut. Il faudra donc modifier ce parametre dans la configuration de l'affichage.
+
+image::../images/install7.png[]
 
 
-==== Installation du plugin Jeedom
+==== Configuration de base
 
-Si vous avez plusieurs Jeedom, il est conseillé de faire la mise à jour sur les Jeedom esclaves en premier. + 
-Ensuite vous pouvez faire celle du Jeedom maître.
+La première étape consiste à créer un nouvel équipement Kodi dans Jeedom avec ce plug-in. Donnez lui un nom et activez le.
 
-[IMPORTANT]
-Une mise à jour peut interférer momentanément sur le fonctionnement des équipement liés.
+image::../images/install3.png[]
 
-Il est conseillé suite à celle-ci, de faire un *_Sauver et/ou Générer les commandes_* pour chaque équipement. + 
-Dans le cas d'Arduino/ESP/NodeMCU/Wemos, il peut être nécéssaire de les flasher avec le nouveau sketch généré.
+Les parametres suivants doivent être synchronisés avec Kodi :
+
+* UID 
+Cet identifiant unique généré lors de la création de l'équipement permet d'identifier le Kodi qui se connecte. Il faut entrer cette valeur dans la configuration du plug in "Jeedom UI Script" de kodi.
+
+image::../images/install2.png[]
+
+* IP
+L'adresse IP affichée ici elle celle identifiée par Jeedom lors des connnections du Kodi. Elle restera vide temps que le Kodi n'aura pas réussi une connection au jeedom.
+
+* Port
+Le numéro de port à utiliser pour communiquer avec le Kodi en HTTP
+
+* Login
+Le login à utiliser pour se connecter en HTTP a Kodi
+
+* Password
+Le mot de passe à utiliser pour se connecter en HTTP a Kodi
+
+Ces 3 parametres doivent être configurés dans Kodi , sur la page de configuration du réseau. Sur cette page il faut aussi activer le controle a distance en Http.
+
+image::../images/install4.png[]
+
+Sur la page suivante , il faudra autoriser le contrôle à distance par d'autres programes sur d'autres systemes si Jeedom et Kodi ne sont pas sur les memes machines.
+
+image::../images/install5.png[]
+
+Pour terminer la configuration de la communication avec le Kodi , il faut configurer l'adresse de push de Jeedom. 
+Dans la configuration de Jeedom a l'onglet commandes. Il faut entrer l'adresse suivante :
+
+http:/xxx.xxx.xxx.xxx//plugins/kodiasgui/core/api/kodiasgui.api.php?func=push 
+
++xxx.xxx.xxx.xxx+ étant l'adresse IP de votre Jeedom.
+
+image::../images/install6.png[]
+
+Si vous utilisez deja cette adresse de Push pour autre chose, ce plug-in permettra bientot d'enchainer le push sur une autre adresse. 
+
+
 

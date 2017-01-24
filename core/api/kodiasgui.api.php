@@ -336,7 +336,6 @@ function getKodiConfig($planid,$filter)
 						foreach ($cmds as $cmd)
 						{		
 							$cmdname = strtoupper($cmd->getName());
-							if (( $cmdname  == "ETAT" ) | ( $cmdname  == "STATUS" ) | ( $cmdname  == "VALUE" ) | ($cmdname  == "PORTE" ) )
 								$equip['Value']=getCmdInfo($cmd);							
 
 							if (( $cmdname  == "PARAM1" ) | ( $cmdname  == "TEMPERATURE1" ) )
@@ -432,10 +431,10 @@ function getKodiConfig($planid,$filter)
 								$water['Count']=$resultcmd;							
 							}
 							
-							if (( $cmdname == "ON" ) | ( $cmdname == "ALLUMER" ))
+							if (( $cmdname == "ON" ) | ( $cmdname == "OUVRIR" ))
 								$water['On']=$cmd->getId();							
 
-							if (( $cmdname == "OFF" ) | ( $cmdname == "ETEINDRE" ))
+							if (( $cmdname == "OFF" ) | ( $cmdname == "FERMER" ))
 								$water['Off']=$cmd->getId();							
 
 							
@@ -525,7 +524,7 @@ foreach ($eqLogics as $eqLogic)
 if ( $accessgranted )
 {
 	// Manage Hello Test function 
-	
+
 	if ( init('func') == 'hello' )
 	{
 		log::add('kodiasgui', 'info', 'Hello from '.$granted.' IP:'.$ipgranted);
@@ -544,7 +543,7 @@ else
 
 switch (init('func')){
 	case "getui":
-		sendKodi($eqLogic->getConfiguration('plan'));
+		sendKodi($eqLogic->getConfiguration('plan_home'));
 	break;
 
 	case "getlights":
@@ -560,7 +559,7 @@ switch (init('func')){
 	break;
 	
 	case "getheatmodes":
-		$heatconfig = getKodiConfig($eqLogic->getConfiguration('plan'),'heat');
+		$heatconfig = getKodiConfig($eqLogic->getConfiguration('plan_home'),'heat');
 		echo json_encode($heatconfig);
 	break;
 }
@@ -574,7 +573,7 @@ switch (init('group')){
 			if ( init('mode') == 'global' )
 				$planid = $eqLogic->getConfiguration('plan_light');
 			else
-				$planid = $eqLogic->getConfiguration('plan');
+				$planid = $eqLogic->getConfiguration('plan_home');
 
 			$planconfig = getKodiConfig($planid,'light');
 
@@ -648,7 +647,7 @@ switch (init('group')){
 		if ( init('mode') == 'global' )
 			$planid = $eqLogic->getConfiguration('plan_security');
 		else
-			$planid = $eqLogic->getConfiguration('plan');
+			$planid = $eqLogic->getConfiguration('plan_home');
 
 		$planconfig = getKodiConfig($planid,'acces');
 
@@ -720,7 +719,7 @@ switch (init('group')){
 		if ( init('mode') == 'global' )
 			$planid = $eqLogic->getConfiguration('plan_thermo');
 		else
-			$planid = $eqLogic->getConfiguration('plan');
+			$planid = $eqLogic->getConfiguration('plan_home');
 
 		$planconfig = getKodiConfig($planid,'heat');
 
