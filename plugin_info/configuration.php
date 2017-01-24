@@ -27,8 +27,8 @@ if (!isConnect()) {
 		<div class="form-group" >
 			<label class="col-lg-5 control-label">{{Télécharger les plug-in Kodi V16}}</label>
 				<div class="form-group" >
-					<a href="/../plugins/kodiasgui/repo/script.jeedomgui.zip" class="btn btn-success" ><i class='fa fa-floppy-o'></i>{{ Télécharger le script }}</a>
-					<a href="/../plugins/kodiasgui/repo/skin.jeedomgui.zip" class="btn btn-success" ><i class='fa fa-floppy-o'></i>{{ Télécharger le skin }}</a>
+					<a href="http://lijah.net/wp-content/uploads/2017/01/script.jeedomgui.zip" class="btn btn-success" ><i class='fa fa-floppy-o'></i>{{ Télécharger le script }}</a>
+					<a href="http://lijah.net/wp-content/uploads/2017/01/skin.jeedomgui.zip" class="btn btn-success" ><i class='fa fa-floppy-o'></i>{{ Télécharger le skin }}</a>
 				</div>   
 		</div>   
 		<div class="form-group" >
