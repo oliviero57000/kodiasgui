@@ -336,6 +336,7 @@ function getKodiConfig($planid,$filter)
 						foreach ($cmds as $cmd)
 						{		
 							$cmdname = strtoupper($cmd->getName());
+							if (( $cmdname  == "ETAT" ) | ( $cmdname  == "STATUS" ) | ( $cmdname  == "VALUE" ) | ( $cmdname  == "PORTE" ) )
 								$equip['Value']=getCmdInfo($cmd);							
 
 							if (( $cmdname  == "PARAM1" ) | ( $cmdname  == "TEMPERATURE1" ) )
