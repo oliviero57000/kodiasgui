@@ -25,19 +25,27 @@ if (!isConnect()) {
 <form class="form-horizontal">
     <fieldset>
 		<div class="form-group" >
-			<label class="col-lg-5 control-label">{{Télécharger les plug-in Kodi V16}}</label>
-				<div class="form-group" >
-					<a href="http://lijah.net/wp-content/uploads/2017/01/script.jeedomgui.zip" class="btn btn-success" ><i class='fa fa-floppy-o'></i>{{ Télécharger le script }}</a>
-					<a href="http://lijah.net/wp-content/uploads/2017/01/skin.jeedomgui.zip" class="btn btn-success" ><i class='fa fa-floppy-o'></i>{{ Télécharger le skin }}</a>
+			<label class="col-lg-5 control-label">{{Extension et thème KODIASGUI pour KODI V 16}}</label>
+            <div class="col-lg-4">
+			     <a class="btn btn-default" href="http://lijah.net/wp-content/uploads/2017/01/script.jeedomgui.zip"><i class="fa fa-cloud-download"></i> {{Télécharger l'extension pour installer dans KODI}}</a>
+				 <a class="btn btn-default" href="http://lijah.net/wp-content/uploads/2017/01/skin.jeedomgui.zip"><i class="fa fa-cloud-download"></i> {{Télécharger le thème pour installer dans KODI}}</a>
 				</div>   
 		</div>   
 		<div class="form-group" >
-		<label class="col-lg-5 control-label">{{Télécharger les plug-in Kodi V17}}</label>
+		<label class="col-lg-5 control-label">{{Extension et thème KODIASGUI pour KODI V 17}}</label>
+		<div style="width: 100%; padding: 7px 35px 7px 15px; margin-bottom: 5px; overflow: auto; max-height: 576px; z-index: 9999;" id="div_alert" class="alert jqAlert alert-danger">
+		<span class="displayError"><span id="span_errorMessage"></span>L'extension et le thème KODIASGUI pour KODI V 17 ne sont pas encore disponibles.</span>
 		</div>
-		<li>
+            <div class="col-lg-4">
+				 <a class="btn btn-default" href="#"><i class="fa fa-cloud-download"></i> {{Télécharger l'extension pour installer dans KODI}}</a>
+				 <a class="btn btn-default" href="#"><i class="fa fa-cloud-download"></i> {{Télécharger le thème pour installer dans KODI}}</a>
+				</div>   
+		</div>   
+		
 		<div class="form-group">
-			<label class="col-lg-5 control-label">{{URL de push a enchainer}}</label>
-			<div class="form-group" >
+		<div class="col-lg-4">
+			<label class="col-lg-5 control-label">{{URL de push a enchaîner}}</label>
+			<div class="col-lg-4">
 				<input type="text" class="configKey form-control"  data-l1key="PUSHURLFWD" placeholder=""/>
 			</div>
 		</div>	
