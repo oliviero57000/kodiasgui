@@ -6,9 +6,9 @@ Ce plugin vous permet de vous interfacer avec des Kodi afin de les utiliser comm
 
 Il est compatible avec le nouveau fonctionnement maître/esclave (plugin Jeedom Link) de Jeedom.
 
-Pour fonctionner il faut impérativement installer un plugin et un skin specifique sur le Kodi.
+Pour fonctionner il faut impérativement télécharger l'extension et le skin specifique à ce plugin à l'aide des boutons présents sur la page de configuration générale de celui-ci puis procéder à leur installation sur votre système Kodi.
 
-Seul la version 16 de Kodi est supportée. Le plug-in Kodi peu fonctionner sur l'ensemble des plateformes supportées par Kodi. 
+Seule la version 16 de Kodi est supportée. L'extension Kodi est compatible avec l'ensemble des plateformes supportées par Kodi. 
 
 
 '''
