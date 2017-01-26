@@ -44,7 +44,7 @@ if (!isConnect()) {
 		
 		<div class="form-group">
 		<div class="col-lg-4">
-			<label class="col-lg-5 control-label">{{URL de push a enchaîner}}</label>
+			<label class="col-lg-5 control-label">{{URL de push à enchaîner}}</label>
 			<div class="col-lg-4">
 				<input type="text" class="configKey form-control"  data-l1key="PUSHURLFWD" placeholder=""/>
 			</div>
