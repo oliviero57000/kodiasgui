@@ -88,7 +88,7 @@ $planHeaders = planHeader::all();
 	
 		<ul class="nav nav-tabs" role="tablist">
 			<li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Configuration}}</a></li>
-			<li role="presentation"><a href="#cmdHome" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Acceuil}}</a></li>
+			<li role="presentation"><a href="#cmdHome" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Accueil}}</a></li>
 			<li role="presentation"><a href="#cmdInfos" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Infos}}</a></li>
 			<li role="presentation"><a href="#cmdLigths" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Lumières}}</a></li>
 			<li role="presentation"><a href="#cmdAcces" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Sécurité}}</a></li>
