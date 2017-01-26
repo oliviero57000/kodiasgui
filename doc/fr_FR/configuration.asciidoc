@@ -1,4 +1,4 @@
-=== Configuration des ecrans
+=== Configuration des écrans
 
 Chaque Kodi affichent plusieurs écrans, chacun de ces écrans se configure séparément. Cette configuration se fait en utilisant des "Design" créés sur Jeedom.
 On va ensuite lier ces design aux pages du Kodi que l'on souhaite afficher. 
@@ -37,17 +37,17 @@ La page de gestion des energies rassemble l'ensemble des informations sur les co
 
 ==== Equipement
 
-Les équipements regroupent tous les objets connectés hors des catégories précédentes. /Par exemple, un lave linge , une montre, une TV , une plante ...  Cette page rassemble l'ensemble de ces equipements.
+Les équipements regroupent tous les objets connectés hors des catégories précédentes. Par exemple, un lave linge , une montre, une TV , une plante ...  Cette page rassemble l'ensemble de ces equipements.
 
 ==== Infos
 
-La page infos est une version modifiée de la page "Météo" de kodi , en plus de la météo configurée sur kodi cette pages rassemble différentes informations remontées par jeedom. Par exemple l'etat du traffic, l'agenda , des d'alertes ou d'information.
+La page Infos est une version modifiée de la page "Météo" de kodi , en plus de la météo configurée sur kodi cette pages rassemble différentes informations remontées par jeedom. Par exemple l'etat du traffic, l'agenda , des d'alertes ou d'information.
 
 
 === Exemple rapide de configuration
 
 Voici un exemple simple de configuration d'écran pour comprendre le principe. 
-Dans Jeedom créé un Design "Kodi Acceuil" 
+Dans Jeedom créé un Design "Kodi Accueil" 
 
 Configurez la taille du design pour correspondre au mode plein ecran de votre kodi
 Choisissez une image de fond.
@@ -55,34 +55,35 @@ Choisissez une image de fond.
 image::../images/install9.png[] 
 
 Ajoutez un equipement dans votre design qui va correspondre à un éclairage dans notre exemple. Vous pouvez utiliser n'importe quel type d'équipement provenant de n'importe quel plugin , y compris un virtuel.
-[Seul condition] cet equipement doit avoir au minimum les commandes "ETAT , STATUS ou VALUE" et "ON ou ALLUMER" et "OFF ou ETEINDRE" (minuscule ou majuscule n'importe peu)
 
-Sauvegardez votre design , puis allez sur la configuration de votre Kodi. Dans l'onglet "Acceuil" selectionner le design que vous avez créé.
+[Seule condition] cet equipement doit avoir au minimum les commandes "ETAT , STATUS ou VALUE" et "ON ou ALLUMER" et "OFF ou ETEINDRE" (indifféremment minuscule ou majuscule)
+
+Sauvegardez votre design, puis allez sur la configuration de votre Kodi. Dans l'onglet "Accueil" selectionner le design que vous avez créé.
 L'equipement doit alors s'afficher dans la liste en dessous.
 
 image::../images/install10.png[] 
 
 Donnez lui un Alias , ce sera le nom  affiché sur Kodi pour cet objet. Et dans la box +Type+ entrez "Lumiere"
-Sauvegardez votre equipement et lancez votre Kodi. Celui-ci doit afficher une commande d'eclairage avec le nom de votre Alias. Si les commandes de votre equipement sont fonctionelle , l'icone doit afficher l'etat allumer ou eteint de la lampe.
-Lorsque vous cliquez sur cet icone (partie gauche de la commande) celle-ci doit alors basculer Allumer/Eteinte.  En cliquant sur la partie droite du controle (la ou l'alias est affiché) un popup s'ouvre pour proposer les différentes commandes possible. 
+Sauvegardez votre equipement et lancez votre Kodi. Celui-ci doit afficher une commande d'eclairage avec le nom de votre Alias. Si les commandes de votre equipement sont fonctionelles, l'icone doit afficher l'etat allumer ou eteint de la lampe.
+Lorsque vous cliquez sur cet icone (partie gauche de la commande) celle-ci doit alors basculer Allumer/Eteinte. En cliquant sur la partie droite du contrôle (là où l'alias est affiché) un popup s'ouvre pour proposer les différentes commandes possible. 
 
-Si vous selectionnez ensuite le mode plan dans le menu , l'image que vous avez choisie dans le design doit alors s'afficher et les différents equipement s'affiche égalements (Pas sur l'accueil dans la BETA, essayez la même configuration sur la page eclairage)
+Si vous selectionnez ensuite le mode plan dans le menu, l'image que vous avez choisie dans le design doit alors s'afficher et les différents equipements s'affiche également (pas sur l'accueil dans la BETA, essayez la même configuration sur la page eclairage)
 
 
 
 === Configuration des contrôles 
  
-Chaque écrans gérent certains type de contrôle, si vous ajouter un contrôle non géré sur une page , celui-ci sera simplement ignoré. Si un même equipement est ajouté sur plusieurs pages différentes attention à bien définir partout le même +Alias+ et le même +Type+
-Ces parametres ne sont pas stocké dans le plugin mais dans l'équipement lui-même. Si vous retirez un equipement d'un design et le remettez plus tard il aura garder sa configuration.
-Le +Type+ indique au plugin comment gérer un equipement , mais il ne s'interfacera correctement que si les commandes pré-requise existent dans cet équipement.
+Chaque écran gére certain type de contrôle, si vous ajouter un contrôle non géré sur une page, celui-ci sera simplement ignoré. Si un même equipement est ajouté sur plusieurs pages différentes attention à bien définir partout le même +Alias+ et le même +Type+
+Ces parametres ne sont pas stockés dans le plugin mais dans l'équipement lui-même. Si vous retirez un équipement d'un design et le remettez plus tard, il aura garder sa configuration.
+Le +Type+ indique au plugin comment gérer un equipement, mais il ne s'interfacera correctement que si les commandes pré-requises existent dans cet équipement.
 Voici la liste des contrôles gérés dans cette version ainsi que leur parametrage par catégorie :
 
-* Les caractéres accentués sont acceptés dans l'Alias mais évité dans le Type
-* Les commandes sont affichée ici en majuscule mais leur format n'importe peu.
+* Les caractéres accentués sont acceptés dans l'Alias mais non acceptés dans le Type
+* Les commandes sont affichées ici en majuscule mais leur format n'importe peu.
 
 ==== Eclairage
 
-Les controles de type éclairage s'affichent dans l'écran d'accueil et dans la page dédiée à l'éclairage.
+Les contrôles de type éclairage s'affichent dans l'écran d'accueil et dans la page dédiée à l'éclairage.
 
 ===== Type : Lumiere
 
@@ -98,7 +99,7 @@ Eclairage simple on/off.
 |MODE_xxxx					|(cmd)	 |Activer le mode xxxx
 |=======
 
-Le mode est une fonctionalité optionelle de la lampe , par exemple activer un mode "Manuel" / "Automatique" (detection de présence) sur un equipement du plugin Gestion des Lumieres , ou un effet "CYCLE" , "FLASH" disponible sur les lampes de couleurs.
+Le mode est une fonctionalité optionelle de la lampe, par exemple activer un mode "Manuel" / "Automatique" (detection de présence) sur un equipement du plugin Gestion des Lumieres, ou un effet "CYCLE", "FLASH" disponible sur les lampes de couleurs.
 
 [BETA NOTES] Gérer le switch sans retour d'etat disponible. 
 
@@ -117,7 +118,7 @@ Eclairage à intensitée reglable (Dimmer).
 |MODE_xxxx					|(cmd)	 |Activer le mode xxxx
 |=======
 
-Le "mode" est une fonctionalité optionelle de la lampe , par exemple pour activer un mode "Manuel" / "Automatique" (detection de présence) sur un equipement du plugin Gestion des Lumieres , ou un effet "CYCLE" , "FLASH" disponible sur les lampes de couleurs.
+Le "mode" est une fonctionalité optionelle de la lampe, par exemple pour activer un mode "Manuel" / "Automatique" (detection de présence) sur un equipement du plugin Gestion des Lumieres, ou un effet "CYCLE", "FLASH" disponible sur les lampes de couleurs.
 
 [BETA NOTES] Le reglage de l'intensité ne fonctionne pas encore.
 
@@ -181,7 +182,7 @@ Message important à afficher en popup sur tout ecran ouvert de kodi.
 
 ===== Type : Presence
 
-Etat de detection de présence dans une piece. Un seul controle presence est géré sur la page d'accueil , plusieurs peuvent être gérés sur la page sécurité. 
+Etat de detection de présence dans une piece. Un seul controle presence est géré sur la page d'accueil, plusieurs peuvent être gérés sur la page sécurité. 
 
 [width="85%"",options="header"]
 |=======
@@ -231,7 +232,7 @@ Luminosité dans une piece affichée en lumen.
 
 Les controle de type chauffage s'affichent dans l'écran d'accueil et dans la page dédiée au chauffage.
 
-===== Type : Thermometre
+===== Type : Thermomètre
 
 Température mesurée. Jusqu'à 4 températures peuvent être affichées sur la page d'accueil. 
 
@@ -243,7 +244,7 @@ Température mesurée. Jusqu'à 4 températures peuvent être affichées sur la 
 
 [BETA NOTES] Ok sur accueil , En test sur la page chauffage. Affichage de l'historique prévu.
 
-===== Type : Hygrometre
+===== Type : Hygromètre
 
 Hygrométrie mesurée. Jusqu'à 4 capteurs peuvent être affichées sur la page d'accueil. 
 
@@ -257,7 +258,7 @@ Hygrométrie mesurée. Jusqu'à 4 capteurs peuvent être affichées sur la page 
 
 ===== Type : Thermostat
 
-Controle de chauffage par thermosat pour une zone. Un seul Thermostat géré sur la page d'accueil , plusieur zones sur la page chauffage.
+Contrôle de chauffage par thermostat pour une zone. Un seul Thermostat géré sur la page d'accueil, plusieurs zones sur la page chauffage.
 
 [width="85%"",options="header"]
 |=======
@@ -274,11 +275,11 @@ Controle de chauffage par thermosat pour une zone. Un seul Thermostat géré sur
 
 ==== Energie
 
-Les controle de type energie s'affichent dans l'écran d'accueil et dans la page dédiée au chauffage.
+Les contrôles de type energie s'affichent dans l'écran d'accueil et dans la page dédiée au chauffage.
 
 ===== Type : Eau
 
-Controle d'une electro-vanne et affichage d'information sur le debit et la consommation d'eau. Jusqu'à 2 controles peuvent etre affichés sur la page d'accueil , plusieurs sur la page energie.
+Contrôle d'une électro-vanne et affichage d'information sur le débit et la consommation d'eau. Jusqu'à 2 contrôles peuvent être affichés sur la page d'accueil, plusieurs sur la page energie.
 
 [width="85%"",options="header"]
 |=======
@@ -295,11 +296,11 @@ Controle d'une electro-vanne et affichage d'information sur le debit et la conso
 
 ==== Equipements
 
-Les controle de type equipement s'affichent dans l'écran d'accueil et dans la page dédiée.
+Les contrôles de type equipement s'affichent dans l'écran d'accueil et dans la page dédiée.
 
 ===== Type : Equipment
 
-Controle generique d'un equipement connecté. Le controle générique permet l'affichage d'informations parametrables et l'execution de commande simples. 
+Contrôle generique d'un equipement connecté. Le contrôle générique permet l'affichage d'informations paramétrables et l'execution de commandes simples. 
 
 [width="85%"",options="header"]
 |=======
@@ -315,7 +316,7 @@ Controle generique d'un equipement connecté. Le controle générique permet l'a
 
 ===== Type : Frigo
 
-Controle d'un réfrigérateur connecté. 
+Contrôle d'un réfrigérateur connecté. 
 
 [width="85%"",options="header"]
 |=======
@@ -331,7 +332,7 @@ Controle d'un réfrigérateur connecté.
  
 ===== Type : TV
 
-Controle d'un téléviseur connecté. 
+Contrôle d'un téléviseur connecté. 
 
 [width="85%"",options="header"]
 |=======
@@ -348,17 +349,17 @@ Controle d'un téléviseur connecté.
 
 === Contrôles non supportés
 
-Le nombre de contrôle supportés va s'agrandir avec les nouvelles version de ce plugin. Je ne possede pas tout les plugin ni tout les type d'équipements existant sur Jeedom. Il m'est donc impossible de tout tester et prévoir.
-Si un de vos equipements ne s'interface pas correctement avec ce plugin , voici la marche à suivre.
+Le nombre de contrôle supportées va s'agrandir avec les nouvelles version de ce plugin. Je ne possede pas tout les plugins ni tous les types d'équipements existant sur Jeedom. Il m'est donc impossible de tout tester et prévoir.
+Si un de vos equipements ne s'interface pas correctement avec ce plugin, voici la marche à suivre.
 
-* Pour corriger immédiatement le probleme , créez un virtuel qui va re-mapper les commandes de votre equipement vers des noms de commandes supportées par le plugin et utilisez ce virtuel dans votre design.  
-* Sur le forum envoyez moi les infos suivantes pour l'ajouter aux equipements gérés dans la prochaine version : La liste des commandes de l'équipement et leur signification 
+* Pour corriger immédiatement le problème , créez un virtuel qui va re-mapper les commandes de votre équipement vers des noms de commandes supportées par le plugin et utilisez ce virtuel dans votre design.  
+* Sur le forum envoyez-moi les infos suivantes pour l'ajouter aux equipements gérés dans la prochaine version : La liste des commandes de l'équipement et leur signification. 
 
 === Menu personalisés
 
-Dans les pages de chaque catégorie , le menu peut etre customisé. Pour ajouter des fonctions au menu il suffit d'ajouter des Scenarios au design de la page.
-Par exemple un scenario "Tout Allumer" peu etre ajouter à la page eclairages afin de creer une fonction qui allumera l'ensemble des eclairages du systeme.
-Le nom du scenario sera utiliser pour définir le texte du bouton dans le menu.
+Dans les pages de chaque catégorie, le menu peut être personalisé. Pour ajouter des fonctions au menu, il suffit d'ajouter des Scenarios au design de la page.
+Par exemple un scenario "Tout Allumer" peut être ajouter à la page "Eclairage" afin de creer une fonction qui allumera l'ensemble des éclairages du systeme.
+Le nom du scenario sera utilisé pour définir le texte du bouton dans le menu.
 Ce type de scenario ressemble à ceci :
 
 image::../images/install11.png[]
